@@ -11,416 +11,242 @@
 
     <title>Estoque - Espetinho do Will</title>
 
-
     <style>
 
         * {
             box-sizing: border-box;
         }
 
-
         body {
-
             margin: 0;
-
             font-family: Arial, sans-serif;
-
             background: #f4f4f4;
-
             color: #222;
-
         }
-
 
         header {
-
             background: #222;
-
             color: white;
-
             padding: 20px;
-
             text-align: center;
-
         }
-
 
         header h1 {
-
             margin: 0;
-
             font-size: 30px;
-
         }
-
 
         header p {
-
             margin: 8px 0 0;
-
             color: #ddd;
-
         }
-
 
         .container {
-
             max-width: 950px;
-
             margin: auto;
-
             padding: 25px;
-
         }
-
 
         .voltar {
-
             background: #222;
-
             color: white;
-
             padding: 12px 18px;
-
             border: none;
-
             border-radius: 6px;
-
             cursor: pointer;
-
             margin-bottom: 20px;
-
             font-size: 16px;
-
         }
-
 
         .caixa {
-
             background: white;
-
             padding: 20px;
-
             border-radius: 10px;
-
             margin-bottom: 20px;
-
-            box-shadow:
-                0 2px 8px
-                rgba(0,0,0,0.08);
-
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
-
 
         input {
-
             width: 100%;
-
             padding: 12px;
-
             margin-top: 5px;
-
             margin-bottom: 15px;
-
             border: 1px solid #ccc;
-
             border-radius: 5px;
-
             font-size: 16px;
-
         }
-
 
         button {
-
             padding: 12px 18px;
-
             border: none;
-
             border-radius: 6px;
-
             cursor: pointer;
-
             font-size: 16px;
-
         }
-
 
         .salvar {
-
             background: #198754;
-
             color: white;
-
         }
-
 
         .salvar:hover {
-
             background: #157347;
-
         }
-
 
         .produto {
-
             background: white;
-
             padding: 18px;
-
             border-radius: 10px;
-
             margin-bottom: 12px;
-
             border-left: 6px solid #0d6efd;
-
-            box-shadow:
-                0 2px 7px
-                rgba(0,0,0,0.08);
-
+            box-shadow: 0 2px 7px rgba(0,0,0,0.08);
         }
-
 
         .produto h3 {
-
             margin-top: 0;
-
             margin-bottom: 10px;
-
         }
-
 
         .produto p {
-
             margin: 6px 0;
-
         }
-
 
         .acoes {
-
             margin-top: 15px;
-
         }
-
 
         .editar {
-
             background: #0d6efd;
-
             color: white;
-
             margin-right: 5px;
-
         }
-
 
         .excluir {
-
             background: #dc3545;
-
             color: white;
-
         }
-
 
         .estoque-baixo {
-
             border-left-color: #dc3545;
-
         }
-
 
         .estoque-normal {
-
             border-left-color: #198754;
-
         }
-
 
         .vazio {
-
             text-align: center;
-
             color: #777;
-
             padding: 20px;
-
         }
-
 
         .aviso {
-
             background: #fff3cd;
-
             border: 1px solid #ffe69c;
-
             color: #664d03;
-
             padding: 15px;
-
             border-radius: 8px;
-
             margin-bottom: 20px;
-
         }
 
+        .carregando {
+            text-align: center;
+            padding: 20px;
+            color: #555;
+        }
+
+        .erro {
+            background: #f8d7da;
+            border: 1px solid #f5c2c7;
+            color: #842029;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .sucesso {
+            background: #d1e7dd;
+            border: 1px solid #a3cfbb;
+            color: #0f5132;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
 
         /* =====================================
            TELA DE SENHA
         ====================================== */
 
         #telaSenha {
-
             position: fixed;
-
             top: 0;
-
             left: 0;
-
             width: 100%;
-
             height: 100%;
-
             background: #222;
-
             display: flex;
-
-            justify-content: center;
-
             align-items: center;
-
+            justify-content: center;
             z-index: 9999;
-
+            padding: 20px;
         }
-
 
         .caixaSenha {
-
             background: white;
-
-            width: 90%;
-
+            width: 100%;
             max-width: 400px;
-
             padding: 30px;
-
-            border-radius: 15px;
-
+            border-radius: 12px;
             text-align: center;
-
-            box-shadow:
-                0 5px 20px
-                rgba(0,0,0,0.3);
-
+            box-shadow: 0 5px 25px rgba(0,0,0,0.3);
         }
-
 
         .caixaSenha h2 {
-
             margin-top: 0;
-
         }
-
-
-        .caixaSenha p {
-
-            color: #555;
-
-        }
-
 
         .caixaSenha input {
-
-            width: 100%;
-
-            padding: 14px;
-
-            margin-top: 15px;
-
-            margin-bottom: 15px;
-
-            box-sizing: border-box;
-
-            font-size: 18px;
-
-            border: 1px solid #ccc;
-
-            border-radius: 6px;
-
+            text-align: center;
+            font-size: 20px;
         }
-
 
         .botaoSenha {
-
             width: 100%;
-
             background: #198754;
-
             color: white;
-
-            font-size: 18px;
-
         }
-
 
         .erroSenha {
-
             color: #dc3545;
-
             font-weight: bold;
-
             margin-top: 15px;
-
             display: none;
-
         }
-
-
-        .sairSenha {
-
-            width: 100%;
-
-            background: #6c757d;
-
-            color: white;
-
-            font-size: 16px;
-
-            margin-top: 10px;
-
-        }
-
 
         @media (max-width: 700px) {
 
             .container {
-
                 padding: 15px;
-
             }
-
 
             header h1 {
-
                 font-size: 25px;
-
             }
 
-
             .acoes button {
-
                 width: 100%;
-
                 margin-top: 8px;
-
+                margin-right: 0;
             }
 
         }
 
     </style>
 
+    <!-- BIBLIOTECA SUPABASE -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- NOSSA CONEXÃO COM O SUPABASE -->
     <script src="supabase.js"></script>
 
 </head>
@@ -437,60 +263,41 @@
 
     <div class="caixaSenha">
 
-        <h2>🔐 Área restrita</h2>
+        <h2>🔐 Acesso ao Estoque</h2>
 
         <p>
             Digite a senha para acessar o estoque.
         </p>
 
-
         <input
             type="password"
             id="senhaEstoque"
             placeholder="Digite a senha"
-            onkeydown="pressionarEnter(event)"
+            onkeydown="if(event.key === 'Enter') verificarSenha()"
         >
-
 
         <button
             class="botaoSenha"
             onclick="verificarSenha()"
         >
-
             🔓 Entrar
-
         </button>
-
 
         <div
             id="erroSenha"
             class="erroSenha"
         >
-
             ❌ Senha incorreta.
-
         </div>
-
-
-        <button
-            class="sairSenha"
-            onclick="voltarMenu()"
-        >
-
-            ⬅️ Voltar
-
-        </button>
 
     </div>
 
 </div>
 
 
-
 <!-- =====================================
-     SISTEMA
+     CABEÇALHO
 ====================================== -->
-
 
 <header>
 
@@ -508,10 +315,18 @@
         class="voltar"
         onclick="voltarMenu()"
     >
-
         🏠 Voltar ao menu
-
     </button>
+
+
+    <!-- =====================================
+         MENSAGEM
+    ====================================== -->
+
+    <div
+        id="mensagem"
+        style="display:none;"
+    ></div>
 
 
     <!-- =====================================
@@ -520,15 +335,14 @@
 
     <div class="caixa">
 
-        <h2>➕ Cadastrar produto</h2>
+        <h2 id="tituloFormulario">
+            ➕ Cadastrar produto
+        </h2>
 
 
         <label>
-
             Nome do produto:
-
         </label>
-
 
         <input
             type="text"
@@ -538,11 +352,8 @@
 
 
         <label>
-
             Quantidade em estoque:
-
         </label>
-
 
         <input
             type="number"
@@ -553,11 +364,8 @@
 
 
         <label>
-
             Custo do produto:
-
         </label>
-
 
         <input
             type="number"
@@ -569,11 +377,8 @@
 
 
         <label>
-
             Preço de venda:
-
         </label>
-
 
         <input
             type="number"
@@ -586,11 +391,10 @@
 
         <button
             class="salvar"
+            id="botaoSalvar"
             onclick="salvarProduto()"
         >
-
             💾 Salvar produto
-
         </button>
 
     </div>
@@ -602,8 +406,8 @@
 
     <div class="aviso">
 
-        💡 Produtos cadastrados aqui aparecem
-        automaticamente na tela de <strong>Pedidos</strong>.
+        💡 Produtos cadastrados aqui poderão ser
+        utilizados na tela de <strong>Pedidos</strong>.
 
     </div>
 
@@ -617,10 +421,8 @@
 
     <div id="listaProdutos">
 
-        <p class="vazio">
-
-            Nenhum produto cadastrado.
-
+        <p class="carregando">
+            ⏳ Carregando produtos...
         </p>
 
     </div>
@@ -633,33 +435,28 @@
 
 
 /* =====================================================
-   PROTEÇÃO DE LOGIN
+   CONFIGURAÇÃO
 ===================================================== */
 
-var usuarioLogado =
-    localStorage.getItem("usuarioLogado");
+/*
+   A senha abaixo é a senha atual do Estoque.
 
-
-if (!usuarioLogado) {
-
-    window.location.href =
-        "login.html";
-
-}
-
-
-/* =====================================================
-   SENHA DO ESTOQUE
-===================================================== */
+   Se sua senha anterior era diferente,
+   altere somente o texto entre as aspas.
+*/
 
 var SENHA_ESTOQUE = "1234";
 
 
-var estoqueLiberado = false;
+/*
+   Índice do produto que está sendo editado.
+*/
+
+var idEditando = null;
 
 
 /* =====================================================
-   VERIFICAR SENHA
+   PROTEÇÃO
 ===================================================== */
 
 function verificarSenha() {
@@ -670,50 +467,35 @@ function verificarSenha() {
         ).value;
 
 
-    if (
-        senha === SENHA_ESTOQUE
-    ) {
+    var erro =
+        document.getElementById(
+            "erroSenha"
+        );
 
-        estoqueLiberado = true;
+
+    if (senha === SENHA_ESTOQUE) {
+
+        localStorage.setItem(
+            "estoqueLiberado",
+            "true"
+        );
 
 
         document.getElementById(
             "telaSenha"
-        ).style.display =
-            "none";
+        ).style.display = "none";
 
 
-        document.getElementById(
-            "senhaEstoque"
-        ).value = "";
+        erro.style.display = "none";
 
 
-        document.getElementById(
-            "erroSenha"
-        ).style.display =
-            "none";
-
-
-        mostrarProdutos();
+        carregarProdutos();
 
     }
 
     else {
 
-        document.getElementById(
-            "erroSenha"
-        ).style.display =
-            "block";
-
-
-        document.getElementById(
-            "senhaEstoque"
-        ).value = "";
-
-
-        document.getElementById(
-            "senhaEstoque"
-        ).focus();
+        erro.style.display = "block";
 
     }
 
@@ -721,27 +503,29 @@ function verificarSenha() {
 
 
 /* =====================================================
-   ENTER NA SENHA
+   VERIFICAR SE JÁ ESTÁ LIBERADO
 ===================================================== */
 
-function pressionarEnter(event) {
+function verificarAcesso() {
 
-    if (
-        event.key === "Enter"
-    ) {
+    var liberado =
+        localStorage.getItem(
+            "estoqueLiberado"
+        );
 
-        verificarSenha();
+
+    if (liberado === "true") {
+
+        document.getElementById(
+            "telaSenha"
+        ).style.display = "none";
+
+
+        carregarProdutos();
 
     }
 
 }
-
-
-/* =====================================================
-   VARIÁVEL DE EDIÇÃO
-===================================================== */
-
-var indiceEditando = -1;
 
 
 /* =====================================================
@@ -757,218 +541,115 @@ function voltarMenu() {
 
 
 /* =====================================================
-   OBTER PRODUTOS
+   MENSAGEM
 ===================================================== */
 
-function obterProdutos() {
+function mostrarMensagem(
+    texto,
+    tipo
+) {
 
-    var dados =
-        localStorage.getItem("produtos");
-
-
-    if (!dados) {
-
-        return [];
-
-    }
+    var mensagem =
+        document.getElementById(
+            "mensagem"
+        );
 
 
-    try {
-
-        var produtos =
-            JSON.parse(dados);
+    mensagem.innerHTML =
+        texto;
 
 
-        if (!Array.isArray(produtos)) {
-
-            return [];
-
-        }
+    mensagem.className =
+        tipo;
 
 
-        return produtos;
+    mensagem.style.display =
+        "block";
 
-    }
 
-    catch (erro) {
+    setTimeout(
+        function() {
 
-        return [];
+            mensagem.style.display =
+                "none";
 
-    }
+        },
+        3000
+    );
 
 }
 
 
 /* =====================================================
-   SALVAR PRODUTO
+   CARREGAR PRODUTOS DO SUPABASE
 ===================================================== */
 
-function salvarProduto() {
+async function carregarProdutos() {
 
-
-    if (!estoqueLiberado) {
-
-        alert(
-            "Digite a senha para acessar o estoque."
-        );
-
-        return;
-
-    }
-
-
-    var nome =
+    var lista =
         document.getElementById(
-            "nome"
-        ).value.trim();
-
-
-    var quantidade =
-        Number(
-            document.getElementById(
-                "quantidade"
-            ).value
+            "listaProdutos"
         );
 
 
-    var custo =
-        Number(
-            document.getElementById(
-                "custo"
-            ).value
-        );
+    lista.innerHTML =
+        "<p class='carregando'>⏳ Carregando produtos...</p>";
 
 
-    var venda =
-        Number(
-            document.getElementById(
-                "venda"
-            ).value
-        );
+    try {
+
+        if (!window.supabaseClient) {
+
+            throw new Error(
+                "Conexão com o Supabase não encontrada."
+            );
+
+        }
 
 
-    if (nome === "") {
-
-        alert(
-            "Digite o nome do produto."
-        );
-
-        return;
-
-    }
+        var resultado =
+            await window.supabaseClient
+                .from("produtos")
+                .select("*")
+                .order("id", {
+                    ascending: true
+                });
 
 
-    if (quantidade < 0) {
+        if (resultado.error) {
 
-        alert(
-            "Digite uma quantidade válida."
-        );
+            throw resultado.error;
 
-        return;
-
-    }
+        }
 
 
-    if (custo < 0) {
-
-        alert(
-            "Digite um custo válido."
-        );
-
-        return;
-
-    }
-
-
-    if (venda < 0) {
-
-        alert(
-            "Digite um preço de venda válido."
-        );
-
-        return;
-
-    }
-
-
-    var produtos =
-        obterProdutos();
-
-
-    /* EDITANDO */
-
-    if (indiceEditando >= 0) {
-
-        produtos[indiceEditando] = {
-
-            nome:
-                nome,
-
-            quantidade:
-                quantidade,
-
-            custo:
-                custo,
-
-            venda:
-                venda
-
-        };
-
-
-        indiceEditando = -1;
-
-
-        alert(
-            "Produto atualizado com sucesso!"
+        mostrarProdutos(
+            resultado.data || []
         );
 
     }
 
+    catch (erro) {
 
-    /* NOVO PRODUTO */
-
-    else {
-
-        produtos.push({
-
-            nome:
-                nome,
-
-            quantidade:
-                quantidade,
-
-            custo:
-                custo,
-
-            venda:
-                venda
-
-        });
-
-
-        alert(
-            "Produto cadastrado com sucesso!"
+        console.error(
+            "Erro ao carregar produtos:",
+            erro
         );
 
+
+        lista.innerHTML =
+
+            "<div class='erro'>" +
+
+            "❌ Não foi possível carregar os produtos." +
+
+            "<br><br>" +
+
+            "Verifique a conexão com o banco de dados." +
+
+            "</div>";
+
     }
-
-
-    localStorage.setItem(
-
-        "produtos",
-
-        JSON.stringify(
-            produtos
-        )
-
-    );
-
-
-    limparFormulario();
-
-
-    mostrarProdutos();
 
 }
 
@@ -977,19 +658,9 @@ function salvarProduto() {
    MOSTRAR PRODUTOS
 ===================================================== */
 
-function mostrarProdutos() {
-
-
-    if (!estoqueLiberado) {
-
-        return;
-
-    }
-
-
-    var produtos =
-        obterProdutos();
-
+function mostrarProdutos(
+    produtos
+) {
 
     var lista =
         document.getElementById(
@@ -1033,6 +704,22 @@ function mostrarProdutos() {
             );
 
 
+        var custo =
+            Number(
+                produto.custo || 0
+            );
+
+
+        var venda =
+            Number(
+                produto.venda || 0
+            );
+
+
+        var lucro =
+            venda - custo;
+
+
         var classeEstoque =
             quantidade <= 5
                 ? "estoque-baixo"
@@ -1045,86 +732,382 @@ function mostrarProdutos() {
             classeEstoque +
             "'>" +
 
+
             "<h3>🥩 " +
-            produto.nome +
+            escaparHTML(
+                produto.nome
+            ) +
             "</h3>" +
 
-            "<p><strong>Quantidade:</strong> " +
+
+            "<p>" +
+
+            "<strong>Quantidade:</strong> " +
+
             quantidade +
+
             "</p>" +
 
-            "<p><strong>Custo:</strong> R$ " +
-            Number(
-                produto.custo || 0
-            ).toFixed(2) +
+
+            "<p>" +
+
+            "<strong>Custo:</strong> R$ " +
+
+            custo.toFixed(2) +
+
             "</p>" +
 
-            "<p><strong>Venda:</strong> R$ " +
-            Number(
-                produto.venda || 0
-            ).toFixed(2) +
+
+            "<p>" +
+
+            "<strong>Venda:</strong> R$ " +
+
+            venda.toFixed(2) +
+
             "</p>" +
 
-            "<p><strong>Lucro por unidade:</strong> R$ " +
+
+            "<p>" +
+
+            "<strong>Lucro por unidade:</strong> R$ " +
+
+            lucro.toFixed(2) +
+
+            "</p>" +
+
 
             (
-                Number(
-                    produto.venda || 0
-                )
-                -
-                Number(
-                    produto.custo || 0
-                )
-            ).toFixed(2) +
 
-            "</p>" +
-
-            (
                 quantidade <= 5
 
                 ?
 
                 "<p style='color:#dc3545;font-weight:bold;'>" +
+
                 "⚠️ Estoque baixo" +
+
                 "</p>"
 
                 :
 
                 "<p style='color:#198754;font-weight:bold;'>" +
+
                 "✅ Estoque normal" +
+
                 "</p>"
 
             ) +
 
+
             "<div class='acoes'>" +
+
 
             "<button " +
 
             "class='editar' " +
 
             "onclick='editarProduto(" +
-            i +
+
+            JSON.stringify(
+                produto.id
+            ) +
+
             ")'>" +
 
             "✏️ Editar" +
 
             "</button>" +
 
+
             "<button " +
 
             "class='excluir' " +
 
             "onclick='excluirProduto(" +
-            i +
+
+            JSON.stringify(
+                produto.id
+            ) +
+
             ")'>" +
 
             "🗑️ Excluir" +
 
             "</button>" +
 
+
             "</div>" +
 
+
             "</div>";
+
+    }
+
+}
+
+
+/* =====================================================
+   ESCAPAR TEXTO
+===================================================== */
+
+function escaparHTML(
+    texto
+) {
+
+    return String(texto || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* =====================================================
+   SALVAR PRODUTO
+===================================================== */
+
+async function salvarProduto() {
+
+    var nome =
+        document.getElementById(
+            "nome"
+        ).value.trim();
+
+
+    var quantidade =
+        Number(
+            document.getElementById(
+                "quantidade"
+            ).value
+        );
+
+
+    var custo =
+        Number(
+            document.getElementById(
+                "custo"
+            ).value
+        );
+
+
+    var venda =
+        Number(
+            document.getElementById(
+                "venda"
+            ).value
+        );
+
+
+    if (nome === "") {
+
+        alert(
+            "Digite o nome do produto."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        !Number.isFinite(
+            quantidade
+        ) ||
+        quantidade < 0
+    ) {
+
+        alert(
+            "Digite uma quantidade válida."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        !Number.isFinite(
+            custo
+        ) ||
+        custo < 0
+    ) {
+
+        alert(
+            "Digite um custo válido."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        !Number.isFinite(
+            venda
+        ) ||
+        venda < 0
+    ) {
+
+        alert(
+            "Digite um preço de venda válido."
+        );
+
+        return;
+
+    }
+
+
+    if (!window.supabaseClient) {
+
+        alert(
+            "Erro: conexão com o Supabase não encontrada."
+        );
+
+        return;
+
+    }
+
+
+    var botao =
+        document.getElementById(
+            "botaoSalvar"
+        );
+
+
+    botao.disabled = true;
+
+
+    botao.innerText =
+        "⏳ Salvando...";
+
+
+    try {
+
+
+        /* =================================
+           EDITAR
+        ================================= */
+
+        if (idEditando !== null) {
+
+            var resultado =
+                await window.supabaseClient
+                    .from("produtos")
+                    .update({
+
+                        nome:
+                            nome,
+
+                        quantidade:
+                            quantidade,
+
+                        custo:
+                            custo,
+
+                        venda:
+                            venda
+
+                    })
+                    .eq(
+                        "id",
+                        idEditando
+                    );
+
+
+            if (resultado.error) {
+
+                throw resultado.error;
+
+            }
+
+
+            mostrarMensagem(
+                "✅ Produto atualizado com sucesso!",
+                "sucesso"
+            );
+
+        }
+
+
+        /* =================================
+           NOVO PRODUTO
+        ================================= */
+
+        else {
+
+            var resultado =
+                await window.supabaseClient
+                    .from("produtos")
+                    .insert({
+
+                        nome:
+                            nome,
+
+                        quantidade:
+                            quantidade,
+
+                        custo:
+                            custo,
+
+                        venda:
+                            venda
+
+                    });
+
+
+            if (resultado.error) {
+
+                throw resultado.error;
+
+            }
+
+
+            mostrarMensagem(
+                "✅ Produto cadastrado com sucesso!",
+                "sucesso"
+            );
+
+        }
+
+
+        limparFormulario();
+
+
+        await carregarProdutos();
+
+    }
+
+
+    catch (erro) {
+
+        console.error(
+            "Erro ao salvar produto:",
+            erro
+        );
+
+
+        alert(
+            "❌ Não foi possível salvar o produto.\n\n" +
+            "Erro: " +
+            (
+                erro.message ||
+                "Erro desconhecido."
+            )
+        );
+
+    }
+
+
+    finally {
+
+        botao.disabled =
+            false;
+
+
+        botao.innerText =
+            "💾 Salvar produto";
 
     }
 
@@ -1135,70 +1118,108 @@ function mostrarProdutos() {
    EDITAR PRODUTO
 ===================================================== */
 
-function editarProduto(indice) {
+async function editarProduto(
+    id
+) {
+
+    try {
+
+        var resultado =
+            await window.supabaseClient
+                .from("produtos")
+                .select("*")
+                .eq(
+                    "id",
+                    id
+                )
+                .single();
 
 
-    if (!estoqueLiberado) {
+        if (resultado.error) {
 
-        alert(
-            "Digite a senha para acessar o estoque."
+            throw resultado.error;
+
+        }
+
+
+        var produto =
+            resultado.data;
+
+
+        if (!produto) {
+
+            alert(
+                "Produto não encontrado."
+            );
+
+            return;
+
+        }
+
+
+        document.getElementById(
+            "nome"
+        ).value =
+            produto.nome || "";
+
+
+        document.getElementById(
+            "quantidade"
+        ).value =
+            produto.quantidade || 0;
+
+
+        document.getElementById(
+            "custo"
+        ).value =
+            produto.custo || 0;
+
+
+        document.getElementById(
+            "venda"
+        ).value =
+            produto.venda || 0;
+
+
+        idEditando =
+            id;
+
+
+        document.getElementById(
+            "tituloFormulario"
+        ).innerText =
+            "✏️ Editar produto";
+
+
+        document.getElementById(
+            "botaoSalvar"
+        ).innerText =
+            "💾 Atualizar produto";
+
+
+        window.scrollTo({
+
+            top: 0,
+
+            behavior: "smooth"
+
+        });
+
+    }
+
+
+    catch (erro) {
+
+        console.error(
+            erro
         );
 
-        return;
+
+        alert(
+            "Não foi possível carregar o produto para edição."
+        );
 
     }
-
-
-    var produtos =
-        obterProdutos();
-
-
-    var produto =
-        produtos[indice];
-
-
-    if (!produto) {
-
-        return;
-
-    }
-
-
-    document.getElementById(
-        "nome"
-    ).value =
-        produto.nome;
-
-
-    document.getElementById(
-        "quantidade"
-    ).value =
-        produto.quantidade;
-
-
-    document.getElementById(
-        "custo"
-    ).value =
-        produto.custo;
-
-
-    document.getElementById(
-        "venda"
-    ).value =
-        produto.venda;
-
-
-    indiceEditando =
-        indice;
-
-
-    window.scrollTo({
-
-        top: 0,
-
-        behavior: "smooth"
-
-    });
 
 }
 
@@ -1207,76 +1228,109 @@ function editarProduto(indice) {
    EXCLUIR PRODUTO
 ===================================================== */
 
-function excluirProduto(indice) {
+async function excluirProduto(
+    id
+) {
+
+    try {
+
+        var resultado =
+            await window.supabaseClient
+                .from("produtos")
+                .select("nome")
+                .eq(
+                    "id",
+                    id
+                )
+                .single();
 
 
-    if (!estoqueLiberado) {
+        if (resultado.error) {
+
+            throw resultado.error;
+
+        }
+
+
+        var produto =
+            resultado.data;
+
+
+        if (!produto) {
+
+            alert(
+                "Produto não encontrado."
+            );
+
+            return;
+
+        }
+
+
+        var confirmar =
+            confirm(
+
+                "Deseja realmente excluir o produto:\n\n" +
+
+                produto.nome +
+
+                "?"
+
+            );
+
+
+        if (!confirmar) {
+
+            return;
+
+        }
+
+
+        var exclusao =
+            await window.supabaseClient
+                .from("produtos")
+                .delete()
+                .eq(
+                    "id",
+                    id
+                );
+
+
+        if (exclusao.error) {
+
+            throw exclusao.error;
+
+        }
+
+
+        mostrarMensagem(
+            "🗑️ Produto excluído com sucesso!",
+            "sucesso"
+        );
+
+
+        await carregarProdutos();
+
+    }
+
+
+    catch (erro) {
+
+        console.error(
+            "Erro ao excluir:",
+            erro
+        );
+
 
         alert(
-            "Digite a senha para acessar o estoque."
+            "Não foi possível excluir o produto.\n\n" +
+            (
+                erro.message ||
+                "Erro desconhecido."
+            )
         );
 
-        return;
-
     }
-
-
-    var produtos =
-        obterProdutos();
-
-
-    var produto =
-        produtos[indice];
-
-
-    if (!produto) {
-
-        return;
-
-    }
-
-
-    var confirmar =
-        confirm(
-
-            "Deseja realmente excluir o produto:\n\n" +
-
-            produto.nome +
-            "?"
-
-        );
-
-
-    if (!confirmar) {
-
-        return;
-
-    }
-
-
-    produtos.splice(
-        indice,
-        1
-    );
-
-
-    localStorage.setItem(
-
-        "produtos",
-
-        JSON.stringify(
-            produtos
-        )
-
-    );
-
-
-    mostrarProdutos();
-
-
-    alert(
-        "Produto excluído."
-    );
 
 }
 
@@ -1307,7 +1361,20 @@ function limparFormulario() {
     ).value = "";
 
 
-    indiceEditando = -1;
+    idEditando =
+        null;
+
+
+    document.getElementById(
+        "tituloFormulario"
+    ).innerText =
+        "➕ Cadastrar produto";
+
+
+    document.getElementById(
+        "botaoSalvar"
+    ).innerText =
+        "💾 Salvar produto";
 
 }
 
@@ -1318,24 +1385,7 @@ function limparFormulario() {
 
 window.onload = function() {
 
-
-    /*
-       Começa bloqueado.
-    */
-
-    estoqueLiberado = false;
-
-
-    document.getElementById(
-        "telaSenha"
-    ).style.display =
-        "flex";
-
-
-    document.getElementById(
-        "senhaEstoque"
-    ).focus();
-
+    verificarAcesso();
 
 };
 
