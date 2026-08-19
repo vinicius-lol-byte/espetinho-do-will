@@ -35,7 +35,7 @@
         }
 
         header p {
-            margin-bottom: 0;
+            margin: 8px 0 0;
             color: #ddd;
         }
 
@@ -78,6 +78,11 @@
             font-size: 16px;
             margin-top: 5px;
             margin-right: 5px;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
         }
 
         .salvar {
@@ -124,31 +129,80 @@
             margin-top: 0;
         }
 
-        .pendente {
-            background: #fff3cd;
-            border-left: 6px solid #ffc107;
+        .resumo-conta {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
         }
 
-        .pago {
-            background: #d1e7dd;
-            border-left: 6px solid #198754;
-        }
-
-        .consumo {
-            padding: 12px;
-            margin-bottom: 10px;
-            border-radius: 8px;
-        }
-
-        .total-pendente {
-            background: #dc3545;
-            color: white;
+        .card {
+            background: white;
             padding: 20px;
             border-radius: 10px;
             text-align: center;
-            font-size: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: #555;
+        }
+
+        .valor {
+            font-size: 25px;
             font-weight: bold;
-            margin-bottom: 20px;
+        }
+
+        .consumido {
+            border-top: 5px solid #0d6efd;
+        }
+
+        .pago-card {
+            border-top: 5px solid #198754;
+        }
+
+        .saldo-card {
+            border-top: 5px solid #dc3545;
+        }
+
+        .saldo-zero {
+            border-top: 5px solid #198754;
+        }
+
+        .consumo {
+            background: #fff3cd;
+            border-left: 6px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .consumo h3 {
+            margin-top: 0;
+        }
+
+        .produto-consumo {
+            background: white;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 8px;
+        }
+
+        .pagamento {
+            background: #d1e7dd;
+            border-left: 6px solid #198754;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .pagamento p {
+            margin: 5px 0;
+        }
+
+        .recebimento {
+            border-left: 6px solid #198754;
         }
 
         .mensagem {
@@ -173,6 +227,25 @@
             margin-bottom: 20px;
         }
 
+        .aviso {
+            background: #fff3cd;
+            color: #664d03;
+            border: 1px solid #ffe69c;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .quitado {
+            background: #d1e7dd;
+            color: #0f5132;
+            padding: 18px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
         #areaContaCliente {
             display: none;
         }
@@ -181,6 +254,10 @@
 
             .container {
                 padding: 15px;
+            }
+
+            .resumo-conta {
+                grid-template-columns: 1fr;
             }
 
             button {
@@ -192,10 +269,14 @@
 
     </style>
 
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <script src="supabase.js"></script>
 
+
 </head>
+
 
 <body>
 
@@ -229,7 +310,10 @@
 
     <!-- CADASTRO -->
 
-    <div class="caixa">
+    <div
+        id="areaCadastro"
+        class="caixa"
+    >
 
         <h2 id="tituloFormulario">
             ➕ Cadastrar cliente
@@ -258,7 +342,7 @@
 
         <textarea
             id="observacao"
-            placeholder="Ex.: Cliente antigo, paga todo sábado..."
+            placeholder="Ex.: paga todo sábado..."
         ></textarea>
 
 
@@ -276,7 +360,10 @@
 
     <!-- BUSCA -->
 
-    <div class="caixa">
+    <div
+        id="areaBusca"
+        class="caixa"
+    >
 
         <h2>🔎 Buscar cliente</h2>
 
@@ -291,28 +378,33 @@
 
 
 
-    <!-- LISTA -->
+    <!-- CLIENTES -->
 
-    <h2>👥 Clientes cadastrados</h2>
+    <div id="areaListaClientes">
 
-    <div id="listaClientes">
+        <h2>👥 Clientes cadastrados</h2>
 
-        <div class="mensagem">
-            ⏳ Carregando clientes...
+        <div id="listaClientes">
+
+            <div class="mensagem">
+                ⏳ Carregando clientes...
+            </div>
+
         </div>
 
     </div>
 
 
 
-    <!-- CONTA DO CLIENTE -->
+    <!-- CONTA -->
 
     <div id="areaContaCliente">
+
 
         <div class="caixa">
 
             <h2 id="tituloConta">
-                Conta do cliente
+                💳 Conta do cliente
             </h2>
 
             <button
@@ -325,27 +417,176 @@
         </div>
 
 
-        <div
-            id="totalPendente"
-            class="total-pendente"
-        >
-            Total pendente: R$ 0,00
+
+        <!-- RESUMO -->
+
+        <div class="resumo-conta">
+
+
+            <div class="card consumido">
+
+                <h3>🧾 Total consumido</h3>
+
+                <div
+                    id="totalConsumido"
+                    class="valor"
+                >
+                    R$ 0,00
+                </div>
+
+            </div>
+
+
+            <div class="card pago-card">
+
+                <h3>💰 Total pago</h3>
+
+                <div
+                    id="totalPago"
+                    class="valor"
+                >
+                    R$ 0,00
+                </div>
+
+            </div>
+
+
+            <div
+                id="cardSaldo"
+                class="card saldo-card"
+            >
+
+                <h3>⏳ Saldo pendente</h3>
+
+                <div
+                    id="saldoPendente"
+                    class="valor"
+                >
+                    R$ 0,00
+                </div>
+
+            </div>
+
+
         </div>
 
+
+
+        <div
+            id="avisoQuitado"
+            style="display:none;"
+            class="quitado"
+        >
+            ✅ Este cliente não possui saldo pendente.
+        </div>
+
+
+
+        <!-- RECEBER -->
+
+        <div
+            id="areaReceber"
+            class="caixa recebimento"
+        >
+
+            <h2>💰 Receber pagamento</h2>
+
+
+            <label>Valor que o cliente está pagando:</label>
+
+            <input
+                type="number"
+                id="valorPagamento"
+                min="0.01"
+                step="0.01"
+                placeholder="Ex.: 50.00"
+            >
+
+
+            <label>Forma de pagamento:</label>
+
+            <select id="formaPagamento">
+
+                <option value="">
+                    Selecione
+                </option>
+
+                <option value="Dinheiro">
+                    💵 Dinheiro
+                </option>
+
+                <option value="Cartão">
+                    💳 Cartão
+                </option>
+
+                <option value="PIX">
+                    📱 PIX
+                </option>
+
+            </select>
+
+
+            <label>Observação:</label>
+
+            <input
+                type="text"
+                id="observacaoPagamento"
+                placeholder="Opcional"
+            >
+
+
+            <button
+                class="receber"
+                id="botaoReceber"
+                onclick="registrarPagamento()"
+            >
+                💰 Registrar pagamento
+            </button>
+
+        </div>
+
+
+
+        <!-- CONSUMOS -->
 
         <div class="caixa">
 
-            <h2>📋 Consumos</h2>
+            <h2>🧾 Histórico de consumos</h2>
 
             <div id="listaConsumos">
+
+                <div class="mensagem">
+                    ⏳ Carregando...
+                </div>
+
             </div>
 
         </div>
+
+
+
+        <!-- PAGAMENTOS -->
+
+        <div class="caixa">
+
+            <h2>💵 Histórico de pagamentos</h2>
+
+            <div id="listaPagamentos">
+
+                <div class="mensagem">
+                    ⏳ Carregando...
+                </div>
+
+            </div>
+
+        </div>
+
 
     </div>
 
 
 </div>
+
 
 
 <script>
@@ -369,15 +610,34 @@ if (!usuarioLogado) {
 }
 
 
+
 /* =====================================================
    VARIÁVEIS
 ===================================================== */
 
-var clientesCarregados = [];
+var clientesCarregados =
+    [];
 
-var idEditando = null;
 
-var clienteAberto = null;
+var idEditando =
+    null;
+
+
+var clienteAberto =
+    null;
+
+
+var totalConsumidoAtual =
+    0;
+
+
+var totalPagoAtual =
+    0;
+
+
+var saldoAtual =
+    0;
+
 
 
 /* =====================================================
@@ -392,23 +652,80 @@ function voltarMenu() {
 }
 
 
+
 /* =====================================================
-   FORMATAR MOEDA
+   MOEDA
 ===================================================== */
 
-function formatarMoeda(valor) {
+function formatarMoeda(
+    valor
+) {
 
     return Number(
         valor || 0
     ).toLocaleString(
+
         "pt-BR",
+
         {
             style: "currency",
             currency: "BRL"
         }
+
     );
 
 }
+
+
+
+/* =====================================================
+   DATA
+===================================================== */
+
+function obterDataAtual() {
+
+    var agora =
+        new Date();
+
+
+    var dia =
+        String(
+            agora.getDate()
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    var mes =
+        String(
+            agora.getMonth() + 1
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    var ano =
+        agora.getFullYear();
+
+
+    return (
+
+        dia +
+
+        "/" +
+
+        mes +
+
+        "/" +
+
+        ano
+
+    );
+
+}
+
 
 
 /* =====================================================
@@ -445,10 +762,33 @@ function mostrarMensagem(
                 "none";
 
         },
-        3000
+        3500
     );
 
 }
+
+
+
+/* =====================================================
+   SEGURANÇA HTML
+===================================================== */
+
+function escaparHTML(
+    texto
+) {
+
+    return String(
+        texto || ""
+    )
+
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
 
 
 /* =====================================================
@@ -471,7 +811,9 @@ async function carregarClientes() {
                 );
 
 
-        if (resultado.error) {
+        if (
+            resultado.error
+        ) {
 
             throw resultado.error;
 
@@ -503,7 +845,7 @@ async function carregarClientes() {
 
             "❌ Erro ao carregar clientes.<br><br>" +
 
-            (
+            escaparHTML(
                 erro.message ||
                 "Erro desconhecido."
             ) +
@@ -513,6 +855,7 @@ async function carregarClientes() {
     }
 
 }
+
 
 
 /* =====================================================
@@ -529,7 +872,8 @@ function mostrarClientes(
         );
 
 
-    lista.innerHTML = "";
+    lista.innerHTML =
+        "";
 
 
     if (
@@ -564,46 +908,70 @@ function mostrarClientes(
             "<div class='cliente'>" +
 
             "<h3>👤 " +
+
             escaparHTML(
                 cliente.nome
             ) +
+
             "</h3>" +
 
+
             "<p><strong>Telefone:</strong> " +
+
             escaparHTML(
                 cliente.telefone || "-"
             ) +
+
             "</p>" +
 
+
             "<p><strong>Observação:</strong> " +
+
             escaparHTML(
                 cliente.observacao || "-"
             ) +
+
             "</p>" +
 
-            "<button " +
-            "class='conta' " +
+
+            "<button class='conta' " +
+
             "onclick='abrirContaCliente(" +
+
             cliente.id +
+
             ")'>" +
+
             "💳 Ver conta" +
+
             "</button>" +
 
-            "<button " +
-            "class='editar' " +
+
+            "<button class='editar' " +
+
             "onclick='editarCliente(" +
+
             cliente.id +
+
             ")'>" +
+
             "✏️ Editar" +
+
             "</button>" +
 
-            "<button " +
-            "class='excluir' " +
+
+            "<button class='excluir' " +
+
             "onclick='excluirCliente(" +
+
             cliente.id +
+
             ")'>" +
+
             "🗑️ Excluir" +
+
             "</button>" +
+
 
             "</div>";
 
@@ -612,8 +980,9 @@ function mostrarClientes(
 }
 
 
+
 /* =====================================================
-   FILTRAR CLIENTES
+   BUSCAR
 ===================================================== */
 
 function filtrarClientes() {
@@ -626,7 +995,9 @@ function filtrarClientes() {
         .trim();
 
 
-    if (texto === "") {
+    if (
+        texto === ""
+    ) {
 
         mostrarClientes(
             clientesCarregados
@@ -675,6 +1046,7 @@ function filtrarClientes() {
 }
 
 
+
 /* =====================================================
    SALVAR CLIENTE
 ===================================================== */
@@ -699,7 +1071,9 @@ async function salvarCliente() {
         ).value.trim();
 
 
-    if (nome === "") {
+    if (
+        nome === ""
+    ) {
 
         alert(
             "Digite o nome do cliente."
@@ -734,7 +1108,9 @@ async function salvarCliente() {
                     });
 
 
-            if (resultado.error) {
+            if (
+                resultado.error
+            ) {
 
                 throw resultado.error;
 
@@ -771,7 +1147,9 @@ async function salvarCliente() {
                     );
 
 
-            if (resultado.error) {
+            if (
+                resultado.error
+            ) {
 
                 throw resultado.error;
 
@@ -816,6 +1194,7 @@ async function salvarCliente() {
 }
 
 
+
 /* =====================================================
    EDITAR CLIENTE
 ===================================================== */
@@ -825,34 +1204,14 @@ function editarCliente(
 ) {
 
     var cliente =
-        null;
+        localizarCliente(
+            id
+        );
 
 
-    for (
-        var i = 0;
-        i < clientesCarregados.length;
-        i++
+    if (
+        !cliente
     ) {
-
-        if (
-            Number(
-                clientesCarregados[i].id
-            )
-            ===
-            Number(id)
-        ) {
-
-            cliente =
-                clientesCarregados[i];
-
-            break;
-
-        }
-
-    }
-
-
-    if (!cliente) {
 
         return;
 
@@ -894,24 +1253,24 @@ function editarCliente(
 
 
     window.scrollTo({
+
         top: 0,
+
         behavior: "smooth"
+
     });
 
 }
 
 
+
 /* =====================================================
-   EXCLUIR CLIENTE
+   LOCALIZAR CLIENTE
 ===================================================== */
 
-async function excluirCliente(
+function localizarCliente(
     id
 ) {
-
-    var cliente =
-        null;
-
 
     for (
         var i = 0;
@@ -927,17 +1286,36 @@ async function excluirCliente(
             Number(id)
         ) {
 
-            cliente =
-                clientesCarregados[i];
-
-            break;
+            return clientesCarregados[i];
 
         }
 
     }
 
 
-    if (!cliente) {
+    return null;
+
+}
+
+
+
+/* =====================================================
+   EXCLUIR CLIENTE
+===================================================== */
+
+async function excluirCliente(
+    id
+) {
+
+    var cliente =
+        localizarCliente(
+            id
+        );
+
+
+    if (
+        !cliente
+    ) {
 
         return;
 
@@ -947,7 +1325,7 @@ async function excluirCliente(
     var confirmar =
         confirm(
 
-            "Deseja excluir o cliente:\n\n" +
+            "Deseja realmente excluir:\n\n" +
 
             cliente.nome +
 
@@ -956,7 +1334,9 @@ async function excluirCliente(
         );
 
 
-    if (!confirmar) {
+    if (
+        !confirmar
+    ) {
 
         return;
 
@@ -975,7 +1355,9 @@ async function excluirCliente(
                 );
 
 
-        if (resultado.error) {
+        if (
+            resultado.error
+        ) {
 
             throw resultado.error;
 
@@ -1003,15 +1385,16 @@ async function excluirCliente(
 
             "Não foi possível excluir o cliente.\n\n" +
 
-            "Se ele possuir contas registradas, " +
+            "Se ele possuir contas ou pagamentos, " +
 
-            "o sistema pode impedir a exclusão."
+            "o banco pode impedir a exclusão."
 
         );
 
     }
 
 }
+
 
 
 /* =====================================================
@@ -1022,17 +1405,20 @@ function limparFormulario() {
 
     document.getElementById(
         "nome"
-    ).value = "";
+    ).value =
+        "";
 
 
     document.getElementById(
         "telefone"
-    ).value = "";
+    ).value =
+        "";
 
 
     document.getElementById(
         "observacao"
-    ).value = "";
+    ).value =
+        "";
 
 
     idEditando =
@@ -1053,8 +1439,9 @@ function limparFormulario() {
 }
 
 
+
 /* =====================================================
-   ABRIR CONTA
+   ABRIR CONTA DO CLIENTE
 ===================================================== */
 
 async function abrirContaCliente(
@@ -1062,34 +1449,14 @@ async function abrirContaCliente(
 ) {
 
     var cliente =
-        null;
+        localizarCliente(
+            id
+        );
 
 
-    for (
-        var i = 0;
-        i < clientesCarregados.length;
-        i++
+    if (
+        !cliente
     ) {
-
-        if (
-            Number(
-                clientesCarregados[i].id
-            )
-            ===
-            Number(id)
-        ) {
-
-            cliente =
-                clientesCarregados[i];
-
-            break;
-
-        }
-
-    }
-
-
-    if (!cliente) {
 
         return;
 
@@ -1110,52 +1477,70 @@ async function abrirContaCliente(
 
 
     document.getElementById(
+        "areaCadastro"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "areaBusca"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "areaListaClientes"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
         "areaContaCliente"
     ).style.display =
         "block";
 
 
-    await carregarContaCliente(
-        id
-    );
+    await atualizarContaCliente();
 
 
-    document.getElementById(
-        "areaContaCliente"
-    ).scrollIntoView({
+    window.scrollTo({
+        top: 0,
         behavior: "smooth"
     });
 
 }
 
 
+
 /* =====================================================
-   CARREGAR CONTA
+   ATUALIZAR CONTA
 ===================================================== */
 
-async function carregarContaCliente(
-    clienteId
-) {
+async function atualizarContaCliente() {
 
-    var area =
-        document.getElementById(
-            "listaConsumos"
-        );
+    if (
+        !clienteAberto
+    ) {
 
+        return;
 
-    area.innerHTML =
-        "⏳ Carregando...";
+    }
 
 
     try {
 
-        var resultado =
+
+        /*
+           CONTAS / CONSUMOS
+        */
+
+        var resultadoContas =
             await window.supabaseClient
                 .from("contas_clientes")
                 .select("*")
                 .eq(
                     "cliente_id",
-                    clienteId
+                    clienteAberto.id
                 )
                 .order(
                     "id",
@@ -1165,33 +1550,60 @@ async function carregarContaCliente(
                 );
 
 
-        if (resultado.error) {
+        if (
+            resultadoContas.error
+        ) {
 
-            throw resultado.error;
+            throw resultadoContas.error;
 
         }
 
 
         var contas =
-            resultado.data || [];
+            resultadoContas.data || [];
 
 
-        var totalPendente =
-            0;
 
+        /*
+           PAGAMENTOS
+        */
 
-        area.innerHTML =
-            "";
+        var resultadoPagamentos =
+            await window.supabaseClient
+                .from("pagamentos_clientes")
+                .select("*")
+                .eq(
+                    "cliente_id",
+                    clienteAberto.id
+                )
+                .order(
+                    "id",
+                    {
+                        ascending: false
+                    }
+                );
 
 
         if (
-            contas.length === 0
+            resultadoPagamentos.error
         ) {
 
-            area.innerHTML =
-                "<p>Nenhum consumo registrado.</p>";
+            throw resultadoPagamentos.error;
 
         }
+
+
+        var pagamentos =
+            resultadoPagamentos.data || [];
+
+
+
+        /*
+           CALCULAR TOTAL CONSUMIDO
+        */
+
+        totalConsumidoAtual =
+            0;
 
 
         for (
@@ -1200,122 +1612,439 @@ async function carregarContaCliente(
             i++
         ) {
 
-            var conta =
-                contas[i];
+            totalConsumidoAtual +=
 
-
-            var status =
-                conta.status ||
-                "Pendente";
-
-
-            if (
-                status === "Pendente"
-            ) {
-
-                totalPendente +=
-
-                    Number(
-                        conta.total || 0
-                    );
-
-            }
-
-
-            var classe =
-                status === "Pago"
-                    ? "pago"
-                    : "pendente";
-
-
-            var html =
-
-                "<div class='consumo " +
-                classe +
-                "'>" +
-
-                "<h3>" +
-
-                (
-                    status === "Pago"
-                    ? "✅ Pago"
-                    : "⏳ Pendente"
-                ) +
-
-                "</h3>" +
-
-                "<p><strong>Data:</strong> " +
-                escaparHTML(
-                    conta.data_consumo || "-"
-                ) +
-                "</p>" +
-
-                "<p><strong>Mesa:</strong> " +
-                escaparHTML(
-                    conta.mesa || "-"
-                ) +
-                "</p>" +
-
-                "<p><strong>Total:</strong> " +
-                formatarMoeda(
-                    conta.total
-                ) +
-                "</p>";
-
-
-            if (
-                status === "Pendente"
-            ) {
-
-                html +=
-
-                    "<button " +
-                    "class='receber' " +
-                    "onclick='receberConta(" +
-                    conta.id +
-                    ")'>" +
-
-                    "💰 Receber pagamento" +
-
-                    "</button>";
-
-            }
-
-
-            html +=
-                "</div>";
-
-
-            area.innerHTML +=
-                html;
+                Number(
+                    contas[i].total || 0
+                );
 
         }
 
 
+
+        /*
+           CALCULAR PAGAMENTOS
+        */
+
+        totalPagoAtual =
+            0;
+
+
+        for (
+            var i = 0;
+            i < pagamentos.length;
+            i++
+        ) {
+
+            totalPagoAtual +=
+
+                Number(
+                    pagamentos[i].valor || 0
+                );
+
+        }
+
+
+
+        saldoAtual =
+
+            totalConsumidoAtual -
+
+            totalPagoAtual;
+
+
+        /*
+           PROTEÇÃO CONTRA CENTAVOS NEGATIVOS
+        */
+
+        if (
+            saldoAtual < 0
+        ) {
+
+            saldoAtual =
+                0;
+
+        }
+
+
+
         document.getElementById(
-            "totalPendente"
+            "totalConsumido"
         ).innerText =
-
-            "Total pendente: " +
-
             formatarMoeda(
-                totalPendente
+                totalConsumidoAtual
             );
+
+
+        document.getElementById(
+            "totalPago"
+        ).innerText =
+            formatarMoeda(
+                totalPagoAtual
+            );
+
+
+        document.getElementById(
+            "saldoPendente"
+        ).innerText =
+            formatarMoeda(
+                saldoAtual
+            );
+
+
+
+        /*
+           CONTA QUITADA
+        */
+
+        if (
+            saldoAtual <= 0
+            &&
+            totalConsumidoAtual > 0
+        ) {
+
+            document.getElementById(
+                "avisoQuitado"
+            ).style.display =
+                "block";
+
+
+            document.getElementById(
+                "areaReceber"
+            ).style.display =
+                "none";
+
+
+            document.getElementById(
+                "cardSaldo"
+            ).className =
+                "card saldo-zero";
+
+        }
+
+        else {
+
+            document.getElementById(
+                "avisoQuitado"
+            ).style.display =
+                "none";
+
+
+            document.getElementById(
+                "areaReceber"
+            ).style.display =
+                "block";
+
+
+            document.getElementById(
+                "cardSaldo"
+            ).className =
+                "card saldo-card";
+
+        }
+
+
+
+        await mostrarConsumos(
+            contas
+        );
+
+
+        mostrarPagamentos(
+            pagamentos
+        );
 
     }
 
     catch (erro) {
 
         console.error(
+            "Erro ao carregar conta:",
             erro
         );
 
 
+        alert(
+
+            "Não foi possível carregar a conta.\n\n" +
+
+            (
+                erro.message ||
+                "Erro desconhecido."
+            )
+
+        );
+
+    }
+
+}
+
+
+
+/* =====================================================
+   MOSTRAR CONSUMOS + ITENS
+===================================================== */
+
+async function mostrarConsumos(
+    contas
+) {
+
+    var area =
+        document.getElementById(
+            "listaConsumos"
+        );
+
+
+    area.innerHTML =
+        "";
+
+
+    if (
+        contas.length === 0
+    ) {
+
         area.innerHTML =
 
-            "<div class='erro'>" +
+            "<div class='mensagem'>" +
 
-            "Erro ao carregar a conta." +
+            "Nenhum consumo registrado." +
+
+            "</div>";
+
+        return;
+
+    }
+
+
+    for (
+        var i = 0;
+        i < contas.length;
+        i++
+    ) {
+
+        var conta =
+            contas[i];
+
+
+        var resultadoItens =
+            await window.supabaseClient
+                .from("itens_conta_cliente")
+                .select("*")
+                .eq(
+                    "conta_id",
+                    conta.id
+                )
+                .order(
+                    "id",
+                    {
+                        ascending: true
+                    }
+                );
+
+
+        var itens =
+            [];
+
+
+        if (
+            !resultadoItens.error
+        ) {
+
+            itens =
+                resultadoItens.data || [];
+
+        }
+
+
+        var html =
+
+            "<div class='consumo'>" +
+
+            "<h3>🧾 Consumo #" +
+            conta.id +
+            "</h3>" +
+
+            "<p><strong>Data:</strong> " +
+
+            escaparHTML(
+                conta.data_consumo || "-"
+            ) +
+
+            "</p>" +
+
+            "<p><strong>Mesa:</strong> " +
+
+            escaparHTML(
+                conta.mesa || "-"
+            ) +
+
+            "</p>" +
+
+            "<p><strong>Total:</strong> " +
+
+            formatarMoeda(
+                conta.total
+            ) +
+
+            "</p>";
+
+
+        if (
+            itens.length > 0
+        ) {
+
+            html +=
+
+                "<hr>" +
+
+                "<strong>Itens:</strong>";
+
+
+            for (
+                var j = 0;
+                j < itens.length;
+                j++
+            ) {
+
+                var item =
+                    itens[j];
+
+
+                var subtotal =
+
+                    Number(
+                        item.quantidade || 0
+                    )
+
+                    *
+
+                    Number(
+                        item.venda_unitaria || 0
+                    );
+
+
+                html +=
+
+                    "<div class='produto-consumo'>" +
+
+                    "🥩 " +
+
+                    escaparHTML(
+                        item.nome_produto || "-"
+                    ) +
+
+                    " × " +
+
+                    Number(
+                        item.quantidade || 0
+                    ) +
+
+                    " — " +
+
+                    formatarMoeda(
+                        subtotal
+                    ) +
+
+                    "</div>";
+
+            }
+
+        }
+
+
+        html +=
+            "</div>";
+
+
+        area.innerHTML +=
+            html;
+
+    }
+
+}
+
+
+
+/* =====================================================
+   MOSTRAR PAGAMENTOS
+===================================================== */
+
+function mostrarPagamentos(
+    pagamentos
+) {
+
+    var area =
+        document.getElementById(
+            "listaPagamentos"
+        );
+
+
+    area.innerHTML =
+        "";
+
+
+    if (
+        pagamentos.length === 0
+    ) {
+
+        area.innerHTML =
+
+            "<div class='mensagem'>" +
+
+            "Nenhum pagamento registrado." +
+
+            "</div>";
+
+        return;
+
+    }
+
+
+    for (
+        var i = 0;
+        i < pagamentos.length;
+        i++
+    ) {
+
+        var pagamento =
+            pagamentos[i];
+
+
+        area.innerHTML +=
+
+            "<div class='pagamento'>" +
+
+            "<h3>✅ " +
+
+            formatarMoeda(
+                pagamento.valor
+            ) +
+
+            "</h3>" +
+
+            "<p><strong>Data:</strong> " +
+
+            escaparHTML(
+                pagamento.data_pagamento || "-"
+            ) +
+
+            "</p>" +
+
+            "<p><strong>Forma:</strong> " +
+
+            escaparHTML(
+                pagamento.forma_pagamento || "-"
+            ) +
+
+            "</p>" +
+
+            "<p><strong>Observação:</strong> " +
+
+            escaparHTML(
+                pagamento.observacao || "-"
+            ) +
+
+            "</p>" +
 
             "</div>";
 
@@ -1324,142 +2053,245 @@ async function carregarContaCliente(
 }
 
 
+
 /* =====================================================
-   RECEBER CONTA
+   REGISTRAR PAGAMENTO PARCIAL
 ===================================================== */
 
-async function receberConta(
-    contaId
-) {
+async function registrarPagamento() {
 
-    var forma =
-        prompt(
-
-            "Digite a forma de pagamento:\n\n" +
-
-            "Dinheiro\nCartão\nPIX"
-
-        );
-
-
-    if (!forma) {
+    if (
+        !clienteAberto
+    ) {
 
         return;
 
     }
 
 
-    forma =
-        forma.trim();
+    var valor =
+        Number(
+            document.getElementById(
+                "valorPagamento"
+            ).value
+        );
+
+
+    var forma =
+        document.getElementById(
+            "formaPagamento"
+        ).value;
+
+
+    var observacao =
+        document.getElementById(
+            "observacaoPagamento"
+        ).value.trim();
 
 
     if (
-        forma !== "Dinheiro"
-        &&
-        forma !== "Cartão"
-        &&
-        forma !== "PIX"
+        !Number.isFinite(
+            valor
+        )
+        ||
+        valor <= 0
     ) {
 
         alert(
-            "Forma de pagamento inválida."
+            "Digite um valor válido."
         );
 
         return;
 
     }
+
+
+    if (
+        forma === ""
+    ) {
+
+        alert(
+            "Escolha a forma de pagamento."
+        );
+
+        return;
+
+    }
+
+
+    /*
+       NÃO DEIXAR RECEBER MAIS
+       DO QUE A PESSOA DEVE
+    */
+
+    if (
+        valor >
+        saldoAtual
+    ) {
+
+        alert(
+
+            "O valor informado é maior que o saldo pendente.\n\n" +
+
+            "Saldo atual: " +
+
+            formatarMoeda(
+                saldoAtual
+            )
+
+        );
+
+        return;
+
+    }
+
+
+    var confirmar =
+        confirm(
+
+            "Confirmar pagamento?\n\n" +
+
+            "Cliente: " +
+
+            clienteAberto.nome +
+
+            "\n" +
+
+            "Valor: " +
+
+            formatarMoeda(
+                valor
+            ) +
+
+            "\n" +
+
+            "Forma: " +
+
+            forma
+
+        );
+
+
+    if (
+        !confirmar
+    ) {
+
+        return;
+
+    }
+
+
+    var botao =
+        document.getElementById(
+            "botaoReceber"
+        );
+
+
+    botao.disabled =
+        true;
+
+
+    botao.innerText =
+        "⏳ Registrando...";
 
 
     try {
 
-        var agora =
-            new Date();
-
-
-        var dataPagamento =
-
-            String(
-                agora.getDate()
-            ).padStart(
-                2,
-                "0"
-            )
-
-            +
-
-            "/"
-
-            +
-
-            String(
-                agora.getMonth() + 1
-            ).padStart(
-                2,
-                "0"
-            )
-
-            +
-
-            "/"
-
-            +
-
-            agora.getFullYear();
-
 
         var resultado =
             await window.supabaseClient
-                .from("contas_clientes")
-                .update({
+                .from("pagamentos_clientes")
+                .insert({
 
-                    status:
-                        "Pago",
+                    cliente_id:
+                        clienteAberto.id,
+
+                    valor:
+                        valor,
 
                     forma_pagamento:
                         forma,
 
                     data_pagamento:
-                        dataPagamento
+                        obterDataAtual(),
 
-                })
-                .eq(
-                    "id",
-                    contaId
-                );
+                    observacao:
+                        observacao || null
+
+                });
 
 
-        if (resultado.error) {
+        if (
+            resultado.error
+        ) {
 
             throw resultado.error;
 
         }
 
 
-        alert(
-            "Pagamento registrado com sucesso!"
+        document.getElementById(
+            "valorPagamento"
+        ).value =
+            "";
+
+
+        document.getElementById(
+            "formaPagamento"
+        ).value =
+            "";
+
+
+        document.getElementById(
+            "observacaoPagamento"
+        ).value =
+            "";
+
+
+        mostrarMensagem(
+            "✅ Pagamento registrado com sucesso!",
+            "sucesso"
         );
 
 
-        await carregarContaCliente(
-            clienteAberto.id
-        );
+        await atualizarContaCliente();
 
     }
 
     catch (erro) {
 
         console.error(
+            "Erro ao registrar pagamento:",
             erro
         );
 
 
         alert(
-            "Não foi possível registrar o pagamento."
+
+            "Não foi possível registrar o pagamento.\n\n" +
+
+            (
+                erro.message ||
+                "Erro desconhecido."
+            )
+
         );
 
     }
 
+    finally {
+
+        botao.disabled =
+            false;
+
+
+        botao.innerText =
+            "💰 Registrar pagamento";
+
+    }
+
 }
+
 
 
 /* =====================================================
@@ -1472,32 +2304,52 @@ function fecharContaCliente() {
         null;
 
 
+    totalConsumidoAtual =
+        0;
+
+
+    totalPagoAtual =
+        0;
+
+
+    saldoAtual =
+        0;
+
+
     document.getElementById(
         "areaContaCliente"
     ).style.display =
         "none";
 
+
+    document.getElementById(
+        "areaCadastro"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "areaBusca"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "areaListaClientes"
+    ).style.display =
+        "block";
+
+
+    window.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+
+    });
+
 }
 
-
-/* =====================================================
-   SEGURANÇA DO HTML
-===================================================== */
-
-function escaparHTML(
-    texto
-) {
-
-    return String(
-        texto || ""
-    )
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-
-}
 
 
 /* =====================================================
