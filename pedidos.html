@@ -130,13 +130,6 @@
             border-bottom: 1px solid #ddd;
         }
 
-        .mesa-fechada {
-            background: #f8f8f8;
-            padding: 12px;
-            margin-bottom: 10px;
-            border-radius: 8px;
-        }
-
         .pagamento {
             background: white;
             padding: 20px;
@@ -247,12 +240,9 @@
     </button>
 
 
-    <!-- NOVO PEDIDO -->
-
     <div class="caixa">
 
         <h2>Novo pedido</h2>
-
 
         <label>Mesa:</label>
 
@@ -354,8 +344,6 @@
     </div>
 
 
-    <!-- ITENS DO PEDIDO -->
-
     <h2>Itens do pedido</h2>
 
 
@@ -385,8 +373,6 @@
     </button>
 
 
-    <!-- MESAS -->
-
     <h2>Mesas abertas</h2>
 
 
@@ -396,8 +382,6 @@
 
     </div>
 
-
-    <!-- FECHAMENTO -->
 
     <h2>📊 Fechamento diário</h2>
 
@@ -458,19 +442,102 @@ var pagamentoEmAndamento = false;
 
 
 /* =====================================================
+   DATA ISO PARA SUPABASE
+===================================================== */
+
+function obterDataISO() {
+
+    var agora =
+        new Date();
+
+
+    var ano =
+        agora.getFullYear();
+
+
+    var mes =
+        String(
+            agora.getMonth() + 1
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    var dia =
+        String(
+            agora.getDate()
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    return (
+        ano +
+        "-" +
+        mes +
+        "-" +
+        dia
+    );
+
+}
+
+
+/* =====================================================
+   DATA BRASILEIRA
+===================================================== */
+
+function obterDataBrasil() {
+
+    var agora =
+        new Date();
+
+
+    var dia =
+        String(
+            agora.getDate()
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    var mes =
+        String(
+            agora.getMonth() + 1
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    var ano =
+        agora.getFullYear();
+
+
+    return (
+        dia +
+        "/" +
+        mes +
+        "/" +
+        ano
+    );
+
+}
+
+
+/* =====================================================
    SALVAR MESAS
 ===================================================== */
 
 function salvarMesasAbertas() {
 
     localStorage.setItem(
-
         "mesasAbertas",
-
         JSON.stringify(
             mesasAbertas
         )
-
     );
 
 }
@@ -789,7 +856,6 @@ function adicionarItem() {
         ) {
 
             quantidadeJaAdicionada +=
-
                 Number(
                     pedido[i].quantidade
                 );
@@ -799,15 +865,9 @@ function adicionarItem() {
     }
 
 
-    var quantidadeTotal =
-
-        quantidadeJaAdicionada +
-
-        quantidade;
-
-
     if (
-        quantidadeTotal >
+        quantidadeJaAdicionada +
+        quantidade >
         Number(
             produto.quantidade
         )
@@ -1012,8 +1072,6 @@ async function enviarPedido() {
     try {
 
 
-        /* VALIDAR ESTOQUE */
-
         for (
             var i = 0;
             i < pedido.length;
@@ -1069,8 +1127,6 @@ async function enviarPedido() {
 
         }
 
-
-        /* BAIXAR ESTOQUE */
 
         for (
             var i = 0;
@@ -1137,8 +1193,6 @@ async function enviarPedido() {
         }
 
 
-        /* COLOCAR NA MESA */
-
         for (
             var i = 0;
             i < pedido.length;
@@ -1173,13 +1227,10 @@ async function enviarPedido() {
         salvarMesasAbertas();
 
 
-        pedido =
-            [];
+        pedido = [];
 
 
         mostrarPedido();
-
-        mostrarMesasAbertas();
 
 
         document.getElementById(
@@ -1416,7 +1467,6 @@ function mostrarMesasAbertas() {
 
             "</button>" +
 
-
             "</div>";
 
     }
@@ -1425,48 +1475,7 @@ function mostrarMesasAbertas() {
 
 
 /* =====================================================
-   FECHAR MESA
-===================================================== */
-
-function fecharMesa(
-    mesa
-) {
-
-    var confirmar =
-        confirm(
-
-            "Deseja fechar a Mesa " +
-
-            mesa +
-
-            "?"
-
-        );
-
-
-    if (!confirmar) {
-
-        return;
-
-    }
-
-
-    var totalMesa =
-        calcularTotalMesa(
-            mesa
-        );
-
-
-    mostrarPagamento(
-        mesa,
-        totalMesa
-    );
-
-}
-
-
-/* =====================================================
-   CALCULAR TOTAL
+   CALCULAR TOTAL MESA
 ===================================================== */
 
 function calcularTotalMesa(
@@ -1507,6 +1516,46 @@ function calcularTotalMesa(
 
 
     return total;
+
+}
+
+
+/* =====================================================
+   FECHAR MESA
+===================================================== */
+
+function fecharMesa(
+    mesa
+) {
+
+    var confirmar =
+        confirm(
+
+            "Deseja fechar a Mesa " +
+
+            mesa +
+
+            "?"
+
+        );
+
+
+    if (!confirmar) {
+
+        return;
+
+    }
+
+
+    mostrarPagamento(
+
+        mesa,
+
+        calcularTotalMesa(
+            mesa
+        )
+
+    );
 
 }
 
@@ -1605,13 +1654,11 @@ function mostrarPagamento(
         "</button>" +
 
 
-        "<div " +
+        "<div id='selecaoCliente_" +
 
-        "id='selecaoCliente_" +
         mesa +
-        "'>" +
 
-        "</div>" +
+        "'></div>" +
 
 
         "</div>";
@@ -1620,7 +1667,7 @@ function mostrarPagamento(
 
 
 /* =====================================================
-   CLIENTES
+   SELECIONAR CLIENTE
 ===================================================== */
 
 async function abrirSelecaoCliente(
@@ -1675,11 +1722,7 @@ async function abrirSelecaoCliente(
 
                 "<div class='selecionar-cliente'>" +
 
-                "<strong>Nenhum cliente cadastrado.</strong>" +
-
-                "<br><br>" +
-
-                "Cadastre primeiro na tela Clientes." +
+                "Nenhum cliente cadastrado." +
 
                 "</div>";
 
@@ -1775,7 +1818,7 @@ async function abrirSelecaoCliente(
 
 
 /* =====================================================
-   ADICIONAR MESA À CONTA
+   ADICIONAR AO FIADO
 ===================================================== */
 
 async function adicionarMesaContaCliente(
@@ -1899,43 +1942,6 @@ async function adicionarMesaContaCliente(
         }
 
 
-        var agora =
-            new Date();
-
-
-        var dataConsumo =
-
-            String(
-                agora.getDate()
-            ).padStart(
-                2,
-                "0"
-            )
-
-            +
-
-            "/"
-
-            +
-
-            String(
-                agora.getMonth() + 1
-            ).padStart(
-                2,
-                "0"
-            )
-
-            +
-
-            "/"
-
-            +
-
-            agora.getFullYear();
-
-
-        /* CRIAR CONTA */
-
         var resultadoConta =
             await window.supabaseClient
                 .from("contas_clientes")
@@ -1947,7 +1953,10 @@ async function adicionarMesaContaCliente(
                         ),
 
                     data_consumo:
-                        dataConsumo,
+                        obterDataBrasil(),
+
+                    data_consumo_date:
+                        obterDataISO(),
 
                     mesa:
                         String(
@@ -1986,8 +1995,6 @@ async function adicionarMesaContaCliente(
         contaCriadaId =
             resultadoConta.data.id;
 
-
-        /* PREPARAR ITENS */
 
         var itensBanco =
             [];
@@ -2042,11 +2049,6 @@ async function adicionarMesaContaCliente(
             resultadoItens.error
         ) {
 
-            /*
-               Se falhar ao gravar os itens,
-               remove a conta incompleta.
-            */
-
             await window.supabaseClient
                 .from("contas_clientes")
                 .delete()
@@ -2061,8 +2063,6 @@ async function adicionarMesaContaCliente(
         }
 
 
-        /* LIBERAR MESA */
-
         removerMesaAberta(
             mesa
         );
@@ -2074,9 +2074,9 @@ async function adicionarMesaContaCliente(
 
             "Mesa " +
             mesa +
-            " liberada.\n" +
+            " liberada.\n\n" +
 
-            "Total pendente adicionado: R$ " +
+            "Total: R$ " +
 
             total.toFixed(2)
 
@@ -2087,7 +2087,6 @@ async function adicionarMesaContaCliente(
     catch (erro) {
 
         console.error(
-            "Erro ao adicionar à conta:",
             erro
         );
 
@@ -2229,8 +2228,6 @@ async function confirmarPagamento(
             );
 
 
-        /* VENDA */
-
         var resultadoVenda =
             await window.supabaseClient
                 .from("vendas")
@@ -2243,6 +2240,9 @@ async function confirmarPagamento(
 
                     horario:
                         horario,
+
+                    data_venda:
+                        obterDataISO(),
 
                     total:
                         totalMesa,
@@ -2270,8 +2270,6 @@ async function confirmarPagamento(
         var vendaId =
             resultadoVenda.data.id;
 
-
-        /* ITENS */
 
         var itensBanco =
             [];
@@ -2499,8 +2497,7 @@ function carregarVendasDoDia() {
 
     if (!dados) {
 
-        vendasDoDia =
-            [];
+        vendasDoDia = [];
 
         return;
 
@@ -2521,8 +2518,7 @@ function carregarVendasDoDia() {
             )
         ) {
 
-            vendasDoDia =
-                [];
+            vendasDoDia = [];
 
         }
 
@@ -2530,8 +2526,7 @@ function carregarVendasDoDia() {
 
     catch (erro) {
 
-        vendasDoDia =
-            [];
+        vendasDoDia = [];
 
     }
 
@@ -2539,7 +2534,7 @@ function carregarVendasDoDia() {
 
 
 /* =====================================================
-   DATA
+   DATA LOCAL STORAGE
 ===================================================== */
 
 function obterDataAtual() {
@@ -2575,45 +2570,6 @@ function obterDataAtual() {
         "-" +
         mes +
         "-" +
-        ano
-    );
-
-}
-
-
-function formatarDataAtual() {
-
-    var agora =
-        new Date();
-
-
-    var dia =
-        String(
-            agora.getDate()
-        ).padStart(
-            2,
-            "0"
-        );
-
-
-    var mes =
-        String(
-            agora.getMonth() + 1
-        ).padStart(
-            2,
-            "0"
-        );
-
-
-    var ano =
-        agora.getFullYear();
-
-
-    return (
-        dia +
-        "/" +
-        mes +
-        "/" +
         ano
     );
 
@@ -2675,10 +2631,6 @@ function fecharDia() {
     };
 
 
-    var produtosVendidos =
-        {};
-
-
     for (
         var i = 0;
         i < vendasDoDia.length;
@@ -2690,14 +2642,12 @@ function fecharDia() {
 
 
         totalVendas +=
-
             Number(
                 venda.total || 0
             );
 
 
         totalCusto +=
-
             Number(
                 venda.custo || 0
             );
@@ -2712,52 +2662,9 @@ function fecharDia() {
             pagamentos[
                 venda.formaPagamento
             ] +=
-
                 Number(
                     venda.total || 0
                 );
-
-        }
-
-
-        if (
-            Array.isArray(
-                venda.itens
-            )
-        ) {
-
-            for (
-                var j = 0;
-                j < venda.itens.length;
-                j++
-            ) {
-
-                var item =
-                    venda.itens[j];
-
-
-                if (
-                    !produtosVendidos[
-                        item.nome
-                    ]
-                ) {
-
-                    produtosVendidos[
-                        item.nome
-                    ] = 0;
-
-                }
-
-
-                produtosVendidos[
-                    item.nome
-                ] +=
-
-                    Number(
-                        item.quantidade || 0
-                    );
-
-            }
 
         }
 
@@ -2765,29 +2672,17 @@ function fecharDia() {
 
 
     var lucro =
-
         totalVendas -
-
         totalCusto;
 
 
     var html =
-        "";
-
-
-    html +=
 
         "<h2>📊 Fechamento do dia</h2>" +
 
         "<p><strong>Data:</strong> " +
 
-        formatarDataAtual() +
-
-        "</p>" +
-
-        "<p><strong>Vendas pagas:</strong> " +
-
-        vendasDoDia.length +
+        obterDataBrasil() +
 
         "</p>" +
 
@@ -2801,7 +2696,7 @@ function fecharDia() {
 
         "</p>" +
 
-        "<h3>💵 Total de custo</h3>" +
+        "<h3>📦 Custo</h3>" +
 
         "<p>R$ " +
 
@@ -2809,7 +2704,7 @@ function fecharDia() {
 
         "</p>" +
 
-        "<h3>🟢 Lucro</h3>" +
+        "<h3>📈 Lucro</h3>" +
 
         "<p class='lucro'>R$ " +
 
@@ -2818,8 +2713,6 @@ function fecharDia() {
         "</p>" +
 
         "<hr>" +
-
-        "<h3>💳 Formas de pagamento</h3>" +
 
         "<p>💵 Dinheiro: R$ " +
 
@@ -2837,40 +2730,7 @@ function fecharDia() {
 
         pagamentos["PIX"].toFixed(2) +
 
-        "</p>" +
-
-        "<hr>" +
-
-        "<h3>🥩 Produtos vendidos</h3>";
-
-
-    var nomes =
-        Object.keys(
-            produtosVendidos
-        );
-
-
-    for (
-        var i = 0;
-        i < nomes.length;
-        i++
-    ) {
-
-        html +=
-
-            "<div class='produto-vendido'>" +
-
-            nomes[i] +
-
-            " × " +
-
-            produtosVendidos[
-                nomes[i]
-            ] +
-
-            "</div>";
-
-    }
+        "</p>";
 
 
     document.getElementById(
