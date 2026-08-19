@@ -53,6 +53,23 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
 
+        .filtro-data {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .filtro-data input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 17px;
+            margin-top: 8px;
+        }
+
         .resumo {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -173,6 +190,16 @@
             margin-right: 5px;
         }
 
+        .consultar {
+            background: #198754;
+            color: white;
+        }
+
+        .hoje {
+            background: #0d6efd;
+            color: white;
+        }
+
         .atualizar {
             background: #0d6efd;
             color: white;
@@ -208,13 +235,13 @@
             color: #555;
         }
 
-        .aviso {
+        .data-exibida {
             background: #fff3cd;
-            border: 1px solid #ffe69c;
-            color: #664d03;
+            border-left: 6px solid #ffc107;
             padding: 15px;
             border-radius: 8px;
             margin-bottom: 20px;
+            font-size: 18px;
         }
 
         @media (max-width: 850px) {
@@ -249,6 +276,7 @@
 
     <script src="supabase.js"></script>
 
+
 </head>
 
 
@@ -259,7 +287,7 @@
 
     <h1>🥩 Espetinho do Will</h1>
 
-    <p>💰 Caixa e Contas a Receber</p>
+    <p>💰 Caixa</p>
 
 </header>
 
@@ -267,25 +295,11 @@
 <div class="container">
 
 
-    <!-- CABEÇALHO -->
+    <!-- BOTÕES -->
 
     <div class="caixa">
 
-        <h2>💰 Visão geral do caixa</h2>
-
-        <p>
-            Vendas pagas, fiado, pagamentos de clientes
-            e valores ainda a receber.
-        </p>
-
-
-        <button
-            class="botao atualizar"
-            onclick="carregarCaixa()"
-        >
-            🔄 Atualizar caixa
-        </button>
-
+        <h2>💰 Caixa</h2>
 
         <button
             class="botao clientes"
@@ -305,14 +319,51 @@
     </div>
 
 
-    <div class="aviso">
 
-        ℹ️ Por enquanto os valores abaixo são
-        <strong>acumulados do banco</strong>.
-        Depois vamos adicionar data às vendas para
-        separar Caixa de hoje, ontem e outros períodos.
+    <!-- ESCOLHER DATA -->
+
+    <div class="filtro-data">
+
+        <h2>📅 Consultar caixa por data</h2>
+
+
+        <label>
+            Escolha o dia:
+        </label>
+
+
+        <input
+            type="date"
+            id="dataCaixa"
+        >
+
+
+        <button
+            class="botao consultar"
+            onclick="carregarCaixa()"
+        >
+            🔍 Consultar dia
+        </button>
+
+
+        <button
+            class="botao hoje"
+            onclick="irParaHoje()"
+        >
+            📅 Hoje
+        </button>
 
     </div>
+
+
+
+    <div
+        id="dataExibida"
+        class="data-exibida"
+    >
+        📅 Caixa do dia
+    </div>
+
 
 
     <div
@@ -325,7 +376,7 @@
 
     <!-- FORMAS DE PAGAMENTO -->
 
-    <h2>💳 Dinheiro realmente recebido</h2>
+    <h2>💳 Recebimentos do dia</h2>
 
 
     <div class="resumo">
@@ -377,9 +428,9 @@
 
 
 
-    <!-- SITUAÇÃO -->
+    <!-- RESUMO -->
 
-    <h2>📊 Situação das vendas</h2>
+    <h2>📊 Movimento do dia</h2>
 
 
     <div class="resumo">
@@ -401,7 +452,7 @@
 
         <div class="card fiado">
 
-            <h3>👤 Fiado lançado</h3>
+            <h3>👤 Fiado lançado no dia</h3>
 
             <div
                 id="totalFiado"
@@ -415,7 +466,7 @@
 
         <div class="card recebido-fiado">
 
-            <h3>💰 Recebido de fiado</h3>
+            <h3>💰 Fiado recebido no dia</h3>
 
             <div
                 id="totalRecebidoFiado"
@@ -429,7 +480,7 @@
 
         <div class="card receber">
 
-            <h3>📒 Contas a receber</h3>
+            <h3>📒 Total geral a receber</h3>
 
             <div
                 id="totalAReceber"
@@ -443,7 +494,7 @@
 
         <div class="card custo">
 
-            <h3>📦 Custo das mercadorias</h3>
+            <h3>📦 Custo do dia</h3>
 
             <div
                 id="totalCustos"
@@ -457,7 +508,7 @@
 
         <div class="card lucro">
 
-            <h3>📈 Lucro sobre consumo</h3>
+            <h3>📈 Lucro das vendas do dia</h3>
 
             <div
                 id="totalLucro"
@@ -473,11 +524,11 @@
 
 
 
-    <!-- ENTRADA REAL -->
+    <!-- DINHEIRO REAL -->
 
     <div class="entrada-total">
 
-        <h2>💰 Dinheiro que realmente entrou</h2>
+        <h2>💰 Dinheiro que realmente entrou no dia</h2>
 
         <div
             id="totalEntrou"
@@ -494,7 +545,7 @@
 
     <div class="faturamento">
 
-        <h2>🧾 Total consumido / vendido</h2>
+        <h2>🧾 Total consumido no dia</h2>
 
         <div
             id="totalFaturamento"
@@ -504,24 +555,23 @@
         </div>
 
         <p>
-            Inclui vendas pagas + compras fiadas.
+            Inclui vendas pagas na hora e compras fiadas.
         </p>
 
     </div>
 
 
 
-    <!-- VENDAS NORMAIS -->
+    <!-- VENDAS -->
 
     <div class="caixa">
 
         <h2>✅ Vendas pagas na hora</h2>
 
-
         <div id="listaVendas">
 
             <div class="carregando">
-                ⏳ Carregando vendas...
+                ⏳ Carregando...
             </div>
 
         </div>
@@ -530,17 +580,16 @@
 
 
 
-    <!-- FIADO -->
+    <!-- FIADOS -->
 
     <div class="caixa">
 
-        <h2>👤 Histórico de compras fiadas</h2>
-
+        <h2>👤 Fiados lançados no dia</h2>
 
         <div id="listaFiados">
 
             <div class="carregando">
-                ⏳ Carregando contas...
+                ⏳ Carregando...
             </div>
 
         </div>
@@ -549,17 +598,16 @@
 
 
 
-    <!-- PAGAMENTOS CLIENTES -->
+    <!-- PAGAMENTOS -->
 
     <div class="caixa">
 
-        <h2>💵 Pagamentos recebidos de clientes</h2>
-
+        <h2>💵 Pagamentos de clientes recebidos no dia</h2>
 
         <div id="listaPagamentos">
 
             <div class="carregando">
-                ⏳ Carregando pagamentos...
+                ⏳ Carregando...
             </div>
 
         </div>
@@ -594,7 +642,7 @@ if (!usuarioLogado) {
 
 
 /* =====================================================
-   FORMATAR DINHEIRO
+   FORMATAR MOEDA
 ===================================================== */
 
 function formatarMoeda(
@@ -640,15 +688,129 @@ function escaparHTML(
 
 
 /* =====================================================
-   CARREGAR VENDAS
+   DATA DE HOJE
 ===================================================== */
 
-async function carregarVendas() {
+function obterDataHojeISO() {
+
+    var agora =
+        new Date();
+
+
+    var ano =
+        agora.getFullYear();
+
+
+    var mes =
+        String(
+            agora.getMonth() + 1
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    var dia =
+        String(
+            agora.getDate()
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    return (
+        ano +
+        "-" +
+        mes +
+        "-" +
+        dia
+    );
+
+}
+
+
+
+/* =====================================================
+   FORMATAR DATA PARA MOSTRAR
+===================================================== */
+
+function formatarDataBrasil(
+    dataISO
+) {
+
+    if (!dataISO) {
+
+        return "-";
+
+    }
+
+
+    var partes =
+        dataISO.split("-");
+
+
+    if (
+        partes.length !== 3
+    ) {
+
+        return dataISO;
+
+    }
+
+
+    return (
+
+        partes[2] +
+
+        "/" +
+
+        partes[1] +
+
+        "/" +
+
+        partes[0]
+
+    );
+
+}
+
+
+
+/* =====================================================
+   HOJE
+===================================================== */
+
+function irParaHoje() {
+
+    document.getElementById(
+        "dataCaixa"
+    ).value =
+        obterDataHojeISO();
+
+
+    carregarCaixa();
+
+}
+
+
+
+/* =====================================================
+   VENDAS DO DIA
+===================================================== */
+
+async function carregarVendasDia(
+    dataSelecionada
+) {
 
     var resultado =
         await window.supabaseClient
             .from("vendas")
             .select("*")
+            .eq(
+                "data_venda",
+                dataSelecionada
+            )
             .order(
                 "id",
                 {
@@ -673,15 +835,21 @@ async function carregarVendas() {
 
 
 /* =====================================================
-   CARREGAR FIADOS
+   FIADOS DO DIA
 ===================================================== */
 
-async function carregarFiados() {
+async function carregarFiadosDia(
+    dataSelecionada
+) {
 
     var resultado =
         await window.supabaseClient
             .from("contas_clientes")
             .select("*")
+            .eq(
+                "data_consumo_date",
+                dataSelecionada
+            )
             .order(
                 "id",
                 {
@@ -706,15 +874,21 @@ async function carregarFiados() {
 
 
 /* =====================================================
-   CARREGAR PAGAMENTOS
+   PAGAMENTOS DO DIA
 ===================================================== */
 
-async function carregarPagamentos() {
+async function carregarPagamentosDia(
+    dataSelecionada
+) {
 
     var resultado =
         await window.supabaseClient
             .from("pagamentos_clientes")
             .select("*")
+            .eq(
+                "data_pagamento_date",
+                dataSelecionada
+            )
             .order(
                 "id",
                 {
@@ -739,7 +913,63 @@ async function carregarPagamentos() {
 
 
 /* =====================================================
-   CARREGAR CLIENTES
+   TODOS OS FIADOS
+   PARA CALCULAR SALDO GERAL
+===================================================== */
+
+async function carregarTodosFiados() {
+
+    var resultado =
+        await window.supabaseClient
+            .from("contas_clientes")
+            .select("total");
+
+
+    if (
+        resultado.error
+    ) {
+
+        throw resultado.error;
+
+    }
+
+
+    return resultado.data || [];
+
+}
+
+
+
+/* =====================================================
+   TODOS PAGAMENTOS
+   PARA CALCULAR SALDO GERAL
+===================================================== */
+
+async function carregarTodosPagamentos() {
+
+    var resultado =
+        await window.supabaseClient
+            .from("pagamentos_clientes")
+            .select("valor");
+
+
+    if (
+        resultado.error
+    ) {
+
+        throw resultado.error;
+
+    }
+
+
+    return resultado.data || [];
+
+}
+
+
+
+/* =====================================================
+   CLIENTES
 ===================================================== */
 
 async function carregarClientes() {
@@ -766,7 +996,7 @@ async function carregarClientes() {
 
 
 /* =====================================================
-   NOME DO CLIENTE
+   NOME CLIENTE
 ===================================================== */
 
 function obterNomeCliente(
@@ -810,6 +1040,38 @@ function obterNomeCliente(
 async function carregarCaixa() {
 
 
+    var dataSelecionada =
+        document.getElementById(
+            "dataCaixa"
+        ).value;
+
+
+    if (
+        dataSelecionada === ""
+    ) {
+
+        alert(
+            "Escolha uma data."
+        );
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "dataExibida"
+    ).innerHTML =
+
+        "📅 Caixa do dia: <strong>" +
+
+        formatarDataBrasil(
+            dataSelecionada
+        ) +
+
+        "</strong>";
+
+
     var areaErro =
         document.getElementById(
             "areaErro"
@@ -823,34 +1085,19 @@ async function carregarCaixa() {
     document.getElementById(
         "listaVendas"
     ).innerHTML =
-
-        "<div class='carregando'>" +
-
-        "⏳ Carregando vendas..." +
-
-        "</div>";
+        "<div class='carregando'>⏳ Carregando...</div>";
 
 
     document.getElementById(
         "listaFiados"
     ).innerHTML =
-
-        "<div class='carregando'>" +
-
-        "⏳ Carregando contas..." +
-
-        "</div>";
+        "<div class='carregando'>⏳ Carregando...</div>";
 
 
     document.getElementById(
         "listaPagamentos"
     ).innerHTML =
-
-        "<div class='carregando'>" +
-
-        "⏳ Carregando pagamentos..." +
-
-        "</div>";
+        "<div class='carregando'>⏳ Carregando...</div>";
 
 
     try {
@@ -871,11 +1118,21 @@ async function carregarCaixa() {
         var resultados =
             await Promise.all([
 
-                carregarVendas(),
+                carregarVendasDia(
+                    dataSelecionada
+                ),
 
-                carregarFiados(),
+                carregarFiadosDia(
+                    dataSelecionada
+                ),
 
-                carregarPagamentos(),
+                carregarPagamentosDia(
+                    dataSelecionada
+                ),
+
+                carregarTodosFiados(),
+
+                carregarTodosPagamentos(),
 
                 carregarClientes()
 
@@ -887,21 +1144,29 @@ async function carregarCaixa() {
             resultados[0];
 
 
-        var fiados =
+        var fiadosDia =
             resultados[1];
 
 
-        var pagamentos =
+        var pagamentosDia =
             resultados[2];
 
 
-        var clientes =
+        var todosFiados =
             resultados[3];
+
+
+        var todosPagamentos =
+            resultados[4];
+
+
+        var clientes =
+            resultados[5];
 
 
 
         /* =============================================
-           VENDAS PAGAS
+           VENDAS PAGAS NA HORA
         ============================================= */
 
         var totalAVista =
@@ -992,34 +1257,34 @@ async function carregarCaixa() {
 
 
         /* =============================================
-           FIADO
+           FIADOS LANÇADOS NO DIA
         ============================================= */
 
-        var totalFiado =
+        var totalFiadoDia =
             0;
 
 
-        var custoFiado =
+        var custoFiadoDia =
             0;
 
 
         for (
             var i = 0;
-            i < fiados.length;
+            i < fiadosDia.length;
             i++
         ) {
 
-            totalFiado +=
+            totalFiadoDia +=
 
                 Number(
-                    fiados[i].total || 0
+                    fiadosDia[i].total || 0
                 );
 
 
-            custoFiado +=
+            custoFiadoDia +=
 
                 Number(
-                    fiados[i].custo || 0
+                    fiadosDia[i].custo || 0
                 );
 
         }
@@ -1027,21 +1292,21 @@ async function carregarCaixa() {
 
 
         /* =============================================
-           PAGAMENTOS DE CLIENTES
+           PAGAMENTOS RECEBIDOS NO DIA
         ============================================= */
 
-        var totalRecebidoFiado =
+        var totalRecebidoFiadoDia =
             0;
 
 
         for (
             var i = 0;
-            i < pagamentos.length;
+            i < pagamentosDia.length;
             i++
         ) {
 
             var pagamento =
-                pagamentos[i];
+                pagamentosDia[i];
 
 
             var valor =
@@ -1050,14 +1315,9 @@ async function carregarCaixa() {
                 );
 
 
-            totalRecebidoFiado +=
+            totalRecebidoFiadoDia +=
                 valor;
 
-
-            /*
-               SOMAR NA FORMA DE PAGAMENTO
-               DO CAIXA
-            */
 
             if (
                 pagamento.forma_pagamento ===
@@ -1096,14 +1356,52 @@ async function carregarCaixa() {
 
 
         /* =============================================
-           CALCULOS FINAIS
+           TOTAL GERAL A RECEBER
         ============================================= */
+
+        var totalFiadoGeral =
+            0;
+
+
+        for (
+            var i = 0;
+            i < todosFiados.length;
+            i++
+        ) {
+
+            totalFiadoGeral +=
+
+                Number(
+                    todosFiados[i].total || 0
+                );
+
+        }
+
+
+        var totalPagoGeral =
+            0;
+
+
+        for (
+            var i = 0;
+            i < todosPagamentos.length;
+            i++
+        ) {
+
+            totalPagoGeral +=
+
+                Number(
+                    todosPagamentos[i].valor || 0
+                );
+
+        }
+
 
         var totalAReceber =
 
-            totalFiado -
+            totalFiadoGeral -
 
-            totalRecebidoFiado;
+            totalPagoGeral;
 
 
         if (
@@ -1116,25 +1414,30 @@ async function carregarCaixa() {
         }
 
 
+
+        /* =============================================
+           CÁLCULOS DO DIA
+        ============================================= */
+
         var totalEntrou =
 
             totalAVista +
 
-            totalRecebidoFiado;
+            totalRecebidoFiadoDia;
 
 
         var totalFaturamento =
 
             totalAVista +
 
-            totalFiado;
+            totalFiadoDia;
 
 
         var totalCustos =
 
             custoAVista +
 
-            custoFiado;
+            custoFiadoDia;
 
 
         var totalLucro =
@@ -1146,7 +1449,7 @@ async function carregarCaixa() {
 
 
         /* =============================================
-           MOSTRAR TOTAIS
+           MOSTRAR
         ============================================= */
 
         document.getElementById(
@@ -1185,7 +1488,7 @@ async function carregarCaixa() {
             "totalFiado"
         ).innerText =
             formatarMoeda(
-                totalFiado
+                totalFiadoDia
             );
 
 
@@ -1193,7 +1496,7 @@ async function carregarCaixa() {
             "totalRecebidoFiado"
         ).innerText =
             formatarMoeda(
-                totalRecebidoFiado
+                totalRecebidoFiadoDia
             );
 
 
@@ -1238,23 +1541,19 @@ async function carregarCaixa() {
 
 
 
-        /* =============================================
-           LISTAS
-        ============================================= */
-
         mostrarVendas(
             vendas
         );
 
 
         mostrarFiados(
-            fiados,
+            fiadosDia,
             clientes
         );
 
 
         mostrarPagamentos(
-            pagamentos,
+            pagamentosDia,
             clientes
         );
 
@@ -1281,11 +1580,8 @@ async function carregarCaixa() {
             "Erro: " +
 
             escaparHTML(
-
                 erro.message ||
-
                 "Erro desconhecido."
-
             ) +
 
             "</div>";
@@ -1326,7 +1622,7 @@ function mostrarVendas(
 
             "<div class='mensagem'>" +
 
-            "Nenhuma venda paga registrada." +
+            "Nenhuma venda paga nesta data." +
 
             "</div>";
 
@@ -1425,7 +1721,7 @@ function mostrarVendas(
 
 
 /* =====================================================
-   MOSTRAR FIADO
+   MOSTRAR FIADOS
 ===================================================== */
 
 function mostrarFiados(
@@ -1451,7 +1747,7 @@ function mostrarFiados(
 
             "<div class='mensagem'>" +
 
-            "Nenhuma compra fiada registrada." +
+            "Nenhum fiado lançado nesta data." +
 
             "</div>";
 
@@ -1498,14 +1794,6 @@ function mostrarFiados(
 
             "</p>" +
 
-            "<p>📅 Data do consumo: " +
-
-            escaparHTML(
-                conta.data_consumo || "-"
-            ) +
-
-            "</p>" +
-
             "<p>🍽️ Mesa: " +
 
             escaparHTML(
@@ -1522,7 +1810,7 @@ function mostrarFiados(
 
             "</p>" +
 
-            "<p>🟠 Valor lançado no fiado: <strong>" +
+            "<p>🟠 Fiado: <strong>" +
 
             formatarMoeda(
                 conta.total
@@ -1565,7 +1853,7 @@ function mostrarPagamentos(
 
             "<div class='mensagem'>" +
 
-            "Nenhum pagamento de cliente registrado." +
+            "Nenhum pagamento de cliente nesta data." +
 
             "</div>";
 
@@ -1605,14 +1893,6 @@ function mostrarPagamentos(
             ) +
 
             "</strong>" +
-
-            "<p>📅 Data: " +
-
-            escaparHTML(
-                pagamento.data_pagamento || "-"
-            ) +
-
-            "</p>" +
 
             "<p>💳 Forma: " +
 
@@ -1678,6 +1958,12 @@ function voltarMenu() {
 
 window.onload =
     async function() {
+
+        document.getElementById(
+            "dataCaixa"
+        ).value =
+            obterDataHojeISO();
+
 
         await carregarCaixa();
 
