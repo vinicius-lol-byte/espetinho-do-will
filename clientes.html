@@ -1,0 +1,1520 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Clientes - Espetinho do Will</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            color: #222;
+        }
+
+        header {
+            background: #222;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        header p {
+            margin-bottom: 0;
+            color: #ddd;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            padding: 25px;
+        }
+
+        .caixa {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        button {
+            padding: 12px 18px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 5px;
+            margin-right: 5px;
+        }
+
+        .salvar {
+            background: #198754;
+            color: white;
+        }
+
+        .editar {
+            background: #0d6efd;
+            color: white;
+        }
+
+        .excluir {
+            background: #dc3545;
+            color: white;
+        }
+
+        .conta {
+            background: #6f42c1;
+            color: white;
+        }
+
+        .receber {
+            background: #198754;
+            color: white;
+        }
+
+        .voltar {
+            background: #222;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .cliente {
+            background: white;
+            padding: 18px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 6px solid #0d6efd;
+            box-shadow: 0 2px 7px rgba(0,0,0,0.08);
+        }
+
+        .cliente h3 {
+            margin-top: 0;
+        }
+
+        .pendente {
+            background: #fff3cd;
+            border-left: 6px solid #ffc107;
+        }
+
+        .pago {
+            background: #d1e7dd;
+            border-left: 6px solid #198754;
+        }
+
+        .consumo {
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+        }
+
+        .total-pendente {
+            background: #dc3545;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .mensagem {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        .erro {
+            background: #f8d7da;
+            color: #842029;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .sucesso {
+            background: #d1e7dd;
+            color: #0f5132;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        #areaContaCliente {
+            display: none;
+        }
+
+        @media (max-width: 700px) {
+
+            .container {
+                padding: 15px;
+            }
+
+            button {
+                width: 100%;
+                margin-right: 0;
+            }
+
+        }
+
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase.js"></script>
+
+</head>
+
+<body>
+
+
+<header>
+
+    <h1>🥩 Espetinho do Will</h1>
+
+    <p>👥 Clientes e Contas</p>
+
+</header>
+
+
+<div class="container">
+
+
+    <button
+        class="voltar"
+        onclick="voltarMenu()"
+    >
+        🏠 Voltar ao menu
+    </button>
+
+
+    <div
+        id="mensagem"
+        style="display:none;"
+    >
+    </div>
+
+
+    <!-- CADASTRO -->
+
+    <div class="caixa">
+
+        <h2 id="tituloFormulario">
+            ➕ Cadastrar cliente
+        </h2>
+
+
+        <label>Nome:</label>
+
+        <input
+            type="text"
+            id="nome"
+            placeholder="Nome do cliente"
+        >
+
+
+        <label>Telefone:</label>
+
+        <input
+            type="text"
+            id="telefone"
+            placeholder="Telefone"
+        >
+
+
+        <label>Observação:</label>
+
+        <textarea
+            id="observacao"
+            placeholder="Ex.: Cliente antigo, paga todo sábado..."
+        ></textarea>
+
+
+        <button
+            class="salvar"
+            id="botaoSalvar"
+            onclick="salvarCliente()"
+        >
+            💾 Salvar cliente
+        </button>
+
+    </div>
+
+
+
+    <!-- BUSCA -->
+
+    <div class="caixa">
+
+        <h2>🔎 Buscar cliente</h2>
+
+        <input
+            type="text"
+            id="busca"
+            placeholder="Digite o nome do cliente"
+            oninput="filtrarClientes()"
+        >
+
+    </div>
+
+
+
+    <!-- LISTA -->
+
+    <h2>👥 Clientes cadastrados</h2>
+
+    <div id="listaClientes">
+
+        <div class="mensagem">
+            ⏳ Carregando clientes...
+        </div>
+
+    </div>
+
+
+
+    <!-- CONTA DO CLIENTE -->
+
+    <div id="areaContaCliente">
+
+        <div class="caixa">
+
+            <h2 id="tituloConta">
+                Conta do cliente
+            </h2>
+
+            <button
+                class="voltar"
+                onclick="fecharContaCliente()"
+            >
+                ⬅️ Voltar aos clientes
+            </button>
+
+        </div>
+
+
+        <div
+            id="totalPendente"
+            class="total-pendente"
+        >
+            Total pendente: R$ 0,00
+        </div>
+
+
+        <div class="caixa">
+
+            <h2>📋 Consumos</h2>
+
+            <div id="listaConsumos">
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+var usuarioLogado =
+    localStorage.getItem(
+        "usuarioLogado"
+    );
+
+
+if (!usuarioLogado) {
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+/* =====================================================
+   VARIÁVEIS
+===================================================== */
+
+var clientesCarregados = [];
+
+var idEditando = null;
+
+var clienteAberto = null;
+
+
+/* =====================================================
+   VOLTAR
+===================================================== */
+
+function voltarMenu() {
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+/* =====================================================
+   FORMATAR MOEDA
+===================================================== */
+
+function formatarMoeda(valor) {
+
+    return Number(
+        valor || 0
+    ).toLocaleString(
+        "pt-BR",
+        {
+            style: "currency",
+            currency: "BRL"
+        }
+    );
+
+}
+
+
+/* =====================================================
+   MENSAGEM
+===================================================== */
+
+function mostrarMensagem(
+    texto,
+    tipo
+) {
+
+    var area =
+        document.getElementById(
+            "mensagem"
+        );
+
+
+    area.className =
+        tipo;
+
+
+    area.innerText =
+        texto;
+
+
+    area.style.display =
+        "block";
+
+
+    setTimeout(
+        function() {
+
+            area.style.display =
+                "none";
+
+        },
+        3000
+    );
+
+}
+
+
+/* =====================================================
+   CARREGAR CLIENTES
+===================================================== */
+
+async function carregarClientes() {
+
+    try {
+
+        var resultado =
+            await window.supabaseClient
+                .from("clientes")
+                .select("*")
+                .order(
+                    "nome",
+                    {
+                        ascending: true
+                    }
+                );
+
+
+        if (resultado.error) {
+
+            throw resultado.error;
+
+        }
+
+
+        clientesCarregados =
+            resultado.data || [];
+
+
+        mostrarClientes(
+            clientesCarregados
+        );
+
+    }
+
+    catch (erro) {
+
+        console.error(
+            erro
+        );
+
+
+        document.getElementById(
+            "listaClientes"
+        ).innerHTML =
+
+            "<div class='erro'>" +
+
+            "❌ Erro ao carregar clientes.<br><br>" +
+
+            (
+                erro.message ||
+                "Erro desconhecido."
+            ) +
+
+            "</div>";
+
+    }
+
+}
+
+
+/* =====================================================
+   MOSTRAR CLIENTES
+===================================================== */
+
+function mostrarClientes(
+    clientes
+) {
+
+    var lista =
+        document.getElementById(
+            "listaClientes"
+        );
+
+
+    lista.innerHTML = "";
+
+
+    if (
+        clientes.length === 0
+    ) {
+
+        lista.innerHTML =
+
+            "<div class='mensagem'>" +
+
+            "Nenhum cliente cadastrado." +
+
+            "</div>";
+
+        return;
+
+    }
+
+
+    for (
+        var i = 0;
+        i < clientes.length;
+        i++
+    ) {
+
+        var cliente =
+            clientes[i];
+
+
+        lista.innerHTML +=
+
+            "<div class='cliente'>" +
+
+            "<h3>👤 " +
+            escaparHTML(
+                cliente.nome
+            ) +
+            "</h3>" +
+
+            "<p><strong>Telefone:</strong> " +
+            escaparHTML(
+                cliente.telefone || "-"
+            ) +
+            "</p>" +
+
+            "<p><strong>Observação:</strong> " +
+            escaparHTML(
+                cliente.observacao || "-"
+            ) +
+            "</p>" +
+
+            "<button " +
+            "class='conta' " +
+            "onclick='abrirContaCliente(" +
+            cliente.id +
+            ")'>" +
+            "💳 Ver conta" +
+            "</button>" +
+
+            "<button " +
+            "class='editar' " +
+            "onclick='editarCliente(" +
+            cliente.id +
+            ")'>" +
+            "✏️ Editar" +
+            "</button>" +
+
+            "<button " +
+            "class='excluir' " +
+            "onclick='excluirCliente(" +
+            cliente.id +
+            ")'>" +
+            "🗑️ Excluir" +
+            "</button>" +
+
+            "</div>";
+
+    }
+
+}
+
+
+/* =====================================================
+   FILTRAR CLIENTES
+===================================================== */
+
+function filtrarClientes() {
+
+    var texto =
+        document.getElementById(
+            "busca"
+        ).value
+        .toLowerCase()
+        .trim();
+
+
+    if (texto === "") {
+
+        mostrarClientes(
+            clientesCarregados
+        );
+
+        return;
+
+    }
+
+
+    var filtrados =
+        [];
+
+
+    for (
+        var i = 0;
+        i < clientesCarregados.length;
+        i++
+    ) {
+
+        var nome =
+            String(
+                clientesCarregados[i].nome || ""
+            ).toLowerCase();
+
+
+        if (
+            nome.indexOf(
+                texto
+            ) !== -1
+        ) {
+
+            filtrados.push(
+                clientesCarregados[i]
+            );
+
+        }
+
+    }
+
+
+    mostrarClientes(
+        filtrados
+    );
+
+}
+
+
+/* =====================================================
+   SALVAR CLIENTE
+===================================================== */
+
+async function salvarCliente() {
+
+    var nome =
+        document.getElementById(
+            "nome"
+        ).value.trim();
+
+
+    var telefone =
+        document.getElementById(
+            "telefone"
+        ).value.trim();
+
+
+    var observacao =
+        document.getElementById(
+            "observacao"
+        ).value.trim();
+
+
+    if (nome === "") {
+
+        alert(
+            "Digite o nome do cliente."
+        );
+
+        return;
+
+    }
+
+
+    try {
+
+
+        if (
+            idEditando === null
+        ) {
+
+            var resultado =
+                await window.supabaseClient
+                    .from("clientes")
+                    .insert({
+
+                        nome:
+                            nome,
+
+                        telefone:
+                            telefone || null,
+
+                        observacao:
+                            observacao || null
+
+                    });
+
+
+            if (resultado.error) {
+
+                throw resultado.error;
+
+            }
+
+
+            mostrarMensagem(
+                "✅ Cliente cadastrado com sucesso!",
+                "sucesso"
+            );
+
+        }
+
+        else {
+
+            var resultado =
+                await window.supabaseClient
+                    .from("clientes")
+                    .update({
+
+                        nome:
+                            nome,
+
+                        telefone:
+                            telefone || null,
+
+                        observacao:
+                            observacao || null
+
+                    })
+                    .eq(
+                        "id",
+                        idEditando
+                    );
+
+
+            if (resultado.error) {
+
+                throw resultado.error;
+
+            }
+
+
+            mostrarMensagem(
+                "✅ Cliente atualizado!",
+                "sucesso"
+            );
+
+        }
+
+
+        limparFormulario();
+
+
+        await carregarClientes();
+
+    }
+
+    catch (erro) {
+
+        console.error(
+            erro
+        );
+
+
+        alert(
+
+            "Não foi possível salvar o cliente.\n\n" +
+
+            (
+                erro.message ||
+                "Erro desconhecido."
+            )
+
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   EDITAR CLIENTE
+===================================================== */
+
+function editarCliente(
+    id
+) {
+
+    var cliente =
+        null;
+
+
+    for (
+        var i = 0;
+        i < clientesCarregados.length;
+        i++
+    ) {
+
+        if (
+            Number(
+                clientesCarregados[i].id
+            )
+            ===
+            Number(id)
+        ) {
+
+            cliente =
+                clientesCarregados[i];
+
+            break;
+
+        }
+
+    }
+
+
+    if (!cliente) {
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "nome"
+    ).value =
+        cliente.nome || "";
+
+
+    document.getElementById(
+        "telefone"
+    ).value =
+        cliente.telefone || "";
+
+
+    document.getElementById(
+        "observacao"
+    ).value =
+        cliente.observacao || "";
+
+
+    idEditando =
+        id;
+
+
+    document.getElementById(
+        "tituloFormulario"
+    ).innerText =
+        "✏️ Editar cliente";
+
+
+    document.getElementById(
+        "botaoSalvar"
+    ).innerText =
+        "💾 Atualizar cliente";
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+/* =====================================================
+   EXCLUIR CLIENTE
+===================================================== */
+
+async function excluirCliente(
+    id
+) {
+
+    var cliente =
+        null;
+
+
+    for (
+        var i = 0;
+        i < clientesCarregados.length;
+        i++
+    ) {
+
+        if (
+            Number(
+                clientesCarregados[i].id
+            )
+            ===
+            Number(id)
+        ) {
+
+            cliente =
+                clientesCarregados[i];
+
+            break;
+
+        }
+
+    }
+
+
+    if (!cliente) {
+
+        return;
+
+    }
+
+
+    var confirmar =
+        confirm(
+
+            "Deseja excluir o cliente:\n\n" +
+
+            cliente.nome +
+
+            "?"
+
+        );
+
+
+    if (!confirmar) {
+
+        return;
+
+    }
+
+
+    try {
+
+        var resultado =
+            await window.supabaseClient
+                .from("clientes")
+                .delete()
+                .eq(
+                    "id",
+                    id
+                );
+
+
+        if (resultado.error) {
+
+            throw resultado.error;
+
+        }
+
+
+        mostrarMensagem(
+            "🗑️ Cliente excluído.",
+            "sucesso"
+        );
+
+
+        await carregarClientes();
+
+    }
+
+    catch (erro) {
+
+        console.error(
+            erro
+        );
+
+
+        alert(
+
+            "Não foi possível excluir o cliente.\n\n" +
+
+            "Se ele possuir contas registradas, " +
+
+            "o sistema pode impedir a exclusão."
+
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   LIMPAR FORMULÁRIO
+===================================================== */
+
+function limparFormulario() {
+
+    document.getElementById(
+        "nome"
+    ).value = "";
+
+
+    document.getElementById(
+        "telefone"
+    ).value = "";
+
+
+    document.getElementById(
+        "observacao"
+    ).value = "";
+
+
+    idEditando =
+        null;
+
+
+    document.getElementById(
+        "tituloFormulario"
+    ).innerText =
+        "➕ Cadastrar cliente";
+
+
+    document.getElementById(
+        "botaoSalvar"
+    ).innerText =
+        "💾 Salvar cliente";
+
+}
+
+
+/* =====================================================
+   ABRIR CONTA
+===================================================== */
+
+async function abrirContaCliente(
+    id
+) {
+
+    var cliente =
+        null;
+
+
+    for (
+        var i = 0;
+        i < clientesCarregados.length;
+        i++
+    ) {
+
+        if (
+            Number(
+                clientesCarregados[i].id
+            )
+            ===
+            Number(id)
+        ) {
+
+            cliente =
+                clientesCarregados[i];
+
+            break;
+
+        }
+
+    }
+
+
+    if (!cliente) {
+
+        return;
+
+    }
+
+
+    clienteAberto =
+        cliente;
+
+
+    document.getElementById(
+        "tituloConta"
+    ).innerText =
+
+        "💳 Conta de " +
+
+        cliente.nome;
+
+
+    document.getElementById(
+        "areaContaCliente"
+    ).style.display =
+        "block";
+
+
+    await carregarContaCliente(
+        id
+    );
+
+
+    document.getElementById(
+        "areaContaCliente"
+    ).scrollIntoView({
+        behavior: "smooth"
+    });
+
+}
+
+
+/* =====================================================
+   CARREGAR CONTA
+===================================================== */
+
+async function carregarContaCliente(
+    clienteId
+) {
+
+    var area =
+        document.getElementById(
+            "listaConsumos"
+        );
+
+
+    area.innerHTML =
+        "⏳ Carregando...";
+
+
+    try {
+
+        var resultado =
+            await window.supabaseClient
+                .from("contas_clientes")
+                .select("*")
+                .eq(
+                    "cliente_id",
+                    clienteId
+                )
+                .order(
+                    "id",
+                    {
+                        ascending: false
+                    }
+                );
+
+
+        if (resultado.error) {
+
+            throw resultado.error;
+
+        }
+
+
+        var contas =
+            resultado.data || [];
+
+
+        var totalPendente =
+            0;
+
+
+        area.innerHTML =
+            "";
+
+
+        if (
+            contas.length === 0
+        ) {
+
+            area.innerHTML =
+                "<p>Nenhum consumo registrado.</p>";
+
+        }
+
+
+        for (
+            var i = 0;
+            i < contas.length;
+            i++
+        ) {
+
+            var conta =
+                contas[i];
+
+
+            var status =
+                conta.status ||
+                "Pendente";
+
+
+            if (
+                status === "Pendente"
+            ) {
+
+                totalPendente +=
+
+                    Number(
+                        conta.total || 0
+                    );
+
+            }
+
+
+            var classe =
+                status === "Pago"
+                    ? "pago"
+                    : "pendente";
+
+
+            var html =
+
+                "<div class='consumo " +
+                classe +
+                "'>" +
+
+                "<h3>" +
+
+                (
+                    status === "Pago"
+                    ? "✅ Pago"
+                    : "⏳ Pendente"
+                ) +
+
+                "</h3>" +
+
+                "<p><strong>Data:</strong> " +
+                escaparHTML(
+                    conta.data_consumo || "-"
+                ) +
+                "</p>" +
+
+                "<p><strong>Mesa:</strong> " +
+                escaparHTML(
+                    conta.mesa || "-"
+                ) +
+                "</p>" +
+
+                "<p><strong>Total:</strong> " +
+                formatarMoeda(
+                    conta.total
+                ) +
+                "</p>";
+
+
+            if (
+                status === "Pendente"
+            ) {
+
+                html +=
+
+                    "<button " +
+                    "class='receber' " +
+                    "onclick='receberConta(" +
+                    conta.id +
+                    ")'>" +
+
+                    "💰 Receber pagamento" +
+
+                    "</button>";
+
+            }
+
+
+            html +=
+                "</div>";
+
+
+            area.innerHTML +=
+                html;
+
+        }
+
+
+        document.getElementById(
+            "totalPendente"
+        ).innerText =
+
+            "Total pendente: " +
+
+            formatarMoeda(
+                totalPendente
+            );
+
+    }
+
+    catch (erro) {
+
+        console.error(
+            erro
+        );
+
+
+        area.innerHTML =
+
+            "<div class='erro'>" +
+
+            "Erro ao carregar a conta." +
+
+            "</div>";
+
+    }
+
+}
+
+
+/* =====================================================
+   RECEBER CONTA
+===================================================== */
+
+async function receberConta(
+    contaId
+) {
+
+    var forma =
+        prompt(
+
+            "Digite a forma de pagamento:\n\n" +
+
+            "Dinheiro\nCartão\nPIX"
+
+        );
+
+
+    if (!forma) {
+
+        return;
+
+    }
+
+
+    forma =
+        forma.trim();
+
+
+    if (
+        forma !== "Dinheiro"
+        &&
+        forma !== "Cartão"
+        &&
+        forma !== "PIX"
+    ) {
+
+        alert(
+            "Forma de pagamento inválida."
+        );
+
+        return;
+
+    }
+
+
+    try {
+
+        var agora =
+            new Date();
+
+
+        var dataPagamento =
+
+            String(
+                agora.getDate()
+            ).padStart(
+                2,
+                "0"
+            )
+
+            +
+
+            "/"
+
+            +
+
+            String(
+                agora.getMonth() + 1
+            ).padStart(
+                2,
+                "0"
+            )
+
+            +
+
+            "/"
+
+            +
+
+            agora.getFullYear();
+
+
+        var resultado =
+            await window.supabaseClient
+                .from("contas_clientes")
+                .update({
+
+                    status:
+                        "Pago",
+
+                    forma_pagamento:
+                        forma,
+
+                    data_pagamento:
+                        dataPagamento
+
+                })
+                .eq(
+                    "id",
+                    contaId
+                );
+
+
+        if (resultado.error) {
+
+            throw resultado.error;
+
+        }
+
+
+        alert(
+            "Pagamento registrado com sucesso!"
+        );
+
+
+        await carregarContaCliente(
+            clienteAberto.id
+        );
+
+    }
+
+    catch (erro) {
+
+        console.error(
+            erro
+        );
+
+
+        alert(
+            "Não foi possível registrar o pagamento."
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   FECHAR CONTA
+===================================================== */
+
+function fecharContaCliente() {
+
+    clienteAberto =
+        null;
+
+
+    document.getElementById(
+        "areaContaCliente"
+    ).style.display =
+        "none";
+
+}
+
+
+/* =====================================================
+   SEGURANÇA DO HTML
+===================================================== */
+
+function escaparHTML(
+    texto
+) {
+
+    return String(
+        texto || ""
+    )
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+/* =====================================================
+   INICIAR
+===================================================== */
+
+window.onload =
+    async function() {
+
+        await carregarClientes();
+
+    };
+
+
+</script>
+
+
+</body>
+
+</html>
