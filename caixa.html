@@ -35,12 +35,12 @@
         }
 
         header p {
-            margin-bottom: 0;
+            margin: 8px 0 0;
             color: #ddd;
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1100px;
             margin: auto;
             padding: 25px;
         }
@@ -55,8 +55,9 @@
 
         .resumo {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 15px;
+            margin-bottom: 20px;
         }
 
         .card {
@@ -73,7 +74,7 @@
         }
 
         .valor {
-            font-size: 25px;
+            font-size: 24px;
             font-weight: bold;
             margin-top: 10px;
         }
@@ -90,45 +91,75 @@
             border-top: 5px solid #6f42c1;
         }
 
-        .vendas {
-            border-top: 5px solid #ffc107;
-        }
-
-        .custo {
-            border-top: 5px solid #dc3545;
-        }
-
-        .lucro {
+        .avista {
             border-top: 5px solid #20c997;
         }
 
-        .total {
+        .fiado {
+            border-top: 5px solid #fd7e14;
+        }
+
+        .recebido-fiado {
+            border-top: 5px solid #198754;
+        }
+
+        .receber {
+            border-top: 5px solid #dc3545;
+        }
+
+        .custo {
+            border-top: 5px solid #6c757d;
+        }
+
+        .lucro {
+            border-top: 5px solid #ffc107;
+        }
+
+        .entrada-total {
             background: #198754;
             color: white;
             padding: 25px;
             border-radius: 10px;
             text-align: center;
-            margin-top: 20px;
+            margin-bottom: 20px;
         }
 
-        .total h2 {
+        .entrada-total h2 {
             margin: 0;
         }
 
-        .total .valor {
-            font-size: 32px;
+        .entrada-total .valor {
+            font-size: 34px;
+        }
+
+        .faturamento {
+            background: #0d6efd;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .venda-item,
+        .fiado-item,
+        .pagamento-item {
+            background: #f8f8f8;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 8px;
         }
 
         .venda-item {
-            background: #f8f8f8;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 8px;
             border-left: 5px solid #198754;
         }
 
-        .venda-item strong {
-            font-size: 18px;
+        .fiado-item {
+            border-left: 5px solid #fd7e14;
+        }
+
+        .pagamento-item {
+            border-left: 5px solid #6f42c1;
         }
 
         .botao {
@@ -152,6 +183,11 @@
             color: white;
         }
 
+        .clientes {
+            background: #fd7e14;
+            color: white;
+        }
+
         .mensagem {
             text-align: center;
             color: #666;
@@ -172,7 +208,24 @@
             color: #555;
         }
 
-        @media (max-width: 700px) {
+        .aviso {
+            background: #fff3cd;
+            border: 1px solid #ffe69c;
+            color: #664d03;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 850px) {
+
+            .resumo {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 600px) {
 
             .resumo {
                 grid-template-columns: 1fr;
@@ -192,12 +245,9 @@
     </style>
 
 
-    <!-- SUPABASE -->
-
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script src="supabase.js"></script>
-
 
 </head>
 
@@ -209,7 +259,7 @@
 
     <h1>🥩 Espetinho do Will</h1>
 
-    <p>💰 Caixa</p>
+    <p>💰 Caixa e Contas a Receber</p>
 
 </header>
 
@@ -221,10 +271,11 @@
 
     <div class="caixa">
 
-        <h2>💰 Caixa</h2>
+        <h2>💰 Visão geral do caixa</h2>
 
         <p>
-            Dados carregados diretamente do banco online.
+            Vendas pagas, fiado, pagamentos de clientes
+            e valores ainda a receber.
         </p>
 
 
@@ -233,6 +284,14 @@
             onclick="carregarCaixa()"
         >
             🔄 Atualizar caixa
+        </button>
+
+
+        <button
+            class="botao clientes"
+            onclick="abrirClientes()"
+        >
+            👥 Clientes / Contas
         </button>
 
 
@@ -246,8 +305,15 @@
     </div>
 
 
+    <div class="aviso">
 
-    <!-- ERRO -->
+        ℹ️ Por enquanto os valores abaixo são
+        <strong>acumulados do banco</strong>.
+        Depois vamos adicionar data às vendas para
+        separar Caixa de hoje, ontem e outros períodos.
+
+    </div>
+
 
     <div
         id="areaErro"
@@ -257,7 +323,10 @@
 
 
 
-    <!-- RESUMO -->
+    <!-- FORMAS DE PAGAMENTO -->
+
+    <h2>💳 Dinheiro realmente recebido</h2>
+
 
     <div class="resumo">
 
@@ -276,7 +345,6 @@
         </div>
 
 
-
         <div class="card cartao">
 
             <h3>💳 Cartão</h3>
@@ -289,7 +357,6 @@
             </div>
 
         </div>
-
 
 
         <div class="card pix">
@@ -306,25 +373,77 @@
         </div>
 
 
+    </div>
 
-        <div class="card vendas">
 
-            <h3>🍽️ Mesas fechadas</h3>
+
+    <!-- SITUAÇÃO -->
+
+    <h2>📊 Situação das vendas</h2>
+
+
+    <div class="resumo">
+
+
+        <div class="card avista">
+
+            <h3>✅ Vendas pagas na hora</h3>
 
             <div
-                id="quantidadeMesas"
+                id="totalAVista"
                 class="valor"
             >
-                0
+                R$ 0,00
             </div>
 
         </div>
 
 
+        <div class="card fiado">
+
+            <h3>👤 Fiado lançado</h3>
+
+            <div
+                id="totalFiado"
+                class="valor"
+            >
+                R$ 0,00
+            </div>
+
+        </div>
+
+
+        <div class="card recebido-fiado">
+
+            <h3>💰 Recebido de fiado</h3>
+
+            <div
+                id="totalRecebidoFiado"
+                class="valor"
+            >
+                R$ 0,00
+            </div>
+
+        </div>
+
+
+        <div class="card receber">
+
+            <h3>📒 Contas a receber</h3>
+
+            <div
+                id="totalAReceber"
+                class="valor"
+            >
+                R$ 0,00
+            </div>
+
+        </div>
+
 
         <div class="card custo">
 
-            <h3>📦 Custo das vendas</h3>
+            <h3>📦 Custo das mercadorias</h3>
 
             <div
                 id="totalCustos"
@@ -336,10 +455,9 @@
         </div>
 
 
-
         <div class="card lucro">
 
-            <h3>📈 Lucro</h3>
+            <h3>📈 Lucro sobre consumo</h3>
 
             <div
                 id="totalLucro"
@@ -355,14 +473,14 @@
 
 
 
-    <!-- TOTAL -->
+    <!-- ENTRADA REAL -->
 
-    <div class="total">
+    <div class="entrada-total">
 
-        <h2>💰 Total vendido</h2>
+        <h2>💰 Dinheiro que realmente entrou</h2>
 
         <div
-            id="totalVendas"
+            id="totalEntrou"
             class="valor"
         >
             R$ 0,00
@@ -372,17 +490,76 @@
 
 
 
-    <!-- VENDAS -->
+    <!-- FATURAMENTO -->
+
+    <div class="faturamento">
+
+        <h2>🧾 Total consumido / vendido</h2>
+
+        <div
+            id="totalFaturamento"
+            class="valor"
+        >
+            R$ 0,00
+        </div>
+
+        <p>
+            Inclui vendas pagas + compras fiadas.
+        </p>
+
+    </div>
+
+
+
+    <!-- VENDAS NORMAIS -->
 
     <div class="caixa">
 
-        <h2>📋 Vendas realizadas</h2>
+        <h2>✅ Vendas pagas na hora</h2>
 
 
         <div id="listaVendas">
 
             <div class="carregando">
                 ⏳ Carregando vendas...
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- FIADO -->
+
+    <div class="caixa">
+
+        <h2>👤 Histórico de compras fiadas</h2>
+
+
+        <div id="listaFiados">
+
+            <div class="carregando">
+                ⏳ Carregando contas...
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- PAGAMENTOS CLIENTES -->
+
+    <div class="caixa">
+
+        <h2>💵 Pagamentos recebidos de clientes</h2>
+
+
+        <div id="listaPagamentos">
+
+            <div class="carregando">
+                ⏳ Carregando pagamentos...
             </div>
 
         </div>
@@ -398,7 +575,7 @@
 
 
 /* =====================================================
-   PROTEÇÃO DE LOGIN
+   LOGIN
 ===================================================== */
 
 var usuarioLogado =
@@ -442,21 +619,31 @@ function formatarMoeda(
 
 
 /* =====================================================
-   CARREGAR VENDAS DO SUPABASE
+   ESCAPAR HTML
+===================================================== */
+
+function escaparHTML(
+    texto
+) {
+
+    return String(
+        texto || ""
+    )
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+
+/* =====================================================
+   CARREGAR VENDAS
 ===================================================== */
 
 async function carregarVendas() {
-
-    if (
-        !window.supabaseClient
-    ) {
-
-        throw new Error(
-            "Conexão com Supabase não encontrada."
-        );
-
-    }
-
 
     var resultado =
         await window.supabaseClient
@@ -486,16 +673,141 @@ async function carregarVendas() {
 
 
 /* =====================================================
+   CARREGAR FIADOS
+===================================================== */
+
+async function carregarFiados() {
+
+    var resultado =
+        await window.supabaseClient
+            .from("contas_clientes")
+            .select("*")
+            .order(
+                "id",
+                {
+                    ascending: false
+                }
+            );
+
+
+    if (
+        resultado.error
+    ) {
+
+        throw resultado.error;
+
+    }
+
+
+    return resultado.data || [];
+
+}
+
+
+
+/* =====================================================
+   CARREGAR PAGAMENTOS
+===================================================== */
+
+async function carregarPagamentos() {
+
+    var resultado =
+        await window.supabaseClient
+            .from("pagamentos_clientes")
+            .select("*")
+            .order(
+                "id",
+                {
+                    ascending: false
+                }
+            );
+
+
+    if (
+        resultado.error
+    ) {
+
+        throw resultado.error;
+
+    }
+
+
+    return resultado.data || [];
+
+}
+
+
+
+/* =====================================================
+   CARREGAR CLIENTES
+===================================================== */
+
+async function carregarClientes() {
+
+    var resultado =
+        await window.supabaseClient
+            .from("clientes")
+            .select("id,nome");
+
+
+    if (
+        resultado.error
+    ) {
+
+        throw resultado.error;
+
+    }
+
+
+    return resultado.data || [];
+
+}
+
+
+
+/* =====================================================
+   NOME DO CLIENTE
+===================================================== */
+
+function obterNomeCliente(
+    clienteId,
+    clientes
+) {
+
+    for (
+        var i = 0;
+        i < clientes.length;
+        i++
+    ) {
+
+        if (
+            Number(
+                clientes[i].id
+            )
+            ===
+            Number(
+                clienteId
+            )
+        ) {
+
+            return clientes[i].nome;
+
+        }
+
+    }
+
+
+    return "Cliente não encontrado";
+
+}
+
+
+
+/* =====================================================
    CARREGAR CAIXA
 ===================================================== */
 
 async function carregarCaixa() {
-
-
-    var lista =
-        document.getElementById(
-            "listaVendas"
-        );
 
 
     var areaErro =
@@ -508,7 +820,9 @@ async function carregarCaixa() {
         "none";
 
 
-    lista.innerHTML =
+    document.getElementById(
+        "listaVendas"
+    ).innerHTML =
 
         "<div class='carregando'>" +
 
@@ -517,18 +831,84 @@ async function carregarCaixa() {
         "</div>";
 
 
+    document.getElementById(
+        "listaFiados"
+    ).innerHTML =
+
+        "<div class='carregando'>" +
+
+        "⏳ Carregando contas..." +
+
+        "</div>";
+
+
+    document.getElementById(
+        "listaPagamentos"
+    ).innerHTML =
+
+        "<div class='carregando'>" +
+
+        "⏳ Carregando pagamentos..." +
+
+        "</div>";
+
+
     try {
 
 
+        if (
+            !window.supabaseClient
+        ) {
+
+            throw new Error(
+                "Conexão com Supabase não encontrada."
+            );
+
+        }
+
+
+
+        var resultados =
+            await Promise.all([
+
+                carregarVendas(),
+
+                carregarFiados(),
+
+                carregarPagamentos(),
+
+                carregarClientes()
+
+            ]);
+
+
+
         var vendas =
-            await carregarVendas();
+            resultados[0];
 
 
-        var totalVendas =
+        var fiados =
+            resultados[1];
+
+
+        var pagamentos =
+            resultados[2];
+
+
+        var clientes =
+            resultados[3];
+
+
+
+        /* =============================================
+           VENDAS PAGAS
+        ============================================= */
+
+        var totalAVista =
             0;
 
 
-        var totalCustos =
+        var custoAVista =
             0;
 
 
@@ -545,16 +925,11 @@ async function carregarCaixa() {
 
 
 
-        /*
-           SOMAR VENDAS
-        */
-
         for (
             var i = 0;
             i < vendas.length;
             i++
         ) {
-
 
             var venda =
                 vendas[i];
@@ -572,25 +947,17 @@ async function carregarCaixa() {
                 );
 
 
-            totalVendas +=
+            totalAVista +=
                 valor;
 
 
-            totalCustos +=
+            custoAVista +=
                 custo;
 
 
-
-            /*
-               FORMAS DE PAGAMENTO
-            */
-
-            var forma =
-                venda.forma_pagamento;
-
-
             if (
-                forma === "Dinheiro"
+                venda.forma_pagamento ===
+                "Dinheiro"
             ) {
 
                 totalDinheiro +=
@@ -600,7 +967,8 @@ async function carregarCaixa() {
 
 
             else if (
-                forma === "Cartão"
+                venda.forma_pagamento ===
+                "Cartão"
             ) {
 
                 totalCartao +=
@@ -610,7 +978,8 @@ async function carregarCaixa() {
 
 
             else if (
-                forma === "PIX"
+                venda.forma_pagamento ===
+                "PIX"
             ) {
 
                 totalPix +=
@@ -622,45 +991,163 @@ async function carregarCaixa() {
 
 
 
-        /*
-           LUCRO
-        */
+        /* =============================================
+           FIADO
+        ============================================= */
+
+        var totalFiado =
+            0;
+
+
+        var custoFiado =
+            0;
+
+
+        for (
+            var i = 0;
+            i < fiados.length;
+            i++
+        ) {
+
+            totalFiado +=
+
+                Number(
+                    fiados[i].total || 0
+                );
+
+
+            custoFiado +=
+
+                Number(
+                    fiados[i].custo || 0
+                );
+
+        }
+
+
+
+        /* =============================================
+           PAGAMENTOS DE CLIENTES
+        ============================================= */
+
+        var totalRecebidoFiado =
+            0;
+
+
+        for (
+            var i = 0;
+            i < pagamentos.length;
+            i++
+        ) {
+
+            var pagamento =
+                pagamentos[i];
+
+
+            var valor =
+                Number(
+                    pagamento.valor || 0
+                );
+
+
+            totalRecebidoFiado +=
+                valor;
+
+
+            /*
+               SOMAR NA FORMA DE PAGAMENTO
+               DO CAIXA
+            */
+
+            if (
+                pagamento.forma_pagamento ===
+                "Dinheiro"
+            ) {
+
+                totalDinheiro +=
+                    valor;
+
+            }
+
+
+            else if (
+                pagamento.forma_pagamento ===
+                "Cartão"
+            ) {
+
+                totalCartao +=
+                    valor;
+
+            }
+
+
+            else if (
+                pagamento.forma_pagamento ===
+                "PIX"
+            ) {
+
+                totalPix +=
+                    valor;
+
+            }
+
+        }
+
+
+
+        /* =============================================
+           CALCULOS FINAIS
+        ============================================= */
+
+        var totalAReceber =
+
+            totalFiado -
+
+            totalRecebidoFiado;
+
+
+        if (
+            totalAReceber < 0
+        ) {
+
+            totalAReceber =
+                0;
+
+        }
+
+
+        var totalEntrou =
+
+            totalAVista +
+
+            totalRecebidoFiado;
+
+
+        var totalFaturamento =
+
+            totalAVista +
+
+            totalFiado;
+
+
+        var totalCustos =
+
+            custoAVista +
+
+            custoFiado;
+
 
         var totalLucro =
 
-            totalVendas -
+            totalFaturamento -
 
             totalCustos;
 
 
 
-        /*
-           MOSTRAR RESUMO
-        */
-
-        document.getElementById(
-            "totalVendas"
-        ).innerText =
-            formatarMoeda(
-                totalVendas
-            );
-
-
-        document.getElementById(
-            "totalCustos"
-        ).innerText =
-            formatarMoeda(
-                totalCustos
-            );
-
-
-        document.getElementById(
-            "totalLucro"
-        ).innerText =
-            formatarMoeda(
-                totalLucro
-            );
-
+        /* =============================================
+           MOSTRAR TOTAIS
+        ============================================= */
 
         document.getElementById(
             "totalDinheiro"
@@ -687,18 +1174,88 @@ async function carregarCaixa() {
 
 
         document.getElementById(
-            "quantidadeMesas"
+            "totalAVista"
         ).innerText =
-            vendas.length;
+            formatarMoeda(
+                totalAVista
+            );
+
+
+        document.getElementById(
+            "totalFiado"
+        ).innerText =
+            formatarMoeda(
+                totalFiado
+            );
+
+
+        document.getElementById(
+            "totalRecebidoFiado"
+        ).innerText =
+            formatarMoeda(
+                totalRecebidoFiado
+            );
+
+
+        document.getElementById(
+            "totalAReceber"
+        ).innerText =
+            formatarMoeda(
+                totalAReceber
+            );
+
+
+        document.getElementById(
+            "totalCustos"
+        ).innerText =
+            formatarMoeda(
+                totalCustos
+            );
+
+
+        document.getElementById(
+            "totalLucro"
+        ).innerText =
+            formatarMoeda(
+                totalLucro
+            );
+
+
+        document.getElementById(
+            "totalEntrou"
+        ).innerText =
+            formatarMoeda(
+                totalEntrou
+            );
+
+
+        document.getElementById(
+            "totalFaturamento"
+        ).innerText =
+            formatarMoeda(
+                totalFaturamento
+            );
 
 
 
-        /*
-           MOSTRAR LISTA
-        */
+        /* =============================================
+           LISTAS
+        ============================================= */
 
         mostrarVendas(
             vendas
+        );
+
+
+        mostrarFiados(
+            fiados,
+            clientes
+        );
+
+
+        mostrarPagamentos(
+            pagamentos,
+            clientes
         );
 
     }
@@ -713,10 +1270,6 @@ async function carregarCaixa() {
         );
 
 
-        lista.innerHTML =
-            "";
-
-
         areaErro.innerHTML =
 
             "<div class='erro'>" +
@@ -727,9 +1280,12 @@ async function carregarCaixa() {
 
             "Erro: " +
 
-            (
+            escaparHTML(
+
                 erro.message ||
+
                 "Erro desconhecido."
+
             ) +
 
             "</div>";
@@ -752,7 +1308,6 @@ function mostrarVendas(
     vendas
 ) {
 
-
     var area =
         document.getElementById(
             "listaVendas"
@@ -763,7 +1318,6 @@ function mostrarVendas(
         "";
 
 
-
     if (
         vendas.length === 0
     ) {
@@ -772,7 +1326,7 @@ function mostrarVendas(
 
             "<div class='mensagem'>" +
 
-            "Nenhuma venda registrada." +
+            "Nenhuma venda paga registrada." +
 
             "</div>";
 
@@ -781,102 +1335,14 @@ function mostrarVendas(
     }
 
 
-
     for (
         var i = 0;
         i < vendas.length;
         i++
     ) {
 
-
         var venda =
             vendas[i];
-
-
-        var forma =
-            venda.forma_pagamento ||
-            "Não informado";
-
-
-        var html =
-            "";
-
-
-        html +=
-            "<div class='venda-item'>";
-
-
-        html +=
-
-            "<strong>" +
-
-            "🍽️ Mesa " +
-
-            venda.mesa +
-
-            "</strong>";
-
-
-        html +=
-
-            "<p>" +
-
-            "🧾 Venda ID: " +
-
-            venda.id +
-
-            "</p>";
-
-
-        html +=
-
-            "<p>" +
-
-            "🕐 Horário: " +
-
-            (
-                venda.horario ||
-                "-"
-            ) +
-
-            "</p>";
-
-
-        html +=
-
-            "<p>" +
-
-            "💳 Pagamento: " +
-
-            forma +
-
-            "</p>";
-
-
-        html +=
-
-            "<p>" +
-
-            "📦 Custo: " +
-
-            formatarMoeda(
-                venda.custo
-            ) +
-
-            "</p>";
-
-
-        html +=
-
-            "<p>" +
-
-            "💰 Total: <strong>" +
-
-            formatarMoeda(
-                venda.total
-            ) +
-
-            "</strong></p>";
 
 
         var lucroVenda =
@@ -892,27 +1358,302 @@ function mostrarVendas(
             );
 
 
-        html +=
+        area.innerHTML +=
 
-            "<p>" +
+            "<div class='venda-item'>" +
 
-            "📈 Lucro: <strong>" +
+            "<strong>✅ Mesa " +
+
+            escaparHTML(
+                venda.mesa
+            ) +
+
+            "</strong>" +
+
+            "<p>🧾 Venda ID: " +
+
+            venda.id +
+
+            "</p>" +
+
+            "<p>🕐 Horário: " +
+
+            escaparHTML(
+                venda.horario || "-"
+            ) +
+
+            "</p>" +
+
+            "<p>💳 Pagamento: " +
+
+            escaparHTML(
+                venda.forma_pagamento || "-"
+            ) +
+
+            "</p>" +
+
+            "<p>📦 Custo: " +
+
+            formatarMoeda(
+                venda.custo
+            ) +
+
+            "</p>" +
+
+            "<p>💰 Total: <strong>" +
+
+            formatarMoeda(
+                venda.total
+            ) +
+
+            "</strong></p>" +
+
+            "<p>📈 Lucro: " +
 
             formatarMoeda(
                 lucroVenda
             ) +
 
-            "</strong></p>";
+            "</p>" +
 
-
-        html +=
             "</div>";
+
+    }
+
+}
+
+
+
+/* =====================================================
+   MOSTRAR FIADO
+===================================================== */
+
+function mostrarFiados(
+    fiados,
+    clientes
+) {
+
+    var area =
+        document.getElementById(
+            "listaFiados"
+        );
+
+
+    area.innerHTML =
+        "";
+
+
+    if (
+        fiados.length === 0
+    ) {
+
+        area.innerHTML =
+
+            "<div class='mensagem'>" +
+
+            "Nenhuma compra fiada registrada." +
+
+            "</div>";
+
+        return;
+
+    }
+
+
+    for (
+        var i = 0;
+        i < fiados.length;
+        i++
+    ) {
+
+        var conta =
+            fiados[i];
+
+
+        var nome =
+            obterNomeCliente(
+
+                conta.cliente_id,
+
+                clientes
+
+            );
 
 
         area.innerHTML +=
-            html;
+
+            "<div class='fiado-item'>" +
+
+            "<strong>👤 " +
+
+            escaparHTML(
+                nome
+            ) +
+
+            "</strong>" +
+
+            "<p>🧾 Conta ID: " +
+
+            conta.id +
+
+            "</p>" +
+
+            "<p>📅 Data do consumo: " +
+
+            escaparHTML(
+                conta.data_consumo || "-"
+            ) +
+
+            "</p>" +
+
+            "<p>🍽️ Mesa: " +
+
+            escaparHTML(
+                conta.mesa || "-"
+            ) +
+
+            "</p>" +
+
+            "<p>📦 Custo: " +
+
+            formatarMoeda(
+                conta.custo
+            ) +
+
+            "</p>" +
+
+            "<p>🟠 Valor lançado no fiado: <strong>" +
+
+            formatarMoeda(
+                conta.total
+            ) +
+
+            "</strong></p>" +
+
+            "</div>";
 
     }
+
+}
+
+
+
+/* =====================================================
+   MOSTRAR PAGAMENTOS
+===================================================== */
+
+function mostrarPagamentos(
+    pagamentos,
+    clientes
+) {
+
+    var area =
+        document.getElementById(
+            "listaPagamentos"
+        );
+
+
+    area.innerHTML =
+        "";
+
+
+    if (
+        pagamentos.length === 0
+    ) {
+
+        area.innerHTML =
+
+            "<div class='mensagem'>" +
+
+            "Nenhum pagamento de cliente registrado." +
+
+            "</div>";
+
+        return;
+
+    }
+
+
+    for (
+        var i = 0;
+        i < pagamentos.length;
+        i++
+    ) {
+
+        var pagamento =
+            pagamentos[i];
+
+
+        var nome =
+            obterNomeCliente(
+
+                pagamento.cliente_id,
+
+                clientes
+
+            );
+
+
+        area.innerHTML +=
+
+            "<div class='pagamento-item'>" +
+
+            "<strong>💰 " +
+
+            escaparHTML(
+                nome
+            ) +
+
+            "</strong>" +
+
+            "<p>📅 Data: " +
+
+            escaparHTML(
+                pagamento.data_pagamento || "-"
+            ) +
+
+            "</p>" +
+
+            "<p>💳 Forma: " +
+
+            escaparHTML(
+                pagamento.forma_pagamento || "-"
+            ) +
+
+            "</p>" +
+
+            "<p>💵 Recebido: <strong>" +
+
+            formatarMoeda(
+                pagamento.valor
+            ) +
+
+            "</strong></p>" +
+
+            "<p>📝 Observação: " +
+
+            escaparHTML(
+                pagamento.observacao || "-"
+            ) +
+
+            "</p>" +
+
+            "</div>";
+
+    }
+
+}
+
+
+
+/* =====================================================
+   CLIENTES
+===================================================== */
+
+function abrirClientes() {
+
+    window.location.href =
+        "clientes.html";
 
 }
 
