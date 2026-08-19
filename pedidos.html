@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -210,18 +209,13 @@
         class="voltar"
         onclick="voltarMenu()"
     >
-
         🏠 Voltar ao menu
-
     </button>
 
-
-    <!-- NOVO PEDIDO -->
 
     <div class="caixa">
 
         <h2>Novo pedido</h2>
-
 
         <label>Mesa:</label>
 
@@ -270,15 +264,11 @@
             class="adicionar"
             onclick="adicionarItem()"
         >
-
             ➕ Adicionar item
-
         </button>
 
     </div>
 
-
-    <!-- ITENS -->
 
     <h2>Itens do pedido</h2>
 
@@ -290,20 +280,14 @@
     </div>
 
 
-    <!-- TOTAL -->
-
     <div
         id="totalPedido"
         class="total"
         style="display:none;"
     >
-
         Total: R$ 0,00
-
     </div>
 
-
-    <!-- ENVIAR -->
 
     <button
         id="botaoEnviar"
@@ -311,13 +295,9 @@
         onclick="enviarPedido()"
         style="display:none;"
     >
-
         ✅ Enviar pedido
-
     </button>
 
-
-    <!-- MESAS -->
 
     <h2>Mesas abertas</h2>
 
@@ -329,8 +309,6 @@
     </div>
 
 
-    <!-- FECHAMENTO -->
-
     <h2>📊 Fechamento diário</h2>
 
 
@@ -338,9 +316,7 @@
         class="fechamento"
         onclick="fecharDia()"
     >
-
         💰 Fechar o dia
-
     </button>
 
 
@@ -349,7 +325,6 @@
         class="fechamento-dia"
         style="display:none;"
     >
-
     </div>
 
 
@@ -364,7 +339,9 @@
 ===================================================== */
 
 var usuarioLogado =
-    localStorage.getItem("usuarioLogado");
+    localStorage.getItem(
+        "usuarioLogado"
+    );
 
 
 if (!usuarioLogado) {
@@ -384,6 +361,8 @@ var pedido = [];
 var mesasAbertas = [];
 
 var vendasDoDia = [];
+
+var produtosDisponiveis = [];
 
 
 /* =====================================================
@@ -461,13 +440,7 @@ function carregarMesasAbertas() {
 
 function voltarMenu() {
 
-    /*
-       AS MESAS JÁ ESTÃO SALVAS
-       NO LOCALSTORAGE.
-    */
-
     salvarMesasAbertas();
-
 
     window.location.href =
         "index.html";
@@ -476,65 +449,10 @@ function voltarMenu() {
 
 
 /* =====================================================
-   PRODUTOS
+   CARREGAR PRODUTOS DO SUPABASE
 ===================================================== */
 
-function obterProdutos() {
-
-    var dados =
-        localStorage.getItem(
-            "produtos"
-        );
-
-
-    if (!dados) {
-
-        return [];
-
-    }
-
-
-    try {
-
-        var produtos =
-            JSON.parse(
-                dados
-            );
-
-
-        if (
-            !Array.isArray(
-                produtos
-            )
-        ) {
-
-            return [];
-
-        }
-
-
-        return produtos;
-
-    }
-
-    catch (erro) {
-
-        return [];
-
-    }
-
-}
-
-
-/* =====================================================
-   CARREGAR PRODUTOS
-===================================================== */
-
-function carregarProdutos() {
-
-    var produtos =
-        obterProdutos();
-
+async function carregarProdutos() {
 
     var select =
         document.getElementById(
@@ -545,36 +463,154 @@ function carregarProdutos() {
     select.innerHTML =
 
         "<option value=''>" +
-
-        "Selecione o produto" +
-
+        "Carregando produtos..." +
         "</option>";
 
 
+    try {
+
+        if (!window.supabaseClient) {
+
+            throw new Error(
+                "Conexão com Supabase não encontrada."
+            );
+
+        }
+
+
+        var resultado =
+            await window.supabaseClient
+                .from("produtos")
+                .select("*")
+                .order(
+                    "nome",
+                    {
+                        ascending: true
+                    }
+                );
+
+
+        if (resultado.error) {
+
+            throw resultado.error;
+
+        }
+
+
+        produtosDisponiveis =
+            resultado.data || [];
+
+
+        select.innerHTML =
+
+            "<option value=''>" +
+            "Selecione o produto" +
+            "</option>";
+
+
+        for (
+            var i = 0;
+            i < produtosDisponiveis.length;
+            i++
+        ) {
+
+            var produto =
+                produtosDisponiveis[i];
+
+
+            var option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                produto.id;
+
+
+            option.textContent =
+
+                produto.nome +
+
+                " — Estoque: " +
+
+                produto.quantidade;
+
+
+            select.appendChild(
+                option
+            );
+
+        }
+
+
+        if (
+            produtosDisponiveis.length === 0
+        ) {
+
+            select.innerHTML =
+
+                "<option value=''>" +
+
+                "Nenhum produto cadastrado" +
+
+                "</option>";
+
+        }
+
+    }
+
+    catch (erro) {
+
+        console.error(
+            "Erro ao carregar produtos:",
+            erro
+        );
+
+
+        select.innerHTML =
+
+            "<option value=''>" +
+
+            "Erro ao carregar produtos" +
+
+            "</option>";
+
+    }
+
+}
+
+
+/* =====================================================
+   OBTER PRODUTO PELO ID
+===================================================== */
+
+function obterProdutoPorId(
+    id
+) {
+
     for (
         var i = 0;
-        i < produtos.length;
+        i < produtosDisponiveis.length;
         i++
     ) {
 
-        var option =
-            document.createElement(
-                "option"
-            );
+        if (
+            String(
+                produtosDisponiveis[i].id
+            )
+            ===
+            String(id)
+        ) {
 
+            return produtosDisponiveis[i];
 
-        option.value = i;
-
-
-        option.textContent =
-            produtos[i].nome;
-
-
-        select.appendChild(
-            option
-        );
+        }
 
     }
+
+
+    return null;
 
 }
 
@@ -591,7 +627,7 @@ function adicionarItem() {
         ).value;
 
 
-    var indiceProduto =
+    var produtoId =
         document.getElementById(
             "produto"
         ).value;
@@ -616,9 +652,7 @@ function adicionarItem() {
     }
 
 
-    if (
-        indiceProduto === ""
-    ) {
+    if (produtoId === "") {
 
         alert(
             "Escolha um produto."
@@ -630,6 +664,10 @@ function adicionarItem() {
 
 
     if (
+        !Number.isFinite(
+            quantidade
+        )
+        ||
         quantidade <= 0
     ) {
 
@@ -642,16 +680,10 @@ function adicionarItem() {
     }
 
 
-    var produtos =
-        obterProdutos();
-
-
     var produto =
-        produtos[
-            Number(
-                indiceProduto
-            )
-        ];
+        obterProdutoPorId(
+            produtoId
+        );
 
 
     if (!produto) {
@@ -665,8 +697,47 @@ function adicionarItem() {
     }
 
 
+    /*
+       VERIFICAR SE JÁ TEM O MESMO
+       PRODUTO NO PEDIDO ATUAL
+    */
+
+    var quantidadeJaAdicionada = 0;
+
+
+    for (
+        var i = 0;
+        i < pedido.length;
+        i++
+    ) {
+
+        if (
+            String(
+                pedido[i].produtoId
+            )
+            ===
+            String(
+                produto.id
+            )
+        ) {
+
+            quantidadeJaAdicionada +=
+                Number(
+                    pedido[i].quantidade
+                );
+
+        }
+
+    }
+
+
+    var quantidadeTotal =
+        quantidadeJaAdicionada +
+        quantidade;
+
+
     if (
-        quantidade >
+        quantidadeTotal >
         Number(
             produto.quantidade
         )
@@ -676,7 +747,11 @@ function adicionarItem() {
 
             "Estoque insuficiente para: " +
 
-            produto.nome
+            produto.nome +
+
+            "\n\nDisponível: " +
+
+            produto.quantidade
 
         );
 
@@ -690,10 +765,8 @@ function adicionarItem() {
         mesa:
             mesa,
 
-        indiceProduto:
-            Number(
-                indiceProduto
-            ),
+        produtoId:
+            produto.id,
 
         nome:
             produto.nome,
@@ -764,7 +837,6 @@ function mostrarPedido() {
 
         mostrarMesasAbertas();
 
-
         return;
 
     }
@@ -781,10 +853,13 @@ function mostrarPedido() {
 
 
         var subtotal =
+
             Number(
                 item.quantidade
             )
+
             *
+
             Number(
                 item.venda || 0
             );
@@ -799,25 +874,17 @@ function mostrarPedido() {
             "<div class='item'>" +
 
             "<h3>🍽️ Mesa " +
-
             item.mesa +
-
             "</h3>" +
 
             "<p>" +
-
             item.nome +
-
             " × " +
-
             item.quantidade +
-
             "</p>" +
 
             "<p>R$ " +
-
             subtotal.toFixed(2) +
-
             "</p>" +
 
             "</div>";
@@ -855,7 +922,7 @@ function mostrarPedido() {
    ENVIAR PEDIDO
 ===================================================== */
 
-function enviarPedido() {
+async function enviarPedido() {
 
     if (
         pedido.length === 0
@@ -870,185 +937,283 @@ function enviarPedido() {
     }
 
 
-    var produtos =
-        obterProdutos();
+    if (!window.supabaseClient) {
+
+        alert(
+            "Erro na conexão com o banco."
+        );
+
+        return;
+
+    }
 
 
-    /* VERIFICAR ESTOQUE */
-
-    for (
-        var i = 0;
-        i < pedido.length;
-        i++
-    ) {
-
-        var item =
-            pedido[i];
+    try {
 
 
-        var produto =
-            produtos[
-                item.indiceProduto
-            ];
+        /*
+           PARA CADA ITEM,
+           CONSULTAR O ESTOQUE ATUAL
+           NO BANCO
+        */
 
-
-        if (!produto) {
-
-            alert(
-                "Produto não encontrado."
-            );
-
-            return;
-
-        }
-
-
-        if (
-            Number(
-                item.quantidade
-            )
-            >
-            Number(
-                produto.quantidade
-            )
+        for (
+            var i = 0;
+            i < pedido.length;
+            i++
         ) {
 
-            alert(
+            var item =
+                pedido[i];
 
-                "Estoque insuficiente para: " +
 
-                produto.nome
+            var consulta =
+                await window.supabaseClient
+                    .from("produtos")
+                    .select("*")
+                    .eq(
+                        "id",
+                        item.produtoId
+                    )
+                    .single();
 
-            );
 
-            return;
+            if (consulta.error) {
+
+                throw consulta.error;
+
+            }
+
+
+            var produtoBanco =
+                consulta.data;
+
+
+            if (!produtoBanco) {
+
+                alert(
+                    "Produto não encontrado: " +
+                    item.nome
+                );
+
+                return;
+
+            }
+
+
+            if (
+                Number(
+                    item.quantidade
+                )
+                >
+                Number(
+                    produtoBanco.quantidade
+                )
+            ) {
+
+                alert(
+
+                    "Estoque insuficiente para: " +
+
+                    produtoBanco.nome +
+
+                    "\n\nDisponível: " +
+
+                    produtoBanco.quantidade
+
+                );
+
+                await carregarProdutos();
+
+                return;
+
+            }
 
         }
 
+
+        /*
+           BAIXAR ESTOQUE
+        */
+
+        for (
+            var i = 0;
+            i < pedido.length;
+            i++
+        ) {
+
+            var item =
+                pedido[i];
+
+
+            var consulta =
+                await window.supabaseClient
+                    .from("produtos")
+                    .select("quantidade")
+                    .eq(
+                        "id",
+                        item.produtoId
+                    )
+                    .single();
+
+
+            if (consulta.error) {
+
+                throw consulta.error;
+
+            }
+
+
+            var estoqueAtual =
+                Number(
+                    consulta.data.quantidade
+                );
+
+
+            var novoEstoque =
+                estoqueAtual -
+                Number(
+                    item.quantidade
+                );
+
+
+            var atualizacao =
+                await window.supabaseClient
+                    .from("produtos")
+                    .update({
+
+                        quantidade:
+                            novoEstoque
+
+                    })
+                    .eq(
+                        "id",
+                        item.produtoId
+                    );
+
+
+            if (atualizacao.error) {
+
+                throw atualizacao.error;
+
+            }
+
+        }
+
+
+        /*
+           COLOCAR ITENS NA MESA
+        */
+
+        for (
+            var i = 0;
+            i < pedido.length;
+            i++
+        ) {
+
+            mesasAbertas.push({
+
+                mesa:
+                    pedido[i].mesa,
+
+                produtoId:
+                    pedido[i].produtoId,
+
+                nome:
+                    pedido[i].nome,
+
+                quantidade:
+                    pedido[i].quantidade,
+
+                custo:
+                    Number(
+                        pedido[i].custo || 0
+                    ),
+
+                venda:
+                    Number(
+                        pedido[i].venda || 0
+                    )
+
+            });
+
+        }
+
+
+        salvarMesasAbertas();
+
+
+        pedido = [];
+
+
+        mostrarPedido();
+
+        mostrarMesasAbertas();
+
+
+        document.getElementById(
+            "mesa"
+        ).value = "";
+
+
+        document.getElementById(
+            "produto"
+        ).value = "";
+
+
+        document.getElementById(
+            "quantidade"
+        ).value = "";
+
+
+        document.getElementById(
+            "botaoEnviar"
+        ).style.display =
+            "none";
+
+
+        /*
+           ATUALIZAR LISTA DE PRODUTOS
+           E ESTOQUE MOSTRADO
+        */
+
+        await carregarProdutos();
+
+
+        alert(
+            "Pedido enviado com sucesso!"
+        );
+
     }
 
+    catch (erro) {
 
-    /* BAIXAR ESTOQUE */
-
-    for (
-        var i = 0;
-        i < pedido.length;
-        i++
-    ) {
-
-        var item =
-            pedido[i];
+        console.error(
+            "Erro ao enviar pedido:",
+            erro
+        );
 
 
-        var produto =
-            produtos[
-                item.indiceProduto
-            ];
+        alert(
 
+            "Não foi possível enviar o pedido.\n\n" +
 
-        produto.quantidade =
+            "Erro: " +
 
-            Number(
-                produto.quantidade
+            (
+                erro.message ||
+                "Erro desconhecido."
             )
-            -
-            Number(
-                item.quantidade
-            );
+
+        );
 
     }
-
-
-    localStorage.setItem(
-
-        "produtos",
-
-        JSON.stringify(
-            produtos
-        )
-
-    );
-
-
-    /* COLOCAR NA MESA */
-
-    for (
-        var i = 0;
-        i < pedido.length;
-        i++
-    ) {
-
-        mesasAbertas.push({
-
-            mesa:
-                pedido[i].mesa,
-
-            nome:
-                pedido[i].nome,
-
-            quantidade:
-                pedido[i].quantidade,
-
-            custo:
-                Number(
-                    pedido[i].custo || 0
-                ),
-
-            venda:
-                Number(
-                    pedido[i].venda || 0
-                )
-
-        });
-
-    }
-
-
-    /*
-       SALVAR AS MESAS
-    */
-
-    salvarMesasAbertas();
-
-
-    pedido = [];
-
-
-    mostrarPedido();
-
-    mostrarMesasAbertas();
-
-
-    document.getElementById(
-        "mesa"
-    ).value = "";
-
-
-    document.getElementById(
-        "produto"
-    ).value = "";
-
-
-    document.getElementById(
-        "quantidade"
-    ).value = "";
-
-
-    document.getElementById(
-        "botaoEnviar"
-    ).style.display =
-        "none";
-
-
-    alert(
-        "Pedido enviado com sucesso!"
-    );
 
 }
 
 
 /* =====================================================
-   MESAS ABERTAS
+   MOSTRAR MESAS ABERTAS
 ===================================================== */
 
 function mostrarMesasAbertas() {
@@ -1114,7 +1279,6 @@ function mostrarMesasAbertas() {
 
         var total = 0;
 
-
         var itensMesa = [];
 
 
@@ -1141,7 +1305,9 @@ function mostrarMesasAbertas() {
                         mesasAbertas[j]
                             .quantidade
                     )
+
                     *
+
                     Number(
                         mesasAbertas[j]
                             .venda || 0
@@ -1157,9 +1323,7 @@ function mostrarMesasAbertas() {
             "<div class='item mesa-aberta'>" +
 
             "<h3>🍽️ Mesa " +
-
             mesaAtual +
-
             "</h3>";
 
 
@@ -1184,13 +1348,13 @@ function mostrarMesasAbertas() {
                 (
 
                     Number(
-                        itensMesa[k]
-                            .quantidade
+                        itensMesa[k].quantidade
                     )
+
                     *
+
                     Number(
-                        itensMesa[k]
-                            .venda || 0
+                        itensMesa[k].venda || 0
                     )
 
                 ).toFixed(2) +
@@ -1276,13 +1440,13 @@ function fecharMesa(
             totalMesa +=
 
                 Number(
-                    mesasAbertas[i]
-                        .quantidade
+                    mesasAbertas[i].quantidade
                 )
+
                 *
+
                 Number(
-                    mesasAbertas[i]
-                        .venda || 0
+                    mesasAbertas[i].venda || 0
                 );
 
         }
@@ -1318,26 +1482,24 @@ function mostrarPagamento(
         "<div " +
 
         "id='pagamento_" +
-
         mesa +
-
         "' " +
 
         "class='pagamento'>" +
 
+
         "<h2>💰 Fechamento da Mesa " +
-
         mesa +
-
         "</h2>" +
 
+
         "<h3>Total: R$ " +
-
         totalMesa.toFixed(2) +
-
         "</h3>" +
 
+
         "<p><strong>Como o cliente pagou?</strong></p>" +
+
 
         "<button " +
 
@@ -1353,6 +1515,7 @@ function mostrarPagamento(
 
         "</button>" +
 
+
         "<button " +
 
         "class='cartao' " +
@@ -1366,6 +1529,7 @@ function mostrarPagamento(
         "💳 Cartão" +
 
         "</button>" +
+
 
         "<button " +
 
@@ -1381,6 +1545,7 @@ function mostrarPagamento(
 
         "</button>" +
 
+
         "<button " +
 
         "class='cancelar' " +
@@ -1394,6 +1559,7 @@ function mostrarPagamento(
         "❌ Cancelar" +
 
         "</button>" +
+
 
         "</div>";
 
@@ -1411,9 +1577,7 @@ function confirmarPagamento(
 
     var itensFechados = [];
 
-
     var totalMesa = 0;
-
 
     var custoMesa = 0;
 
@@ -1463,6 +1627,9 @@ function confirmarPagamento(
 
 
             itensFechados.push({
+
+                produtoId:
+                    item.produtoId || null,
 
                 nome:
                     item.nome,
@@ -1543,10 +1710,6 @@ function confirmarPagamento(
         novasMesas;
 
 
-    /*
-       SALVAR MESAS DEPOIS DO FECHAMENTO
-    */
-
     salvarMesasAbertas();
 
 
@@ -1556,19 +1719,14 @@ function confirmarPagamento(
     alert(
 
         "Mesa " +
-
         mesa +
-
         " fechada com sucesso!\n\n" +
 
         "Pagamento: " +
-
         formaPagamento +
-
         "\n" +
 
         "Total: R$ " +
-
         totalMesa.toFixed(2)
 
     );
@@ -1645,17 +1803,11 @@ function obterDataAtual() {
 
 
     return (
-
         dia +
-
         "-" +
-
         mes +
-
         "-" +
-
         ano
-
     );
 
 }
@@ -1673,9 +1825,7 @@ function carregarVendasDoDia() {
 
     var dados =
         localStorage.getItem(
-
             "vendas_" + data
-
         );
 
 
@@ -1757,9 +1907,7 @@ function fecharDia() {
 
     var totalVendas = 0;
 
-
     var totalCusto = 0;
-
 
     var produtosVendidos = {};
 
@@ -1808,7 +1956,6 @@ function fecharDia() {
         ) {
 
             pagamentos[forma] +=
-
                 Number(
                     venda.total || 0
                 );
@@ -1850,7 +1997,6 @@ function fecharDia() {
                 produtosVendidos[
                     item.nome
                 ] +=
-
                     Number(
                         item.quantidade || 0
                     );
@@ -1934,7 +2080,6 @@ function fecharDia() {
 
 
     html +=
-
         "<h3>💳 Formas de pagamento</h3>";
 
 
@@ -1969,7 +2114,6 @@ function fecharDia() {
 
 
     html +=
-
         "<h3>🥩 Produtos vendidos</h3>";
 
 
@@ -2022,7 +2166,6 @@ function fecharDia() {
 
 
     html +=
-
         "<h3>📋 Mesas fechadas</h3>";
 
 
@@ -2055,11 +2198,8 @@ function fecharDia() {
             "<p>Pagamento: " +
 
             (
-
                 mesa.formaPagamento ||
-
                 "Não informado"
-
             ) +
 
             "</p>" +
@@ -2124,37 +2264,32 @@ function formatarDataAtual() {
 
 
     return (
-
         dia +
-
         "/" +
-
         mes +
-
         "/" +
-
         ano
-
     );
 
 }
 
 
 /* =====================================================
-   INICIAR SISTEMA
+   INICIAR
 ===================================================== */
 
-window.onload = function() {
+window.onload =
+    async function() {
 
-    carregarProdutos();
+        await carregarProdutos();
 
-    carregarVendasDoDia();
+        carregarVendasDoDia();
 
-    carregarMesasAbertas();
+        carregarMesasAbertas();
 
-    mostrarMesasAbertas();
+        mostrarMesasAbertas();
 
-};
+    };
 
 </script>
 
@@ -2162,4 +2297,3 @@ window.onload = function() {
 </body>
 
 </html>
-```
