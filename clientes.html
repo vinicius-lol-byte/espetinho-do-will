@@ -679,7 +679,7 @@ function formatarMoeda(
 
 
 /* =====================================================
-   DATA
+   DATA BRASILEIRA
 ===================================================== */
 
 function obterDataAtual() {
@@ -721,6 +721,56 @@ function obterDataAtual() {
         "/" +
 
         ano
+
+    );
+
+}
+
+
+
+/* =====================================================
+   DATA ISO PARA O SUPABASE
+===================================================== */
+
+function obterDataISO() {
+
+    var agora =
+        new Date();
+
+
+    var ano =
+        agora.getFullYear();
+
+
+    var mes =
+        String(
+            agora.getMonth() + 1
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    var dia =
+        String(
+            agora.getDate()
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    return (
+
+        ano +
+
+        "-" +
+
+        mes +
+
+        "-" +
+
+        dia
 
     );
 
@@ -1530,10 +1580,6 @@ async function atualizarContaCliente() {
     try {
 
 
-        /*
-           CONTAS / CONSUMOS
-        */
-
         var resultadoContas =
             await window.supabaseClient
                 .from("contas_clientes")
@@ -1562,11 +1608,6 @@ async function atualizarContaCliente() {
         var contas =
             resultadoContas.data || [];
 
-
-
-        /*
-           PAGAMENTOS
-        */
 
         var resultadoPagamentos =
             await window.supabaseClient
@@ -1597,11 +1638,6 @@ async function atualizarContaCliente() {
             resultadoPagamentos.data || [];
 
 
-
-        /*
-           CALCULAR TOTAL CONSUMIDO
-        */
-
         totalConsumidoAtual =
             0;
 
@@ -1620,11 +1656,6 @@ async function atualizarContaCliente() {
 
         }
 
-
-
-        /*
-           CALCULAR PAGAMENTOS
-        */
 
         totalPagoAtual =
             0;
@@ -1645,17 +1676,12 @@ async function atualizarContaCliente() {
         }
 
 
-
         saldoAtual =
 
             totalConsumidoAtual -
 
             totalPagoAtual;
 
-
-        /*
-           PROTEÇÃO CONTRA CENTAVOS NEGATIVOS
-        */
 
         if (
             saldoAtual < 0
@@ -1665,7 +1691,6 @@ async function atualizarContaCliente() {
                 0;
 
         }
-
 
 
         document.getElementById(
@@ -1691,11 +1716,6 @@ async function atualizarContaCliente() {
                 saldoAtual
             );
 
-
-
-        /*
-           CONTA QUITADA
-        */
 
         if (
             saldoAtual <= 0
@@ -1742,7 +1762,6 @@ async function atualizarContaCliente() {
                 "card saldo-card";
 
         }
-
 
 
         await mostrarConsumos(
@@ -2119,11 +2138,6 @@ async function registrarPagamento() {
     }
 
 
-    /*
-       NÃO DEIXAR RECEBER MAIS
-       DO QUE A PESSOA DEVE
-    */
-
     if (
         valor >
         saldoAtual
@@ -2214,6 +2228,9 @@ async function registrarPagamento() {
 
                     data_pagamento:
                         obterDataAtual(),
+
+                    data_pagamento_date:
+                        obterDataISO(),
 
                     observacao:
                         observacao || null
