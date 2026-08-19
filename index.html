@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -279,7 +278,10 @@
         }
 
 
-        /* CORES */
+
+        /* ================================
+           CORES DOS BOTÕES
+        ================================= */
 
 
         .pedidos {
@@ -306,6 +308,13 @@
         .fechamento {
 
             border-top-color: #6f42c1;
+
+        }
+
+
+        .clientes {
+
+            border-top-color: #fd7e14;
 
         }
 
@@ -434,8 +443,6 @@
         </p>
 
 
-        <!-- BOTÃO SAIR -->
-
         <button
             class="botao-sair"
             onclick="sair()"
@@ -547,6 +554,29 @@
         </div>
 
 
+
+        <!-- CLIENTES / CONTAS -->
+
+        <div
+            class="botao clientes"
+            onclick="abrirClientes()"
+        >
+
+            <div class="icone">
+                👥
+            </div>
+
+            <h2>
+                Clientes / Contas
+            </h2>
+
+            <p>
+                Controlar clientes, fiado e pagamentos
+            </p>
+
+        </div>
+
+
     </div>
 
 </div>
@@ -578,7 +608,6 @@
    PROTEÇÃO DO MENU
 ===================================== */
 
-
 var usuarioLogado =
     localStorage.getItem(
         "usuarioLogado"
@@ -598,7 +627,6 @@ if (!usuarioLogado) {
    PEDIDOS
 ===================================== */
 
-
 function abrirPedidos() {
 
     window.location.href =
@@ -611,7 +639,6 @@ function abrirPedidos() {
 /* =====================================
    ESTOQUE
 ===================================== */
-
 
 function abrirEstoque() {
 
@@ -626,7 +653,6 @@ function abrirEstoque() {
    CAIXA
 ===================================== */
 
-
 function abrirCaixa() {
 
     window.location.href =
@@ -640,7 +666,6 @@ function abrirCaixa() {
    FECHAMENTO
 ===================================== */
 
-
 function abrirFechamento() {
 
     window.location.href =
@@ -651,9 +676,21 @@ function abrirFechamento() {
 
 
 /* =====================================
-   SAIR
+   CLIENTES / CONTAS
 ===================================== */
 
+function abrirClientes() {
+
+    window.location.href =
+        "clientes.html";
+
+}
+
+
+
+/* =====================================
+   SAIR
+===================================== */
 
 function sair() {
 
@@ -671,19 +708,9 @@ function sair() {
     }
 
 
-    /*
-       APAGAR O LOGIN
-    */
-
-
     localStorage.removeItem(
         "usuarioLogado"
     );
-
-
-    /*
-       VOLTAR PARA O LOGIN
-    */
 
 
     window.location.href =
@@ -698,4 +725,3 @@ function sair() {
 </body>
 
 </html>
-```
