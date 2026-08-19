@@ -56,6 +56,11 @@
             border-radius: 5px;
         }
 
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
         .adicionar {
             background: #333;
             color: white;
@@ -184,8 +189,13 @@
 
     </style>
 
+
+    <!-- SUPABASE -->
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <script src="supabase.js"></script>
+
 
 </head>
 
@@ -213,9 +223,13 @@
     </button>
 
 
+
+    <!-- NOVO PEDIDO -->
+
     <div class="caixa">
 
         <h2>Novo pedido</h2>
+
 
         <label>Mesa:</label>
 
@@ -270,8 +284,10 @@
     </div>
 
 
-    <h2>Itens do pedido</h2>
 
+    <!-- ITENS -->
+
+    <h2>Itens do pedido</h2>
 
     <div id="listaPedido">
 
@@ -279,6 +295,9 @@
 
     </div>
 
+
+
+    <!-- TOTAL -->
 
     <div
         id="totalPedido"
@@ -288,6 +307,9 @@
         Total: R$ 0,00
     </div>
 
+
+
+    <!-- ENVIAR -->
 
     <button
         id="botaoEnviar"
@@ -299,8 +321,10 @@
     </button>
 
 
-    <h2>Mesas abertas</h2>
 
+    <!-- MESAS ABERTAS -->
+
+    <h2>Mesas abertas</h2>
 
     <div id="mesasAbertas">
 
@@ -309,8 +333,10 @@
     </div>
 
 
-    <h2>📊 Fechamento diário</h2>
 
+    <!-- FECHAMENTO -->
+
+    <h2>📊 Fechamento diário</h2>
 
     <button
         class="fechamento"
@@ -331,11 +357,12 @@
 </div>
 
 
+
 <script>
 
 
 /* =====================================================
-   PROTEÇÃO DE LOGIN
+   LOGIN
 ===================================================== */
 
 var usuarioLogado =
@@ -352,6 +379,7 @@ if (!usuarioLogado) {
 }
 
 
+
 /* =====================================================
    VARIÁVEIS
 ===================================================== */
@@ -364,9 +392,12 @@ var vendasDoDia = [];
 
 var produtosDisponiveis = [];
 
+var pagamentoEmAndamento = false;
+
+
 
 /* =====================================================
-   SALVAR MESAS ABERTAS
+   MESAS ABERTAS - SALVAR
 ===================================================== */
 
 function salvarMesasAbertas() {
@@ -384,8 +415,9 @@ function salvarMesasAbertas() {
 }
 
 
+
 /* =====================================================
-   CARREGAR MESAS ABERTAS
+   MESAS ABERTAS - CARREGAR
 ===================================================== */
 
 function carregarMesasAbertas() {
@@ -434,8 +466,9 @@ function carregarMesasAbertas() {
 }
 
 
+
 /* =====================================================
-   VOLTAR AO MENU
+   VOLTAR
 ===================================================== */
 
 function voltarMenu() {
@@ -446,6 +479,7 @@ function voltarMenu() {
         "index.html";
 
 }
+
 
 
 /* =====================================================
@@ -563,7 +597,6 @@ async function carregarProdutos() {
     catch (erro) {
 
         console.error(
-            "Erro ao carregar produtos:",
             erro
         );
 
@@ -581,8 +614,9 @@ async function carregarProdutos() {
 }
 
 
+
 /* =====================================================
-   OBTER PRODUTO PELO ID
+   LOCALIZAR PRODUTO
 ===================================================== */
 
 function obterProdutoPorId(
@@ -613,6 +647,7 @@ function obterProdutoPorId(
     return null;
 
 }
+
 
 
 /* =====================================================
@@ -698,11 +733,12 @@ function adicionarItem() {
 
 
     /*
-       VERIFICAR SE JÁ TEM O MESMO
-       PRODUTO NO PEDIDO ATUAL
+       VERIFICAR QUANTO JÁ FOI
+       ADICIONADO AO PEDIDO
     */
 
-    var quantidadeJaAdicionada = 0;
+    var quantidadeJaAdicionada =
+        0;
 
 
     for (
@@ -722,6 +758,7 @@ function adicionarItem() {
         ) {
 
             quantidadeJaAdicionada +=
+
                 Number(
                     pedido[i].quantidade
                 );
@@ -732,7 +769,9 @@ function adicionarItem() {
 
 
     var quantidadeTotal =
+
         quantidadeJaAdicionada +
+
         quantidade;
 
 
@@ -795,6 +834,7 @@ function adicionarItem() {
     ).value = "";
 
 }
+
 
 
 /* =====================================================
@@ -918,6 +958,7 @@ function mostrarPedido() {
 }
 
 
+
 /* =====================================================
    ENVIAR PEDIDO
 ===================================================== */
@@ -952,9 +993,7 @@ async function enviarPedido() {
 
 
         /*
-           PARA CADA ITEM,
-           CONSULTAR O ESTOQUE ATUAL
-           NO BANCO
+           VALIDAR ESTOQUE
         */
 
         for (
@@ -989,18 +1028,6 @@ async function enviarPedido() {
                 consulta.data;
 
 
-            if (!produtoBanco) {
-
-                alert(
-                    "Produto não encontrado: " +
-                    item.nome
-                );
-
-                return;
-
-            }
-
-
             if (
                 Number(
                     item.quantidade
@@ -1023,6 +1050,7 @@ async function enviarPedido() {
 
                 );
 
+
                 await carregarProdutos();
 
                 return;
@@ -1030,6 +1058,7 @@ async function enviarPedido() {
             }
 
         }
+
 
 
         /*
@@ -1071,7 +1100,9 @@ async function enviarPedido() {
 
 
             var novoEstoque =
+
                 estoqueAtual -
+
                 Number(
                     item.quantidade
                 );
@@ -1092,7 +1123,9 @@ async function enviarPedido() {
                     );
 
 
-            if (atualizacao.error) {
+            if (
+                atualizacao.error
+            ) {
 
                 throw atualizacao.error;
 
@@ -1101,8 +1134,9 @@ async function enviarPedido() {
         }
 
 
+
         /*
-           COLOCAR ITENS NA MESA
+           COLOCAR NA MESA
         */
 
         for (
@@ -1166,17 +1200,6 @@ async function enviarPedido() {
         ).value = "";
 
 
-        document.getElementById(
-            "botaoEnviar"
-        ).style.display =
-            "none";
-
-
-        /*
-           ATUALIZAR LISTA DE PRODUTOS
-           E ESTOQUE MOSTRADO
-        */
-
         await carregarProdutos();
 
 
@@ -1189,7 +1212,6 @@ async function enviarPedido() {
     catch (erro) {
 
         console.error(
-            "Erro ao enviar pedido:",
             erro
         );
 
@@ -1197,8 +1219,6 @@ async function enviarPedido() {
         alert(
 
             "Não foi possível enviar o pedido.\n\n" +
-
-            "Erro: " +
 
             (
                 erro.message ||
@@ -1210,6 +1230,7 @@ async function enviarPedido() {
     }
 
 }
+
 
 
 /* =====================================================
@@ -1277,9 +1298,12 @@ function mostrarMesasAbertas() {
             mesas[i];
 
 
-        var total = 0;
+        var total =
+            0;
 
-        var itensMesa = [];
+
+        var itensMesa =
+            [];
 
 
         for (
@@ -1302,15 +1326,13 @@ function mostrarMesasAbertas() {
                 total +=
 
                     Number(
-                        mesasAbertas[j]
-                            .quantidade
+                        mesasAbertas[j].quantidade
                     )
 
                     *
 
                     Number(
-                        mesasAbertas[j]
-                            .venda || 0
+                        mesasAbertas[j].venda || 0
                     );
 
             }
@@ -1395,6 +1417,7 @@ function mostrarMesasAbertas() {
 }
 
 
+
 /* =====================================================
    FECHAR MESA
 ===================================================== */
@@ -1422,7 +1445,8 @@ function fecharMesa(
     }
 
 
-    var totalMesa = 0;
+    var totalMesa =
+        0;
 
 
     for (
@@ -1462,6 +1486,7 @@ function fecharMesa(
 }
 
 
+
 /* =====================================================
    PAGAMENTO
 ===================================================== */
@@ -1470,6 +1495,9 @@ function mostrarPagamento(
     mesa,
     totalMesa
 ) {
+
+    mostrarMesasAbertas();
+
 
     var area =
         document.getElementById(
@@ -1501,9 +1529,7 @@ function mostrarPagamento(
         "<p><strong>Como o cliente pagou?</strong></p>" +
 
 
-        "<button " +
-
-        "class='dinheiro' " +
+        "<button class='dinheiro' " +
 
         "onclick='confirmarPagamento(\"" +
 
@@ -1516,9 +1542,7 @@ function mostrarPagamento(
         "</button>" +
 
 
-        "<button " +
-
-        "class='cartao' " +
+        "<button class='cartao' " +
 
         "onclick='confirmarPagamento(\"" +
 
@@ -1531,9 +1555,7 @@ function mostrarPagamento(
         "</button>" +
 
 
-        "<button " +
-
-        "class='pix' " +
+        "<button class='pix' " +
 
         "onclick='confirmarPagamento(\"" +
 
@@ -1546,9 +1568,7 @@ function mostrarPagamento(
         "</button>" +
 
 
-        "<button " +
-
-        "class='cancelar' " +
+        "<button class='cancelar' " +
 
         "onclick='cancelarPagamento(\"" +
 
@@ -1566,189 +1586,490 @@ function mostrarPagamento(
 }
 
 
+
 /* =====================================================
-   CONFIRMAR PAGAMENTO
+   DESCOBRIR ID DO PRODUTO ANTIGO
 ===================================================== */
 
-function confirmarPagamento(
+async function resolverProdutoId(
+    item
+) {
+
+    if (
+        item.produtoId !== undefined
+        &&
+        item.produtoId !== null
+        &&
+        item.produtoId !== ""
+    ) {
+
+        return item.produtoId;
+
+    }
+
+
+    /*
+       Serve para alguma mesa antiga
+       salva antes da mudança para Supabase.
+    */
+
+    var resultado =
+        await window.supabaseClient
+            .from("produtos")
+            .select("id")
+            .eq(
+                "nome",
+                item.nome
+            )
+            .limit(1);
+
+
+    if (
+        resultado.error
+    ) {
+
+        throw resultado.error;
+
+    }
+
+
+    if (
+        !resultado.data
+        ||
+        resultado.data.length === 0
+    ) {
+
+        throw new Error(
+
+            "Produto não encontrado no banco: " +
+
+            item.nome
+
+        );
+
+    }
+
+
+    return resultado.data[0].id;
+
+}
+
+
+
+/* =====================================================
+   CONFIRMAR PAGAMENTO
+   SALVAR NO SUPABASE
+===================================================== */
+
+async function confirmarPagamento(
     mesa,
     formaPagamento
 ) {
 
-    var itensFechados = [];
-
-    var totalMesa = 0;
-
-    var custoMesa = 0;
-
-
-    for (
-        var i = 0;
-        i < mesasAbertas.length;
-        i++
+    if (
+        pagamentoEmAndamento
     ) {
 
+        return;
+
+    }
+
+
+    pagamentoEmAndamento =
+        true;
+
+
+    try {
+
+
         if (
-            mesasAbertas[i].mesa
-            ===
-            mesa
+            !window.supabaseClient
+        ) {
+
+            throw new Error(
+                "Conexão com Supabase não encontrada."
+            );
+
+        }
+
+
+        var itensFechados =
+            [];
+
+
+        var totalMesa =
+            0;
+
+
+        var custoMesa =
+            0;
+
+
+
+        /*
+           PEGAR ITENS DA MESA
+        */
+
+        for (
+            var i = 0;
+            i < mesasAbertas.length;
+            i++
+        ) {
+
+            if (
+                mesasAbertas[i].mesa
+                ===
+                mesa
+            ) {
+
+                var item =
+                    mesasAbertas[i];
+
+
+                var quantidade =
+                    Number(
+                        item.quantidade
+                    );
+
+
+                var venda =
+                    Number(
+                        item.venda || 0
+                    );
+
+
+                var custo =
+                    Number(
+                        item.custo || 0
+                    );
+
+
+                var produtoId =
+                    await resolverProdutoId(
+                        item
+                    );
+
+
+                totalMesa +=
+
+                    quantidade *
+
+                    venda;
+
+
+                custoMesa +=
+
+                    quantidade *
+
+                    custo;
+
+
+                itensFechados.push({
+
+                    produtoId:
+                        produtoId,
+
+                    nome:
+                        item.nome,
+
+                    quantidade:
+                        quantidade,
+
+                    custo:
+                        custo,
+
+                    venda:
+                        venda
+
+                });
+
+            }
+
+        }
+
+
+
+        if (
+            itensFechados.length === 0
+        ) {
+
+            throw new Error(
+                "Nenhum item encontrado nesta mesa."
+            );
+
+        }
+
+
+
+        var agora =
+            new Date();
+
+
+        var horario =
+            agora.toLocaleTimeString(
+                "pt-BR"
+            );
+
+
+
+        /* =================================================
+           1 - CRIAR VENDA NO SUPABASE
+        ================================================= */
+
+        var resultadoVenda =
+            await window.supabaseClient
+                .from("vendas")
+                .insert({
+
+                    mesa:
+                        String(mesa),
+
+                    horario:
+                        horario,
+
+                    total:
+                        totalMesa,
+
+                    custo:
+                        custoMesa,
+
+                    forma_pagamento:
+                        formaPagamento
+
+                })
+                .select("id")
+                .single();
+
+
+
+        if (
+            resultadoVenda.error
+        ) {
+
+            throw resultadoVenda.error;
+
+        }
+
+
+
+        var vendaId =
+            resultadoVenda.data.id;
+
+
+
+        /* =================================================
+           2 - PREPARAR ITENS DA VENDA
+        ================================================= */
+
+        var itensParaBanco =
+            [];
+
+
+        for (
+            var i = 0;
+            i < itensFechados.length;
+            i++
         ) {
 
             var item =
-                mesasAbertas[i];
+                itensFechados[i];
 
 
-            var quantidade =
-                Number(
-                    item.quantidade
-                );
+            itensParaBanco.push({
 
+                venda_id:
+                    vendaId,
 
-            var venda =
-                Number(
-                    item.venda || 0
-                );
+                produto_id:
+                    item.produtoId,
 
-
-            var custo =
-                Number(
-                    item.custo || 0
-                );
-
-
-            totalMesa +=
-                quantidade *
-                venda;
-
-
-            custoMesa +=
-                quantidade *
-                custo;
-
-
-            itensFechados.push({
-
-                produtoId:
-                    item.produtoId || null,
-
-                nome:
+                nome_produto:
                     item.nome,
 
                 quantidade:
-                    quantidade,
+                    item.quantidade,
 
-                custo:
-                    custo,
+                custo_unitario:
+                    item.custo,
 
-                venda:
-                    venda
+                venda_unitaria:
+                    item.venda
 
             });
 
         }
 
-    }
 
 
-    var agora =
-        new Date();
+        /* =================================================
+           3 - SALVAR ITENS
+        ================================================= */
+
+        var resultadoItens =
+            await window.supabaseClient
+                .from("itens_venda")
+                .insert(
+                    itensParaBanco
+                );
 
 
-    vendasDoDia.push({
-
-        mesa:
-            mesa,
-
-        horario:
-            agora.toLocaleTimeString(
-                "pt-BR"
-            ),
-
-        total:
-            totalMesa,
-
-        custo:
-            custoMesa,
-
-        formaPagamento:
-            formaPagamento,
-
-        itens:
-            itensFechados
-
-    });
-
-
-    salvarVendasDoDia();
-
-
-    var novasMesas = [];
-
-
-    for (
-        var i = 0;
-        i < mesasAbertas.length;
-        i++
-    ) {
 
         if (
-            mesasAbertas[i].mesa
-            !==
-            mesa
+            resultadoItens.error
         ) {
 
-            novasMesas.push(
-                mesasAbertas[i]
-            );
+            throw resultadoItens.error;
 
         }
 
+
+
+        /* =================================================
+           4 - MANTER LOCALSTORAGE TEMPORARIAMENTE
+           PARA O CAIXA E RELATÓRIO ANTIGOS
+        ================================================= */
+
+        vendasDoDia.push({
+
+            id:
+                vendaId,
+
+            mesa:
+                mesa,
+
+            horario:
+                horario,
+
+            total:
+                totalMesa,
+
+            custo:
+                custoMesa,
+
+            formaPagamento:
+                formaPagamento,
+
+            itens:
+                itensFechados
+
+        });
+
+
+        salvarVendasDoDia();
+
+
+
+        /* =================================================
+           5 - REMOVER A MESA ABERTA
+        ================================================= */
+
+        var novasMesas =
+            [];
+
+
+        for (
+            var i = 0;
+            i < mesasAbertas.length;
+            i++
+        ) {
+
+            if (
+                mesasAbertas[i].mesa
+                !==
+                mesa
+            ) {
+
+                novasMesas.push(
+                    mesasAbertas[i]
+                );
+
+            }
+
+        }
+
+
+        mesasAbertas =
+            novasMesas;
+
+
+        salvarMesasAbertas();
+
+
+        mostrarMesasAbertas();
+
+
+
+        alert(
+
+            "Mesa " +
+            mesa +
+            " fechada com sucesso!\n\n" +
+
+            "Venda ID: " +
+            vendaId +
+            "\n" +
+
+            "Pagamento: " +
+            formaPagamento +
+            "\n" +
+
+            "Total: R$ " +
+            totalMesa.toFixed(2)
+
+        );
+
     }
 
 
-    mesasAbertas =
-        novasMesas;
+    catch (erro) {
+
+        console.error(
+            "Erro ao fechar mesa:",
+            erro
+        );
 
 
-    salvarMesasAbertas();
+        alert(
+
+            "❌ Não foi possível fechar a mesa.\n\n" +
+
+            "Erro: " +
+
+            (
+                erro.message ||
+                "Erro desconhecido."
+            )
+
+        );
+
+    }
 
 
-    mostrarMesasAbertas();
+    finally {
 
+        pagamentoEmAndamento =
+            false;
 
-    alert(
-
-        "Mesa " +
-        mesa +
-        " fechada com sucesso!\n\n" +
-
-        "Pagamento: " +
-        formaPagamento +
-        "\n" +
-
-        "Total: R$ " +
-        totalMesa.toFixed(2)
-
-    );
+    }
 
 }
+
 
 
 /* =====================================================
    CANCELAR PAGAMENTO
 ===================================================== */
 
-function cancelarPagamento(
-    mesa
-) {
+function cancelarPagamento() {
 
     mostrarMesasAbertas();
 
 }
 
 
+
 /* =====================================================
-   SALVAR VENDAS
+   SALVAR VENDAS LOCAL
 ===================================================== */
 
 function salvarVendasDoDia() {
@@ -1768,6 +2089,7 @@ function salvarVendasDoDia() {
     );
 
 }
+
 
 
 /* =====================================================
@@ -1803,18 +2125,25 @@ function obterDataAtual() {
 
 
     return (
+
         dia +
+
         "-" +
+
         mes +
+
         "-" +
+
         ano
+
     );
 
 }
 
 
+
 /* =====================================================
-   CARREGAR VENDAS
+   CARREGAR VENDAS LOCAIS
 ===================================================== */
 
 function carregarVendasDoDia() {
@@ -1825,13 +2154,16 @@ function carregarVendasDoDia() {
 
     var dados =
         localStorage.getItem(
+
             "vendas_" + data
+
         );
 
 
     if (!dados) {
 
-        vendasDoDia = [];
+        vendasDoDia =
+            [];
 
         return;
 
@@ -1852,7 +2184,8 @@ function carregarVendasDoDia() {
             )
         ) {
 
-            vendasDoDia = [];
+            vendasDoDia =
+                [];
 
         }
 
@@ -1860,11 +2193,13 @@ function carregarVendasDoDia() {
 
     catch (erro) {
 
-        vendasDoDia = [];
+        vendasDoDia =
+            [];
 
     }
 
 }
+
 
 
 /* =====================================================
@@ -1905,11 +2240,16 @@ function fecharDia() {
     }
 
 
-    var totalVendas = 0;
+    var totalVendas =
+        0;
 
-    var totalCusto = 0;
 
-    var produtosVendidos = {};
+    var totalCusto =
+        0;
+
+
+    var produtosVendidos =
+        {};
 
 
     var pagamentos = {
@@ -1934,12 +2274,14 @@ function fecharDia() {
 
 
         totalVendas +=
+
             Number(
                 venda.total || 0
             );
 
 
         totalCusto +=
+
             Number(
                 venda.custo || 0
             );
@@ -1956,6 +2298,7 @@ function fecharDia() {
         ) {
 
             pagamentos[forma] +=
+
                 Number(
                     venda.total || 0
                 );
@@ -1997,6 +2340,7 @@ function fecharDia() {
                 produtosVendidos[
                     item.nome
                 ] +=
+
                     Number(
                         item.quantidade || 0
                     );
@@ -2009,11 +2353,14 @@ function fecharDia() {
 
 
     var lucro =
+
         totalVendas -
+
         totalCusto;
 
 
-    var html = "";
+    var html =
+        "";
 
 
     html +=
@@ -2038,7 +2385,8 @@ function fecharDia() {
         "</p>";
 
 
-    html += "<hr>";
+    html +=
+        "<hr>";
 
 
     html +=
@@ -2076,7 +2424,8 @@ function fecharDia() {
         "</p>";
 
 
-    html += "<hr>";
+    html +=
+        "<hr>";
 
 
     html +=
@@ -2110,7 +2459,8 @@ function fecharDia() {
         "</p>";
 
 
-    html += "<hr>";
+    html +=
+        "<hr>";
 
 
     html +=
@@ -2162,7 +2512,8 @@ function fecharDia() {
     }
 
 
-    html += "<hr>";
+    html +=
+        "<hr>";
 
 
     html +=
@@ -2231,6 +2582,7 @@ function fecharDia() {
 }
 
 
+
 /* =====================================================
    DATA FORMATADA
 ===================================================== */
@@ -2264,14 +2616,21 @@ function formatarDataAtual() {
 
 
     return (
+
         dia +
+
         "/" +
+
         mes +
+
         "/" +
+
         ano
+
     );
 
 }
+
 
 
 /* =====================================================
@@ -2291,10 +2650,8 @@ window.onload =
 
     };
 
-</script>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="supabase.js"></script>
+</script>
 
 
 </body>
