@@ -6,4 +6,6 @@ const supabaseClient = window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_KEY
 );
+
+// Disponibiliza o cliente para as outras páginas
 window.supabaseClient = supabaseClient;
