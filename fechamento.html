@@ -1,95 +1,199 @@
 <!DOCTYPE html>
-
 <html lang="pt-BR">
 
 <head>
 
-```
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-<title>Fechamento Diário - Projeto Espetinho</title>
+    <title>Fechamento Diário - Espetinho do Will</title>
 
-<style>
+    <style>
 
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: #f4f4f4;
-    }
+        * {
+            box-sizing: border-box;
+        }
 
-    header {
-        background: #222;
-        color: white;
-        padding: 20px;
-        text-align: center;
-    }
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            color: #222;
+        }
 
-    header h1 {
-        margin: 0;
-    }
+        header {
+            background: #222;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
 
-    .container {
-        max-width: 900px;
-        margin: auto;
-        padding: 25px;
-    }
+        header h1 {
+            margin: 0;
+        }
 
-    .caixa {
-        background: white;
-        padding: 20px;
-        border-radius: 10px;
-        margin-bottom: 20px;
-    }
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            padding: 25px;
+        }
 
-    .valor {
-        font-size: 28px;
-        font-weight: bold;
-    }
+        .caixa {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
 
-    .lucro {
-        font-size: 32px;
-        font-weight: bold;
-    }
+        .filtro {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
 
-    .produto {
-        padding: 10px;
-        border-bottom: 1px solid #ddd;
-    }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
 
-    .mesa {
-        background: #f8f8f8;
-        padding: 15px;
-        margin-bottom: 10px;
-        border-radius: 8px;
-    }
+        .resumo {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
 
-    button {
-        padding: 12px 18px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        background: #333;
-        color: white;
-        font-size: 16px;
-    }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
 
-    .voltar {
-        background: #6c757d;
-        margin-bottom: 20px;
-    }
+        .valor {
+            font-size: 26px;
+            font-weight: bold;
+        }
 
-    .aviso {
-        padding: 20px;
-        background: white;
-        border-radius: 10px;
-        text-align: center;
-    }
+        .recebido {
+            border-top: 5px solid #198754;
+        }
 
-</style>
-```
+        .fiado {
+            border-top: 5px solid #fd7e14;
+        }
+
+        .pagamento-fiado {
+            border-top: 5px solid #6f42c1;
+        }
+
+        .custo {
+            border-top: 5px solid #dc3545;
+        }
+
+        .lucro {
+            border-top: 5px solid #20c997;
+        }
+
+        .receber {
+            border-top: 5px solid #ffc107;
+        }
+
+        .produto {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .mesa,
+        .fiado-item,
+        .pagamento-item {
+            background: #f8f8f8;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+        }
+
+        .mesa {
+            border-left: 5px solid #198754;
+        }
+
+        .fiado-item {
+            border-left: 5px solid #fd7e14;
+        }
+
+        .pagamento-item {
+            border-left: 5px solid #6f42c1;
+        }
+
+        button {
+            padding: 12px 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+            font-size: 16px;
+            margin-top: 5px;
+            margin-right: 5px;
+        }
+
+        .voltar {
+            background: #6c757d;
+        }
+
+        .consultar {
+            background: #198754;
+        }
+
+        .hoje {
+            background: #0d6efd;
+        }
+
+        .aviso {
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .erro {
+            background: #f8d7da;
+            color: #842029;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 800px) {
+
+            .resumo {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            button {
+                width: 100%;
+                margin-right: 0;
+            }
+
+        }
+
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase.js"></script>
 
 </head>
 
@@ -97,125 +201,539 @@
 
 <header>
 
-```
-<h1>🥩 Projeto Espetinho</h1>
+    <h1>🥩 Espetinho do Will</h1>
 
-<p>📊 Fechamento Diário</p>
-```
+    <p>📊 Fechamento Diário</p>
 
 </header>
 
+
 <div class="container">
 
-```
-<button
-    class="voltar"
-    onclick="voltarMenu()"
->
 
-    ⬅️ Voltar ao Menu
-
-</button>
+    <button
+        class="voltar"
+        onclick="voltarMenu()"
+    >
+        ⬅️ Voltar ao Menu
+    </button>
 
 
-<div id="resultado">
+    <div class="filtro">
 
-    <div class="aviso">
+        <h2>📅 Escolher data</h2>
 
-        <p>Carregando fechamento...</p>
+        <input
+            type="date"
+            id="dataFechamento"
+        >
+
+        <button
+            class="consultar"
+            onclick="carregarFechamento()"
+        >
+            🔍 Consultar
+        </button>
+
+        <button
+            class="hoje"
+            onclick="irParaHoje()"
+        >
+            📅 Hoje
+        </button>
 
     </div>
 
-</div>
-```
+
+    <div id="resultado">
+
+        <div class="aviso">
+
+            <p>Carregando fechamento...</p>
+
+        </div>
+
+    </div>
+
 
 </div>
+
 
 <script>
 
 
 /* =====================================================
-   DATA ATUAL
+   LOGIN
 ===================================================== */
 
-
-function obterDataAtual() {
-
-    var agora = new Date();
-
-    var dia =
-        String(
-            agora.getDate()
-        ).padStart(2, "0");
-
-    var mes =
-        String(
-            agora.getMonth() + 1
-        ).padStart(2, "0");
-
-    var ano =
-        agora.getFullYear();
-
-    return (
-        dia +
-        "-" +
-        mes +
-        "-" +
-        ano
+var usuarioLogado =
+    localStorage.getItem(
+        "usuarioLogado"
     );
 
-}
 
+if (!usuarioLogado) {
+
+    window.location.href =
+        "login.html";
+
+}
 
 
 /* =====================================================
-   DATA FORMATADA
+   FORMATAR MOEDA
 ===================================================== */
 
+function formatarMoeda(valor) {
 
-function formatarDataAtual() {
-
-    var agora = new Date();
-
-    var dia =
-        String(
-            agora.getDate()
-        ).padStart(2, "0");
-
-    var mes =
-        String(
-            agora.getMonth() + 1
-        ).padStart(2, "0");
-
-    var ano =
-        agora.getFullYear();
-
-    return (
-        dia +
-        "/" +
-        mes +
-        "/" +
-        ano
+    return Number(
+        valor || 0
+    ).toLocaleString(
+        "pt-BR",
+        {
+            style: "currency",
+            currency: "BRL"
+        }
     );
 
 }
 
+
+/* =====================================================
+   DATA DE HOJE
+===================================================== */
+
+function obterDataHojeISO() {
+
+    var agora =
+        new Date();
+
+
+    var ano =
+        agora.getFullYear();
+
+
+    var mes =
+        String(
+            agora.getMonth() + 1
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    var dia =
+        String(
+            agora.getDate()
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    return (
+        ano +
+        "-" +
+        mes +
+        "-" +
+        dia
+    );
+
+}
+
+
+/* =====================================================
+   FORMATAR DATA
+===================================================== */
+
+function formatarDataBrasil(dataISO) {
+
+    if (!dataISO) {
+
+        return "-";
+
+    }
+
+
+    var partes =
+        dataISO.split("-");
+
+
+    return (
+        partes[2] +
+        "/" +
+        partes[1] +
+        "/" +
+        partes[0]
+    );
+
+}
+
+
+/* =====================================================
+   ESCAPAR HTML
+===================================================== */
+
+function escaparHTML(texto) {
+
+    return String(
+        texto || ""
+    )
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+/* =====================================================
+   HOJE
+===================================================== */
+
+function irParaHoje() {
+
+    document.getElementById(
+        "dataFechamento"
+    ).value =
+        obterDataHojeISO();
+
+
+    carregarFechamento();
+
+}
+
+
+/* =====================================================
+   VENDAS DO DIA
+===================================================== */
+
+async function carregarVendasDia(data) {
+
+    var resultado =
+        await window.supabaseClient
+            .from("vendas")
+            .select("*")
+            .eq(
+                "data_venda",
+                data
+            )
+            .order(
+                "id",
+                {
+                    ascending: false
+                }
+            );
+
+
+    if (resultado.error) {
+
+        throw resultado.error;
+
+    }
+
+
+    return resultado.data || [];
+
+}
+
+
+/* =====================================================
+   ITENS DAS VENDAS
+===================================================== */
+
+async function carregarItensVenda(vendas) {
+
+    if (
+        vendas.length === 0
+    ) {
+
+        return [];
+
+    }
+
+
+    var ids =
+        [];
+
+
+    for (
+        var i = 0;
+        i < vendas.length;
+        i++
+    ) {
+
+        ids.push(
+            vendas[i].id
+        );
+
+    }
+
+
+    var resultado =
+        await window.supabaseClient
+            .from("itens_venda")
+            .select("*")
+            .in(
+                "venda_id",
+                ids
+            );
+
+
+    if (resultado.error) {
+
+        throw resultado.error;
+
+    }
+
+
+    return resultado.data || [];
+
+}
+
+
+/* =====================================================
+   FIADOS DO DIA
+===================================================== */
+
+async function carregarFiadosDia(data) {
+
+    var resultado =
+        await window.supabaseClient
+            .from("contas_clientes")
+            .select("*")
+            .eq(
+                "data_consumo_date",
+                data
+            )
+            .order(
+                "id",
+                {
+                    ascending: false
+                }
+            );
+
+
+    if (resultado.error) {
+
+        throw resultado.error;
+
+    }
+
+
+    return resultado.data || [];
+
+}
+
+
+/* =====================================================
+   ITENS FIADOS
+===================================================== */
+
+async function carregarItensFiado(fiados) {
+
+    if (
+        fiados.length === 0
+    ) {
+
+        return [];
+
+    }
+
+
+    var ids =
+        [];
+
+
+    for (
+        var i = 0;
+        i < fiados.length;
+        i++
+    ) {
+
+        ids.push(
+            fiados[i].id
+        );
+
+    }
+
+
+    var resultado =
+        await window.supabaseClient
+            .from("itens_conta_cliente")
+            .select("*")
+            .in(
+                "conta_id",
+                ids
+            );
+
+
+    if (resultado.error) {
+
+        throw resultado.error;
+
+    }
+
+
+    return resultado.data || [];
+
+}
+
+
+/* =====================================================
+   PAGAMENTOS DO DIA
+===================================================== */
+
+async function carregarPagamentosDia(data) {
+
+    var resultado =
+        await window.supabaseClient
+            .from("pagamentos_clientes")
+            .select("*")
+            .eq(
+                "data_pagamento_date",
+                data
+            )
+            .order(
+                "id",
+                {
+                    ascending: false
+                }
+            );
+
+
+    if (resultado.error) {
+
+        throw resultado.error;
+
+    }
+
+
+    return resultado.data || [];
+
+}
+
+
+/* =====================================================
+   CLIENTES
+===================================================== */
+
+async function carregarClientes() {
+
+    var resultado =
+        await window.supabaseClient
+            .from("clientes")
+            .select("id,nome");
+
+
+    if (resultado.error) {
+
+        throw resultado.error;
+
+    }
+
+
+    return resultado.data || [];
+
+}
+
+
+/* =====================================================
+   TODOS OS FIADOS
+===================================================== */
+
+async function carregarTodosFiados() {
+
+    var resultado =
+        await window.supabaseClient
+            .from("contas_clientes")
+            .select("total");
+
+
+    if (resultado.error) {
+
+        throw resultado.error;
+
+    }
+
+
+    return resultado.data || [];
+
+}
+
+
+/* =====================================================
+   TODOS PAGAMENTOS
+===================================================== */
+
+async function carregarTodosPagamentos() {
+
+    var resultado =
+        await window.supabaseClient
+            .from("pagamentos_clientes")
+            .select("valor");
+
+
+    if (resultado.error) {
+
+        throw resultado.error;
+
+    }
+
+
+    return resultado.data || [];
+
+}
+
+
+/* =====================================================
+   NOME CLIENTE
+===================================================== */
+
+function obterNomeCliente(
+    clienteId,
+    clientes
+) {
+
+    for (
+        var i = 0;
+        i < clientes.length;
+        i++
+    ) {
+
+        if (
+            Number(
+                clientes[i].id
+            )
+            ===
+            Number(
+                clienteId
+            )
+        ) {
+
+            return clientes[i].nome;
+
+        }
+
+    }
+
+
+    return "Cliente não encontrado";
+
+}
 
 
 /* =====================================================
    CARREGAR FECHAMENTO
 ===================================================== */
 
-
-function carregarFechamento() {
+async function carregarFechamento() {
 
     var data =
-        obterDataAtual();
-
-    var dados =
-        localStorage.getItem(
-            "vendas_" + data
-        );
+        document.getElementById(
+            "dataFechamento"
+        ).value;
 
 
     var resultado =
@@ -224,346 +742,948 @@ function carregarFechamento() {
         );
 
 
-    if (!dados) {
+    if (!data) {
 
-        resultado.innerHTML =
-
-            "<div class='aviso'>" +
-
-            "<h2>📊 Fechamento do dia</h2>" +
-
-            "<p>Data: " +
-            formatarDataAtual() +
-            "</p>" +
-
-            "<h3>Nenhuma mesa foi fechada hoje.</h3>" +
-
-            "</div>";
+        alert(
+            "Escolha uma data."
+        );
 
         return;
 
     }
 
 
-    var vendas;
+    resultado.innerHTML =
+
+        "<div class='aviso'>" +
+
+        "<p>⏳ Carregando fechamento...</p>" +
+
+        "</div>";
 
 
     try {
 
-        vendas =
-            JSON.parse(dados);
 
-    }
+        var dados =
+            await Promise.all([
 
-    catch (erro) {
+                carregarVendasDia(data),
 
-        resultado.innerHTML =
+                carregarFiadosDia(data),
 
-            "<div class='aviso'>" +
+                carregarPagamentosDia(data),
 
-            "<h2>Erro ao carregar os dados.</h2>" +
+                carregarClientes(),
 
-            "</div>";
+                carregarTodosFiados(),
 
-        return;
+                carregarTodosPagamentos()
 
-    }
-
-
-    if (
-        !Array.isArray(vendas) ||
-        vendas.length === 0
-    ) {
-
-        resultado.innerHTML =
-
-            "<div class='aviso'>" +
-
-            "<h2>📊 Fechamento do dia</h2>" +
-
-            "<p>Nenhuma mesa fechada hoje.</p>" +
-
-            "</div>";
-
-        return;
-
-    }
+            ]);
 
 
-
-    /* =================================================
-       CALCULAR TOTAIS
-    ================================================= */
+        var vendas =
+            dados[0];
 
 
-    var totalVendas = 0;
-
-    var totalCusto = 0;
-
-    var produtosVendidos = {};
+        var fiados =
+            dados[1];
 
 
-
-    for (
-        var i = 0;
-        i < vendas.length;
-        i++
-    ) {
-
-        var venda =
-            vendas[i];
+        var pagamentos =
+            dados[2];
 
 
-        totalVendas +=
-            Number(
-                venda.total || 0
+        var clientes =
+            dados[3];
+
+
+        var todosFiados =
+            dados[4];
+
+
+        var todosPagamentos =
+            dados[5];
+
+
+        var itensVenda =
+            await carregarItensVenda(
+                vendas
             );
 
 
-        totalCusto +=
-            Number(
-                venda.custo || 0
+        var itensFiado =
+            await carregarItensFiado(
+                fiados
             );
 
 
-        if (
-            venda.itens &&
-            Array.isArray(
-                venda.itens
-            )
+
+        /* =================================================
+           TOTAIS
+        ================================================= */
+
+        var totalVendas =
+            0;
+
+
+        var custoVendas =
+            0;
+
+
+        var totalFiado =
+            0;
+
+
+        var custoFiado =
+            0;
+
+
+        var totalPagamentos =
+            0;
+
+
+        var dinheiro =
+            0;
+
+
+        var cartao =
+            0;
+
+
+        var pix =
+            0;
+
+
+
+        for (
+            var i = 0;
+            i < vendas.length;
+            i++
         ) {
 
-            for (
-                var j = 0;
-                j < venda.itens.length;
-                j++
+            var venda =
+                vendas[i];
+
+
+            var valor =
+                Number(
+                    venda.total || 0
+                );
+
+
+            totalVendas +=
+                valor;
+
+
+            custoVendas +=
+
+                Number(
+                    venda.custo || 0
+                );
+
+
+            if (
+                venda.forma_pagamento ===
+                "Dinheiro"
             ) {
 
-                var item =
-                    venda.itens[j];
+                dinheiro +=
+                    valor;
 
+            }
 
-                var nome =
-                    item.nome;
+            else if (
+                venda.forma_pagamento ===
+                "Cartão"
+            ) {
 
+                cartao +=
+                    valor;
 
-                if (
-                    !produtosVendidos[nome]
-                ) {
+            }
 
-                    produtosVendidos[nome] = 0;
+            else if (
+                venda.forma_pagamento ===
+                "PIX"
+            ) {
 
-                }
-
-
-                produtosVendidos[nome] +=
-                    Number(
-                        item.quantidade || 0
-                    );
+                pix +=
+                    valor;
 
             }
 
         }
 
-    }
 
-
-
-    var lucro =
-        totalVendas -
-        totalCusto;
-
-
-
-    /* =================================================
-       MONTAR TELA
-    ================================================= */
-
-
-    var html = "";
-
-
-    html +=
-
-        "<div class='caixa'>" +
-
-        "<h2>📊 Fechamento do dia</h2>" +
-
-        "<p><strong>Data:</strong> " +
-        formatarDataAtual() +
-        "</p>" +
-
-        "<p><strong>Mesas fechadas:</strong> " +
-        vendas.length +
-        "</p>" +
-
-        "</div>";
-
-
-
-    html +=
-
-        "<div class='caixa'>" +
-
-        "<h2>💰 Total de vendas</h2>" +
-
-        "<p class='valor'>R$ " +
-        totalVendas.toFixed(2) +
-        "</p>" +
-
-        "</div>";
-
-
-
-    html +=
-
-        "<div class='caixa'>" +
-
-        "<h2>💵 Total de custo</h2>" +
-
-        "<p class='valor'>R$ " +
-        totalCusto.toFixed(2) +
-        "</p>" +
-
-        "</div>";
-
-
-
-    html +=
-
-        "<div class='caixa'>" +
-
-        "<h2>🟢 Lucro do dia</h2>" +
-
-        "<p class='lucro'>R$ " +
-        lucro.toFixed(2) +
-        "</p>" +
-
-        "</div>";
-
-
-
-    /* =================================================
-       PRODUTOS VENDIDOS
-    ================================================= */
-
-
-    html +=
-
-        "<div class='caixa'>" +
-
-        "<h2>🥩 Produtos vendidos</h2>";
-
-
-
-    var nomes =
-        Object.keys(
-            produtosVendidos
-        );
-
-
-    if (
-        nomes.length === 0
-    ) {
-
-        html +=
-            "<p>Nenhum produto vendido.</p>";
-
-    }
-
-    else {
 
         for (
             var i = 0;
-            i < nomes.length;
+            i < fiados.length;
             i++
         ) {
 
+            totalFiado +=
+
+                Number(
+                    fiados[i].total || 0
+                );
+
+
+            custoFiado +=
+
+                Number(
+                    fiados[i].custo || 0
+                );
+
+        }
+
+
+
+        for (
+            var i = 0;
+            i < pagamentos.length;
+            i++
+        ) {
+
+            var pagamento =
+                pagamentos[i];
+
+
+            var valor =
+                Number(
+                    pagamento.valor || 0
+                );
+
+
+            totalPagamentos +=
+                valor;
+
+
+            if (
+                pagamento.forma_pagamento ===
+                "Dinheiro"
+            ) {
+
+                dinheiro +=
+                    valor;
+
+            }
+
+            else if (
+                pagamento.forma_pagamento ===
+                "Cartão"
+            ) {
+
+                cartao +=
+                    valor;
+
+            }
+
+            else if (
+                pagamento.forma_pagamento ===
+                "PIX"
+            ) {
+
+                pix +=
+                    valor;
+
+            }
+
+        }
+
+
+
+        var totalConsumido =
+
+            totalVendas +
+
+            totalFiado;
+
+
+        var totalRecebido =
+
+            totalVendas +
+
+            totalPagamentos;
+
+
+        var totalCusto =
+
+            custoVendas +
+
+            custoFiado;
+
+
+        var lucro =
+
+            totalConsumido -
+
+            totalCusto;
+
+
+
+        /* =================================================
+           TOTAL GERAL A RECEBER
+        ================================================= */
+
+        var fiadoGeral =
+            0;
+
+
+        for (
+            var i = 0;
+            i < todosFiados.length;
+            i++
+        ) {
+
+            fiadoGeral +=
+
+                Number(
+                    todosFiados[i].total || 0
+                );
+
+        }
+
+
+        var pagoGeral =
+            0;
+
+
+        for (
+            var i = 0;
+            i < todosPagamentos.length;
+            i++
+        ) {
+
+            pagoGeral +=
+
+                Number(
+                    todosPagamentos[i].valor || 0
+                );
+
+        }
+
+
+        var totalAReceber =
+
+            fiadoGeral -
+
+            pagoGeral;
+
+
+        if (
+            totalAReceber < 0
+        ) {
+
+            totalAReceber =
+                0;
+
+        }
+
+
+
+        /* =================================================
+           PRODUTOS
+        ================================================= */
+
+        var produtosVendidos =
+            {};
+
+
+        for (
+            var i = 0;
+            i < itensVenda.length;
+            i++
+        ) {
+
+            var item =
+                itensVenda[i];
+
+
             var nome =
-                nomes[i];
+                item.nome_produto;
+
+
+            if (
+                !produtosVendidos[nome]
+            ) {
+
+                produtosVendidos[nome] =
+                    0;
+
+            }
+
+
+            produtosVendidos[nome] +=
+
+                Number(
+                    item.quantidade || 0
+                );
+
+        }
+
+
+        for (
+            var i = 0;
+            i < itensFiado.length;
+            i++
+        ) {
+
+            var item =
+                itensFiado[i];
+
+
+            var nome =
+                item.nome_produto;
+
+
+            if (
+                !produtosVendidos[nome]
+            ) {
+
+                produtosVendidos[nome] =
+                    0;
+
+            }
+
+
+            produtosVendidos[nome] +=
+
+                Number(
+                    item.quantidade || 0
+                );
+
+        }
+
+
+
+        /* =================================================
+           MONTAR TELA
+        ================================================= */
+
+        var html =
+            "";
+
+
+        html +=
+
+            "<div class='caixa'>" +
+
+            "<h2>📊 Fechamento do dia</h2>" +
+
+            "<p><strong>Data:</strong> " +
+
+            formatarDataBrasil(
+                data
+            ) +
+
+            "</p>" +
+
+            "<p><strong>Mesas pagas:</strong> " +
+
+            vendas.length +
+
+            "</p>" +
+
+            "<p><strong>Contas fiadas lançadas:</strong> " +
+
+            fiados.length +
+
+            "</p>" +
+
+            "</div>";
+
+
+
+        html +=
+
+            "<div class='resumo'>" +
+
+
+            "<div class='card recebido'>" +
+
+            "<h3>💰 Recebido no dia</h3>" +
+
+            "<div class='valor'>" +
+
+            formatarMoeda(
+                totalRecebido
+            ) +
+
+            "</div>" +
+
+            "</div>" +
+
+
+            "<div class='card fiado'>" +
+
+            "<h3>👤 Fiado lançado</h3>" +
+
+            "<div class='valor'>" +
+
+            formatarMoeda(
+                totalFiado
+            ) +
+
+            "</div>" +
+
+            "</div>" +
+
+
+            "<div class='card pagamento-fiado'>" +
+
+            "<h3>💵 Fiado recebido</h3>" +
+
+            "<div class='valor'>" +
+
+            formatarMoeda(
+                totalPagamentos
+            ) +
+
+            "</div>" +
+
+            "</div>" +
+
+
+            "<div class='card custo'>" +
+
+            "<h3>📦 Custo do dia</h3>" +
+
+            "<div class='valor'>" +
+
+            formatarMoeda(
+                totalCusto
+            ) +
+
+            "</div>" +
+
+            "</div>" +
+
+
+            "<div class='card lucro'>" +
+
+            "<h3>📈 Lucro sobre consumo</h3>" +
+
+            "<div class='valor'>" +
+
+            formatarMoeda(
+                lucro
+            ) +
+
+            "</div>" +
+
+            "</div>" +
+
+
+            "<div class='card receber'>" +
+
+            "<h3>📒 Total geral a receber</h3>" +
+
+            "<div class='valor'>" +
+
+            formatarMoeda(
+                totalAReceber
+            ) +
+
+            "</div>" +
+
+            "</div>" +
+
+
+            "</div>";
+
+
+
+        html +=
+
+            "<div class='caixa'>" +
+
+            "<h2>💳 Formas de pagamento recebidas</h2>" +
+
+            "<p>💵 Dinheiro: <strong>" +
+
+            formatarMoeda(
+                dinheiro
+            ) +
+
+            "</strong></p>" +
+
+            "<p>💳 Cartão: <strong>" +
+
+            formatarMoeda(
+                cartao
+            ) +
+
+            "</strong></p>" +
+
+            "<p>📱 PIX: <strong>" +
+
+            formatarMoeda(
+                pix
+            ) +
+
+            "</strong></p>" +
+
+            "</div>";
+
+
+
+        html +=
+
+            "<div class='caixa'>" +
+
+            "<h2>🧾 Total consumido no dia</h2>" +
+
+            "<p class='valor'>" +
+
+            formatarMoeda(
+                totalConsumido
+            ) +
+
+            "</p>" +
+
+            "</div>";
+
+
+
+        /* =================================================
+           PRODUTOS
+        ================================================= */
+
+        html +=
+
+            "<div class='caixa'>" +
+
+            "<h2>🥩 Produtos consumidos</h2>";
+
+
+        var nomes =
+            Object.keys(
+                produtosVendidos
+            );
+
+
+        if (
+            nomes.length === 0
+        ) {
+
+            html +=
+
+                "<p>Nenhum produto registrado nesta data.</p>";
+
+        }
+
+        else {
+
+            for (
+                var i = 0;
+                i < nomes.length;
+                i++
+            ) {
+
+                html +=
+
+                    "<div class='produto'>" +
+
+                    "🥩 " +
+
+                    escaparHTML(
+                        nomes[i]
+                    ) +
+
+                    " × " +
+
+                    produtosVendidos[
+                        nomes[i]
+                    ] +
+
+                    "</div>";
+
+            }
+
+        }
+
+
+        html +=
+            "</div>";
+
+
+
+        /* =================================================
+           VENDAS
+        ================================================= */
+
+        html +=
+
+            "<div class='caixa'>" +
+
+            "<h2>✅ Mesas pagas</h2>";
+
+
+        if (
+            vendas.length === 0
+        ) {
+
+            html +=
+
+                "<p>Nenhuma mesa paga nesta data.</p>";
+
+        }
+
+
+        for (
+            var i = 0;
+            i < vendas.length;
+            i++
+        ) {
+
+            var venda =
+                vendas[i];
 
 
             html +=
 
-                "<div class='produto'>" +
+                "<div class='mesa'>" +
 
-                "🥩 " +
-                nome +
-                " × " +
-                produtosVendidos[nome] +
+                "<h3>🍽️ Mesa " +
+
+                escaparHTML(
+                    venda.mesa
+                ) +
+
+                "</h3>" +
+
+                "<p>Horário: " +
+
+                escaparHTML(
+                    venda.horario || "-"
+                ) +
+
+                "</p>" +
+
+                "<p>Pagamento: " +
+
+                escaparHTML(
+                    venda.forma_pagamento || "-"
+                ) +
+
+                "</p>" +
+
+                "<p><strong>Total: " +
+
+                formatarMoeda(
+                    venda.total
+                ) +
+
+                "</strong></p>" +
 
                 "</div>";
 
         }
 
-    }
 
-
-    html += "</div>";
-
-
-
-    /* =================================================
-       MESAS FECHADAS
-    ================================================= */
-
-
-    html +=
-
-        "<div class='caixa'>" +
-
-        "<h2>📋 Mesas fechadas</h2>";
+        html +=
+            "</div>";
 
 
 
-    for (
-        var i = 0;
-        i < vendas.length;
-        i++
-    ) {
-
-        var mesa =
-            vendas[i];
-
+        /* =================================================
+           FIADOS
+        ================================================= */
 
         html +=
 
-            "<div class='mesa'>" +
+            "<div class='caixa'>" +
 
-            "<h3>🍽️ Mesa " +
-            mesa.mesa +
-            "</h3>" +
+            "<h2>👤 Fiados lançados</h2>";
 
-            "<p>Horário: " +
-            mesa.horario +
-            "</p>" +
 
-            "<p><strong>Total: R$ " +
-            Number(
-                mesa.total || 0
-            ).toFixed(2) +
-            "</strong></p>" +
+        if (
+            fiados.length === 0
+        ) {
+
+            html +=
+
+                "<p>Nenhum fiado lançado nesta data.</p>";
+
+        }
+
+
+        for (
+            var i = 0;
+            i < fiados.length;
+            i++
+        ) {
+
+            var conta =
+                fiados[i];
+
+
+            var nomeCliente =
+                obterNomeCliente(
+
+                    conta.cliente_id,
+
+                    clientes
+
+                );
+
+
+            html +=
+
+                "<div class='fiado-item'>" +
+
+                "<h3>👤 " +
+
+                escaparHTML(
+                    nomeCliente
+                ) +
+
+                "</h3>" +
+
+                "<p>Mesa: " +
+
+                escaparHTML(
+                    conta.mesa || "-"
+                ) +
+
+                "</p>" +
+
+                "<p><strong>Valor fiado: " +
+
+                formatarMoeda(
+                    conta.total
+                ) +
+
+                "</strong></p>" +
+
+                "</div>";
+
+        }
+
+
+        html +=
+            "</div>";
+
+
+
+        /* =================================================
+           PAGAMENTOS
+        ================================================= */
+
+        html +=
+
+            "<div class='caixa'>" +
+
+            "<h2>💵 Pagamentos de clientes</h2>";
+
+
+        if (
+            pagamentos.length === 0
+        ) {
+
+            html +=
+
+                "<p>Nenhum pagamento de conta nesta data.</p>";
+
+        }
+
+
+        for (
+            var i = 0;
+            i < pagamentos.length;
+            i++
+        ) {
+
+            var pagamento =
+                pagamentos[i];
+
+
+            var nomeCliente =
+                obterNomeCliente(
+
+                    pagamento.cliente_id,
+
+                    clientes
+
+                );
+
+
+            html +=
+
+                "<div class='pagamento-item'>" +
+
+                "<h3>💰 " +
+
+                escaparHTML(
+                    nomeCliente
+                ) +
+
+                "</h3>" +
+
+                "<p>Forma: " +
+
+                escaparHTML(
+                    pagamento.forma_pagamento || "-"
+                ) +
+
+                "</p>" +
+
+                "<p><strong>Recebido: " +
+
+                formatarMoeda(
+                    pagamento.valor
+                ) +
+
+                "</strong></p>" +
+
+                "</div>";
+
+        }
+
+
+        html +=
+            "</div>";
+
+
+
+        resultado.innerHTML =
+            html;
+
+    }
+
+    catch (erro) {
+
+        console.error(
+            erro
+        );
+
+
+        resultado.innerHTML =
+
+            "<div class='erro'>" +
+
+            "❌ Não foi possível carregar o fechamento." +
+
+            "<br><br>" +
+
+            escaparHTML(
+                erro.message ||
+                "Erro desconhecido."
+            ) +
 
             "</div>";
 
     }
 
-
-    html += "</div>";
-
-
-
-    resultado.innerHTML =
-        html;
-
 }
-
 
 
 /* =====================================================
    VOLTAR
 ===================================================== */
-
 
 function voltarMenu() {
 
@@ -573,17 +1693,22 @@ function voltarMenu() {
 }
 
 
-
 /* =====================================================
    INICIAR
 ===================================================== */
 
+window.onload =
+    async function() {
 
-window.onload = function() {
+        document.getElementById(
+            "dataFechamento"
+        ).value =
+            obterDataHojeISO();
 
-    carregarFechamento();
 
-};
+        await carregarFechamento();
+
+    };
 
 
 </script>
