@@ -1,0 +1,1360 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Relatórios - Espetinho do Will</title>
+
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+        }
+
+
+        header {
+            background: #222;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+
+        header h1 {
+            margin: 0;
+        }
+
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            padding: 25px;
+        }
+
+
+        .voltar {
+            background: #333;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+
+        .caixa {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+
+        .filtros {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+
+        .filtros input {
+            flex: 1;
+            min-width: 180px;
+            padding: 12px;
+            box-sizing: border-box;
+        }
+
+
+        button {
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            padding: 12px 18px;
+        }
+
+
+        .consultar {
+            background: #0d6efd;
+            color: white;
+        }
+
+
+        .resumo {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+
+        .card h3 {
+            margin-top: 0;
+        }
+
+
+        .valor {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+
+        .lucro {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+
+        .pagamentos {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+
+        .pagamento {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+
+        .pagamento h3 {
+            margin-top: 0;
+        }
+
+
+        .dinheiro {
+            border-left: 6px solid #198754;
+        }
+
+
+        .cartao {
+            border-left: 6px solid #0d6efd;
+        }
+
+
+        .pix {
+            border-left: 6px solid #6f42c1;
+        }
+
+
+        .lista {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+
+        .produto {
+            padding: 12px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+
+        .mesa {
+            background: #f8f8f8;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+        }
+
+
+        .aviso {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+
+        /* =========================================
+           TELA DE SENHA
+        ========================================= */
+
+        #telaSenha {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #222;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+
+        .caixaSenha {
+            background: white;
+            width: 90%;
+            max-width: 400px;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+
+        .caixaSenha h2 {
+            margin-top: 0;
+        }
+
+
+        .caixaSenha input {
+            width: 100%;
+            padding: 14px;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            font-size: 18px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+
+        .botaoSenha {
+            width: 100%;
+            background: #198754;
+            color: white;
+            font-size: 18px;
+        }
+
+
+        .erroSenha {
+            color: #dc3545;
+            font-weight: bold;
+            margin-top: 15px;
+            display: none;
+        }
+
+
+        .sairSenha {
+            width: 100%;
+            background: #6c757d;
+            color: white;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+
+        @media (max-width: 700px) {
+
+            .resumo {
+                grid-template-columns: 1fr;
+            }
+
+
+            .pagamentos {
+                grid-template-columns: 1fr;
+            }
+
+
+            .container {
+                padding: 15px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     TELA DE SENHA
+========================================= -->
+
+<div id="telaSenha">
+
+    <div class="caixaSenha">
+
+        <h2>🔐 Área restrita</h2>
+
+        <p>
+            Digite a senha para acessar os relatórios.
+        </p>
+
+
+        <input
+            type="password"
+            id="senhaRelatorio"
+            placeholder="Digite a senha"
+            onkeydown="pressionarEnter(event)"
+        >
+
+
+        <button
+            class="botaoSenha"
+            onclick="verificarSenha()"
+        >
+
+            🔓 Entrar
+
+        </button>
+
+
+        <div
+            id="erroSenha"
+            class="erroSenha"
+        >
+
+            ❌ Senha incorreta.
+
+        </div>
+
+
+        <button
+            class="sairSenha"
+            onclick="voltarLogin()"
+        >
+
+            ⬅️ Voltar
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================
+     SISTEMA
+========================================= -->
+
+
+<header>
+
+    <h1>🥩 Espetinho do Will</h1>
+
+    <p>📊 Relatórios</p>
+
+</header>
+
+
+
+<div class="container">
+
+
+    <button
+        class="voltar"
+        onclick="window.location.href='index.html'"
+    >
+
+        ⬅️ Voltar ao menu
+
+    </button>
+
+
+
+    <!-- FILTRO -->
+
+
+    <div class="caixa">
+
+        <h2>📅 Consultar período</h2>
+
+
+        <div class="filtros">
+
+            <input
+                type="date"
+                id="dataInicial"
+            >
+
+
+            <input
+                type="date"
+                id="dataFinal"
+            >
+
+
+            <button
+                class="consultar"
+                onclick="consultarRelatorio()"
+            >
+
+                🔎 Consultar
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <div
+        id="aviso"
+        class="aviso"
+    >
+
+        Selecione as datas e clique em
+        <strong>Consultar</strong>.
+
+    </div>
+
+
+
+    <!-- RESULTADO -->
+
+
+    <div
+        id="resultado"
+        style="display:none;"
+    >
+
+
+        <h2>📊 Resumo</h2>
+
+
+        <div class="resumo">
+
+
+            <div class="card">
+
+                <h3>💰 Total de vendas</h3>
+
+                <div
+                    id="totalVendas"
+                    class="valor"
+                >
+
+                    R$ 0,00
+
+                </div>
+
+            </div>
+
+
+
+            <div class="card">
+
+                <h3>💵 Total de custos</h3>
+
+                <div
+                    id="totalCustos"
+                    class="valor"
+                >
+
+                    R$ 0,00
+
+                </div>
+
+            </div>
+
+
+
+            <div class="card">
+
+                <h3>🟢 Lucro</h3>
+
+                <div
+                    id="totalLucro"
+                    class="lucro"
+                >
+
+                    R$ 0,00
+
+                </div>
+
+            </div>
+
+
+
+            <div class="card">
+
+                <h3>🍽️ Mesas fechadas</h3>
+
+                <div
+                    id="totalMesas"
+                    class="valor"
+                >
+
+                    0
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- FORMAS DE PAGAMENTO -->
+
+
+        <h2>💳 Formas de pagamento</h2>
+
+
+        <div class="pagamentos">
+
+
+            <div class="pagamento dinheiro">
+
+                <h3>💵 Dinheiro</h3>
+
+                <div
+                    id="totalDinheiro"
+                    class="valor"
+                >
+
+                    R$ 0,00
+
+                </div>
+
+            </div>
+
+
+
+            <div class="pagamento cartao">
+
+                <h3>💳 Cartão</h3>
+
+                <div
+                    id="totalCartao"
+                    class="valor"
+                >
+
+                    R$ 0,00
+
+                </div>
+
+            </div>
+
+
+
+            <div class="pagamento pix">
+
+                <h3>📱 PIX</h3>
+
+                <div
+                    id="totalPix"
+                    class="valor"
+                >
+
+                    R$ 0,00
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- PRODUTOS -->
+
+
+        <div class="lista">
+
+            <h2>🥩 Produtos vendidos</h2>
+
+
+            <div id="produtosVendidos">
+
+            </div>
+
+        </div>
+
+
+
+        <!-- MESAS -->
+
+
+        <div class="lista">
+
+            <h2>📋 Mesas fechadas</h2>
+
+
+            <div id="mesasFechadas">
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+
+/* =====================================================
+   SENHA DO RELATÓRIO
+===================================================== */
+
+
+/*
+   TROQUE A SENHA ABAIXO
+   PELA SENHA QUE VOCÊ QUISER.
+*/
+
+
+var SENHA_RELATORIO = "1234";
+
+
+var relatorioLiberado = false;
+
+
+
+/* =====================================================
+   VERIFICAR SENHA
+===================================================== */
+
+
+function verificarSenha() {
+
+
+    var senha =
+        document.getElementById(
+            "senhaRelatorio"
+        ).value;
+
+
+    if (
+        senha === SENHA_RELATORIO
+    ) {
+
+
+        relatorioLiberado = true;
+
+
+        document.getElementById(
+            "telaSenha"
+        ).style.display =
+            "none";
+
+
+        document.getElementById(
+            "senhaRelatorio"
+        ).value = "";
+
+
+        document.getElementById(
+            "erroSenha"
+        ).style.display =
+            "none";
+
+
+    }
+
+    else {
+
+
+        document.getElementById(
+            "erroSenha"
+        ).style.display =
+            "block";
+
+
+        document.getElementById(
+            "senhaRelatorio"
+        ).value = "";
+
+
+        document.getElementById(
+            "senhaRelatorio"
+        ).focus();
+
+    }
+
+}
+
+
+
+/* =====================================================
+   ENTER NA SENHA
+===================================================== */
+
+
+function pressionarEnter(event) {
+
+    if (
+        event.key === "Enter"
+    ) {
+
+        verificarSenha();
+
+    }
+
+}
+
+
+
+/* =====================================================
+   VOLTAR
+===================================================== */
+
+
+function voltarLogin() {
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+
+/* =====================================================
+   CONSULTAR RELATÓRIO
+===================================================== */
+
+
+function consultarRelatorio() {
+
+
+    if (!relatorioLiberado) {
+
+        alert(
+            "Digite a senha para acessar os relatórios."
+        );
+
+        return;
+
+    }
+
+
+    var dataInicial =
+        document.getElementById(
+            "dataInicial"
+        ).value;
+
+
+    var dataFinal =
+        document.getElementById(
+            "dataFinal"
+        ).value;
+
+
+    if (
+        dataInicial === "" ||
+        dataFinal === ""
+    ) {
+
+        alert(
+            "Escolha a data inicial e a data final."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        dataInicial >
+        dataFinal
+    ) {
+
+        alert(
+            "A data inicial não pode ser maior que a data final."
+        );
+
+        return;
+
+    }
+
+
+
+    var vendas = [];
+
+
+    var dataAtual =
+        new Date(
+            dataInicial +
+            "T00:00:00"
+        );
+
+
+    var dataFim =
+        new Date(
+            dataFinal +
+            "T00:00:00"
+        );
+
+
+    while (
+        dataAtual <=
+        dataFim
+    ) {
+
+
+        var dia =
+            String(
+                dataAtual.getDate()
+            ).padStart(2, "0");
+
+
+        var mes =
+            String(
+                dataAtual.getMonth() + 1
+            ).padStart(2, "0");
+
+
+        var ano =
+            dataAtual.getFullYear();
+
+
+        var chave =
+            "vendas_" +
+            dia +
+            "-" +
+            mes +
+            "-" +
+            ano;
+
+
+        var dados =
+            localStorage.getItem(
+                chave
+            );
+
+
+        if (dados) {
+
+
+            try {
+
+                var vendasDia =
+                    JSON.parse(
+                        dados
+                    );
+
+
+                if (
+                    Array.isArray(
+                        vendasDia
+                    )
+                ) {
+
+                    for (
+                        var i = 0;
+                        i < vendasDia.length;
+                        i++
+                    ) {
+
+                        vendas.push(
+                            vendasDia[i]
+                        );
+
+                    }
+
+                }
+
+            }
+
+            catch (erro) {
+
+                console.log(
+                    "Erro ao ler:",
+                    chave
+                );
+
+            }
+
+        }
+
+
+        dataAtual.setDate(
+            dataAtual.getDate() + 1
+        );
+
+    }
+
+
+
+    mostrarRelatorio(
+        vendas
+    );
+
+}
+
+
+
+/* =====================================================
+   MOSTRAR RELATÓRIO
+===================================================== */
+
+
+function mostrarRelatorio(
+    vendas
+) {
+
+
+    document.getElementById(
+        "resultado"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "aviso"
+    ).style.display =
+        "none";
+
+
+
+    var totalVendas = 0;
+
+    var totalCustos = 0;
+
+
+    var totalDinheiro = 0;
+
+    var totalCartao = 0;
+
+    var totalPix = 0;
+
+
+
+    var produtos = {};
+
+
+
+    /* SOMAR VENDAS */
+
+
+    for (
+        var i = 0;
+        i < vendas.length;
+        i++
+    ) {
+
+
+        var venda =
+            vendas[i];
+
+
+        totalVendas +=
+            Number(
+                venda.total || 0
+            );
+
+
+        totalCustos +=
+            Number(
+                venda.custo || 0
+            );
+
+
+
+        /* PAGAMENTO */
+
+
+        if (
+            venda.formaPagamento ===
+            "Dinheiro"
+        ) {
+
+            totalDinheiro +=
+                Number(
+                    venda.total || 0
+                );
+
+        }
+
+
+        else if (
+            venda.formaPagamento ===
+            "Cartão"
+        ) {
+
+            totalCartao +=
+                Number(
+                    venda.total || 0
+                );
+
+        }
+
+
+        else if (
+            venda.formaPagamento ===
+            "PIX"
+        ) {
+
+            totalPix +=
+                Number(
+                    venda.total || 0
+                );
+
+        }
+
+
+
+        /* PRODUTOS */
+
+
+        if (
+            venda.itens &&
+            Array.isArray(
+                venda.itens
+            )
+        ) {
+
+
+            for (
+                var j = 0;
+                j < venda.itens.length;
+                j++
+            ) {
+
+
+                var item =
+                    venda.itens[j];
+
+
+                var nome =
+                    item.nome;
+
+
+                if (
+                    !produtos[nome]
+                ) {
+
+                    produtos[nome] =
+                        0;
+
+                }
+
+
+                produtos[nome] +=
+                    Number(
+                        item.quantidade || 0
+                    );
+
+            }
+
+        }
+
+    }
+
+
+
+    var lucro =
+        totalVendas -
+        totalCustos;
+
+
+
+    /* RESUMO */
+
+
+    document.getElementById(
+        "totalVendas"
+    ).innerText =
+
+        "R$ " +
+        totalVendas.toFixed(2);
+
+
+
+    document.getElementById(
+        "totalCustos"
+    ).innerText =
+
+        "R$ " +
+        totalCustos.toFixed(2);
+
+
+
+    document.getElementById(
+        "totalLucro"
+    ).innerText =
+
+        "R$ " +
+        lucro.toFixed(2);
+
+
+
+    document.getElementById(
+        "totalMesas"
+    ).innerText =
+
+        vendas.length;
+
+
+
+    /* PAGAMENTOS */
+
+
+    document.getElementById(
+        "totalDinheiro"
+    ).innerText =
+
+        "R$ " +
+        totalDinheiro.toFixed(2);
+
+
+
+    document.getElementById(
+        "totalCartao"
+    ).innerText =
+
+        "R$ " +
+        totalCartao.toFixed(2);
+
+
+
+    document.getElementById(
+        "totalPix"
+    ).innerText =
+
+        "R$ " +
+        totalPix.toFixed(2);
+
+
+
+    /* PRODUTOS */
+
+
+    var areaProdutos =
+        document.getElementById(
+            "produtosVendidos"
+        );
+
+
+    areaProdutos.innerHTML = "";
+
+
+    var nomes =
+        Object.keys(
+            produtos
+        );
+
+
+    if (
+        nomes.length === 0
+    ) {
+
+        areaProdutos.innerHTML =
+
+            "<p>Nenhum produto vendido no período.</p>";
+
+    }
+
+    else {
+
+
+        for (
+            var i = 0;
+            i < nomes.length;
+            i++
+        ) {
+
+
+            var nome =
+                nomes[i];
+
+
+            areaProdutos.innerHTML +=
+
+                "<div class='produto'>" +
+
+                "🥩 <strong>" +
+                nome +
+                "</strong>" +
+
+                " × " +
+                produtos[nome] +
+
+                "</div>";
+
+        }
+
+    }
+
+
+
+    /* MESAS */
+
+
+    var areaMesas =
+        document.getElementById(
+            "mesasFechadas"
+        );
+
+
+    areaMesas.innerHTML = "";
+
+
+    if (
+        vendas.length === 0
+    ) {
+
+        areaMesas.innerHTML =
+
+            "<p>Nenhuma mesa fechada no período.</p>";
+
+    }
+
+    else {
+
+
+        for (
+            var i = 0;
+            i < vendas.length;
+            i++
+        ) {
+
+
+            var venda =
+                vendas[i];
+
+
+            areaMesas.innerHTML +=
+
+                "<div class='mesa'>" +
+
+                "<h3>🍽️ Mesa " +
+                venda.mesa +
+                "</h3>" +
+
+                "<p>" +
+
+                "🕐 Horário: " +
+
+                (
+                    venda.horario ||
+                    "Não informado"
+                ) +
+
+                "</p>" +
+
+                "<p>" +
+
+                "💳 Pagamento: " +
+
+                (
+                    venda.formaPagamento ||
+                    "Não informado"
+                ) +
+
+                "</p>" +
+
+                "<p>" +
+
+                "<strong>Total: R$ " +
+
+                Number(
+                    venda.total || 0
+                ).toFixed(2) +
+
+                "</strong>" +
+
+                "</p>" +
+
+                "</div>";
+
+        }
+
+    }
+
+}
+
+
+
+/* =====================================================
+   INICIAR
+===================================================== */
+
+
+window.onload = function() {
+
+
+    /*
+       O RELATÓRIO COMEÇA BLOQUEADO.
+    */
+
+
+    document.getElementById(
+        "telaSenha"
+    ).style.display =
+        "flex";
+
+
+    document.getElementById(
+        "resultado"
+    ).style.display =
+        "none";
+
+
+
+    var hoje =
+        new Date();
+
+
+    var ano =
+        hoje.getFullYear();
+
+
+    var mes =
+        String(
+            hoje.getMonth() + 1
+        ).padStart(2, "0");
+
+
+    var dia =
+        String(
+            hoje.getDate()
+        ).padStart(2, "0");
+
+
+    var hojeFormatado =
+        ano +
+        "-" +
+        mes +
+        "-" +
+        dia;
+
+
+    document.getElementById(
+        "dataInicial"
+    ).value =
+        hojeFormatado;
+
+
+    document.getElementById(
+        "dataFinal"
+    ).value =
+        hojeFormatado;
+
+
+    document.getElementById(
+        "senhaRelatorio"
+    ).focus();
+
+};
+
+</script>
+
+
+</body>
+
+</html>
+```

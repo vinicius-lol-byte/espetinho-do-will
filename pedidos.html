@@ -1,0 +1,2162 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Pedidos - Espetinho do Will</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+        }
+
+        header {
+            background: #222;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 25px;
+        }
+
+        .caixa {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        select,
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 12px 18px;
+            margin-top: 5px;
+            margin-right: 5px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .adicionar {
+            background: #333;
+            color: white;
+        }
+
+        .enviar {
+            background: #198754;
+            color: white;
+            font-size: 18px;
+        }
+
+        .fechar {
+            background: #dc3545;
+            color: white;
+            font-size: 16px;
+        }
+
+        .item {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+        }
+
+        .mesa-aberta {
+            border-left: 6px solid #198754;
+        }
+
+        .total {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 22px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .fechamento {
+            background: #0d6efd;
+            color: white;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .fechamento-dia {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 25px;
+        }
+
+        .lucro {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .produto-vendido {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .mesa-fechada {
+            background: #f8f8f8;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+        }
+
+        .pagamento {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 6px solid #ffc107;
+        }
+
+        .pagamento button {
+            width: 100%;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        .dinheiro {
+            background: #198754;
+            color: white;
+        }
+
+        .cartao {
+            background: #0d6efd;
+            color: white;
+        }
+
+        .pix {
+            background: #6f42c1;
+            color: white;
+        }
+
+        .cancelar {
+            background: #6c757d;
+            color: white;
+        }
+
+        .voltar {
+            background: #222;
+            color: white;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 700px) {
+
+            .container {
+                padding: 15px;
+            }
+
+            header h1 {
+                font-size: 26px;
+            }
+
+            button {
+                width: 100%;
+                margin-right: 0;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <h1>🥩 Espetinho do Will</h1>
+
+    <p>📝 Pedidos</p>
+
+</header>
+
+
+<div class="container">
+
+
+    <button
+        class="voltar"
+        onclick="voltarMenu()"
+    >
+
+        🏠 Voltar ao menu
+
+    </button>
+
+
+    <!-- NOVO PEDIDO -->
+
+    <div class="caixa">
+
+        <h2>Novo pedido</h2>
+
+
+        <label>Mesa:</label>
+
+        <select id="mesa">
+
+            <option value="">
+                Selecione a mesa
+            </option>
+
+            <option value="1">Mesa 1</option>
+            <option value="2">Mesa 2</option>
+            <option value="3">Mesa 3</option>
+            <option value="4">Mesa 4</option>
+            <option value="5">Mesa 5</option>
+            <option value="6">Mesa 6</option>
+            <option value="7">Mesa 7</option>
+            <option value="8">Mesa 8</option>
+            <option value="9">Mesa 9</option>
+            <option value="10">Mesa 10</option>
+
+        </select>
+
+
+        <label>Produto:</label>
+
+        <select id="produto">
+
+            <option value="">
+                Carregando produtos...
+            </option>
+
+        </select>
+
+
+        <label>Quantidade:</label>
+
+        <input
+            type="number"
+            id="quantidade"
+            min="1"
+            placeholder="Digite a quantidade"
+        >
+
+
+        <button
+            class="adicionar"
+            onclick="adicionarItem()"
+        >
+
+            ➕ Adicionar item
+
+        </button>
+
+    </div>
+
+
+    <!-- ITENS -->
+
+    <h2>Itens do pedido</h2>
+
+
+    <div id="listaPedido">
+
+        <p>Nenhum item adicionado.</p>
+
+    </div>
+
+
+    <!-- TOTAL -->
+
+    <div
+        id="totalPedido"
+        class="total"
+        style="display:none;"
+    >
+
+        Total: R$ 0,00
+
+    </div>
+
+
+    <!-- ENVIAR -->
+
+    <button
+        id="botaoEnviar"
+        class="enviar"
+        onclick="enviarPedido()"
+        style="display:none;"
+    >
+
+        ✅ Enviar pedido
+
+    </button>
+
+
+    <!-- MESAS -->
+
+    <h2>Mesas abertas</h2>
+
+
+    <div id="mesasAbertas">
+
+        <p>Nenhuma mesa aberta.</p>
+
+    </div>
+
+
+    <!-- FECHAMENTO -->
+
+    <h2>📊 Fechamento diário</h2>
+
+
+    <button
+        class="fechamento"
+        onclick="fecharDia()"
+    >
+
+        💰 Fechar o dia
+
+    </button>
+
+
+    <div
+        id="resultadoFechamento"
+        class="fechamento-dia"
+        style="display:none;"
+    >
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+
+/* =====================================================
+   PROTEÇÃO DE LOGIN
+===================================================== */
+
+var usuarioLogado =
+    localStorage.getItem("usuarioLogado");
+
+
+if (!usuarioLogado) {
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+/* =====================================================
+   VARIÁVEIS
+===================================================== */
+
+var pedido = [];
+
+var mesasAbertas = [];
+
+var vendasDoDia = [];
+
+
+/* =====================================================
+   SALVAR MESAS ABERTAS
+===================================================== */
+
+function salvarMesasAbertas() {
+
+    localStorage.setItem(
+
+        "mesasAbertas",
+
+        JSON.stringify(
+            mesasAbertas
+        )
+
+    );
+
+}
+
+
+/* =====================================================
+   CARREGAR MESAS ABERTAS
+===================================================== */
+
+function carregarMesasAbertas() {
+
+    var dados =
+        localStorage.getItem(
+            "mesasAbertas"
+        );
+
+
+    if (!dados) {
+
+        mesasAbertas = [];
+
+        return;
+
+    }
+
+
+    try {
+
+        mesasAbertas =
+            JSON.parse(
+                dados
+            );
+
+
+        if (
+            !Array.isArray(
+                mesasAbertas
+            )
+        ) {
+
+            mesasAbertas = [];
+
+        }
+
+    }
+
+    catch (erro) {
+
+        mesasAbertas = [];
+
+    }
+
+}
+
+
+/* =====================================================
+   VOLTAR AO MENU
+===================================================== */
+
+function voltarMenu() {
+
+    /*
+       AS MESAS JÁ ESTÃO SALVAS
+       NO LOCALSTORAGE.
+    */
+
+    salvarMesasAbertas();
+
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+/* =====================================================
+   PRODUTOS
+===================================================== */
+
+function obterProdutos() {
+
+    var dados =
+        localStorage.getItem(
+            "produtos"
+        );
+
+
+    if (!dados) {
+
+        return [];
+
+    }
+
+
+    try {
+
+        var produtos =
+            JSON.parse(
+                dados
+            );
+
+
+        if (
+            !Array.isArray(
+                produtos
+            )
+        ) {
+
+            return [];
+
+        }
+
+
+        return produtos;
+
+    }
+
+    catch (erro) {
+
+        return [];
+
+    }
+
+}
+
+
+/* =====================================================
+   CARREGAR PRODUTOS
+===================================================== */
+
+function carregarProdutos() {
+
+    var produtos =
+        obterProdutos();
+
+
+    var select =
+        document.getElementById(
+            "produto"
+        );
+
+
+    select.innerHTML =
+
+        "<option value=''>" +
+
+        "Selecione o produto" +
+
+        "</option>";
+
+
+    for (
+        var i = 0;
+        i < produtos.length;
+        i++
+    ) {
+
+        var option =
+            document.createElement(
+                "option"
+            );
+
+
+        option.value = i;
+
+
+        option.textContent =
+            produtos[i].nome;
+
+
+        select.appendChild(
+            option
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   ADICIONAR ITEM
+===================================================== */
+
+function adicionarItem() {
+
+    var mesa =
+        document.getElementById(
+            "mesa"
+        ).value;
+
+
+    var indiceProduto =
+        document.getElementById(
+            "produto"
+        ).value;
+
+
+    var quantidade =
+        Number(
+            document.getElementById(
+                "quantidade"
+            ).value
+        );
+
+
+    if (mesa === "") {
+
+        alert(
+            "Escolha uma mesa."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        indiceProduto === ""
+    ) {
+
+        alert(
+            "Escolha um produto."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        quantidade <= 0
+    ) {
+
+        alert(
+            "Digite uma quantidade válida."
+        );
+
+        return;
+
+    }
+
+
+    var produtos =
+        obterProdutos();
+
+
+    var produto =
+        produtos[
+            Number(
+                indiceProduto
+            )
+        ];
+
+
+    if (!produto) {
+
+        alert(
+            "Produto não encontrado."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        quantidade >
+        Number(
+            produto.quantidade
+        )
+    ) {
+
+        alert(
+
+            "Estoque insuficiente para: " +
+
+            produto.nome
+
+        );
+
+        return;
+
+    }
+
+
+    pedido.push({
+
+        mesa:
+            mesa,
+
+        indiceProduto:
+            Number(
+                indiceProduto
+            ),
+
+        nome:
+            produto.nome,
+
+        quantidade:
+            quantidade,
+
+        custo:
+            Number(
+                produto.custo || 0
+            ),
+
+        venda:
+            Number(
+                produto.venda || 0
+            )
+
+    });
+
+
+    mostrarPedido();
+
+
+    document.getElementById(
+        "quantidade"
+    ).value = "";
+
+}
+
+
+/* =====================================================
+   MOSTRAR PEDIDO
+===================================================== */
+
+function mostrarPedido() {
+
+    var lista =
+        document.getElementById(
+            "listaPedido"
+        );
+
+
+    lista.innerHTML = "";
+
+
+    var total = 0;
+
+
+    if (
+        pedido.length === 0
+    ) {
+
+        lista.innerHTML =
+            "<p>Nenhum item adicionado.</p>";
+
+
+        document.getElementById(
+            "totalPedido"
+        ).style.display =
+            "none";
+
+
+        document.getElementById(
+            "botaoEnviar"
+        ).style.display =
+            "none";
+
+
+        mostrarMesasAbertas();
+
+
+        return;
+
+    }
+
+
+    for (
+        var i = 0;
+        i < pedido.length;
+        i++
+    ) {
+
+        var item =
+            pedido[i];
+
+
+        var subtotal =
+            Number(
+                item.quantidade
+            )
+            *
+            Number(
+                item.venda || 0
+            );
+
+
+        total +=
+            subtotal;
+
+
+        lista.innerHTML +=
+
+            "<div class='item'>" +
+
+            "<h3>🍽️ Mesa " +
+
+            item.mesa +
+
+            "</h3>" +
+
+            "<p>" +
+
+            item.nome +
+
+            " × " +
+
+            item.quantidade +
+
+            "</p>" +
+
+            "<p>R$ " +
+
+            subtotal.toFixed(2) +
+
+            "</p>" +
+
+            "</div>";
+
+    }
+
+
+    document.getElementById(
+        "totalPedido"
+    ).innerText =
+
+        "Total: R$ " +
+
+        total.toFixed(2);
+
+
+    document.getElementById(
+        "totalPedido"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "botaoEnviar"
+    ).style.display =
+        "inline-block";
+
+
+    mostrarMesasAbertas();
+
+}
+
+
+/* =====================================================
+   ENVIAR PEDIDO
+===================================================== */
+
+function enviarPedido() {
+
+    if (
+        pedido.length === 0
+    ) {
+
+        alert(
+            "Nenhum item no pedido."
+        );
+
+        return;
+
+    }
+
+
+    var produtos =
+        obterProdutos();
+
+
+    /* VERIFICAR ESTOQUE */
+
+    for (
+        var i = 0;
+        i < pedido.length;
+        i++
+    ) {
+
+        var item =
+            pedido[i];
+
+
+        var produto =
+            produtos[
+                item.indiceProduto
+            ];
+
+
+        if (!produto) {
+
+            alert(
+                "Produto não encontrado."
+            );
+
+            return;
+
+        }
+
+
+        if (
+            Number(
+                item.quantidade
+            )
+            >
+            Number(
+                produto.quantidade
+            )
+        ) {
+
+            alert(
+
+                "Estoque insuficiente para: " +
+
+                produto.nome
+
+            );
+
+            return;
+
+        }
+
+    }
+
+
+    /* BAIXAR ESTOQUE */
+
+    for (
+        var i = 0;
+        i < pedido.length;
+        i++
+    ) {
+
+        var item =
+            pedido[i];
+
+
+        var produto =
+            produtos[
+                item.indiceProduto
+            ];
+
+
+        produto.quantidade =
+
+            Number(
+                produto.quantidade
+            )
+            -
+            Number(
+                item.quantidade
+            );
+
+    }
+
+
+    localStorage.setItem(
+
+        "produtos",
+
+        JSON.stringify(
+            produtos
+        )
+
+    );
+
+
+    /* COLOCAR NA MESA */
+
+    for (
+        var i = 0;
+        i < pedido.length;
+        i++
+    ) {
+
+        mesasAbertas.push({
+
+            mesa:
+                pedido[i].mesa,
+
+            nome:
+                pedido[i].nome,
+
+            quantidade:
+                pedido[i].quantidade,
+
+            custo:
+                Number(
+                    pedido[i].custo || 0
+                ),
+
+            venda:
+                Number(
+                    pedido[i].venda || 0
+                )
+
+        });
+
+    }
+
+
+    /*
+       SALVAR AS MESAS
+    */
+
+    salvarMesasAbertas();
+
+
+    pedido = [];
+
+
+    mostrarPedido();
+
+    mostrarMesasAbertas();
+
+
+    document.getElementById(
+        "mesa"
+    ).value = "";
+
+
+    document.getElementById(
+        "produto"
+    ).value = "";
+
+
+    document.getElementById(
+        "quantidade"
+    ).value = "";
+
+
+    document.getElementById(
+        "botaoEnviar"
+    ).style.display =
+        "none";
+
+
+    alert(
+        "Pedido enviado com sucesso!"
+    );
+
+}
+
+
+/* =====================================================
+   MESAS ABERTAS
+===================================================== */
+
+function mostrarMesasAbertas() {
+
+    var area =
+        document.getElementById(
+            "mesasAbertas"
+        );
+
+
+    area.innerHTML = "";
+
+
+    if (
+        mesasAbertas.length === 0
+    ) {
+
+        area.innerHTML =
+            "<p>Nenhuma mesa aberta.</p>";
+
+        return;
+
+    }
+
+
+    var mesas = [];
+
+
+    for (
+        var i = 0;
+        i < mesasAbertas.length;
+        i++
+    ) {
+
+        var mesa =
+            mesasAbertas[i].mesa;
+
+
+        if (
+            mesas.indexOf(
+                mesa
+            ) === -1
+        ) {
+
+            mesas.push(
+                mesa
+            );
+
+        }
+
+    }
+
+
+    for (
+        var i = 0;
+        i < mesas.length;
+        i++
+    ) {
+
+        var mesaAtual =
+            mesas[i];
+
+
+        var total = 0;
+
+
+        var itensMesa = [];
+
+
+        for (
+            var j = 0;
+            j < mesasAbertas.length;
+            j++
+        ) {
+
+            if (
+                mesasAbertas[j].mesa
+                ===
+                mesaAtual
+            ) {
+
+                itensMesa.push(
+                    mesasAbertas[j]
+                );
+
+
+                total +=
+
+                    Number(
+                        mesasAbertas[j]
+                            .quantidade
+                    )
+                    *
+                    Number(
+                        mesasAbertas[j]
+                            .venda || 0
+                    );
+
+            }
+
+        }
+
+
+        area.innerHTML +=
+
+            "<div class='item mesa-aberta'>" +
+
+            "<h3>🍽️ Mesa " +
+
+            mesaAtual +
+
+            "</h3>";
+
+
+        for (
+            var k = 0;
+            k < itensMesa.length;
+            k++
+        ) {
+
+            area.innerHTML +=
+
+                "<p>" +
+
+                itensMesa[k].nome +
+
+                " × " +
+
+                itensMesa[k].quantidade +
+
+                " — R$ " +
+
+                (
+
+                    Number(
+                        itensMesa[k]
+                            .quantidade
+                    )
+                    *
+                    Number(
+                        itensMesa[k]
+                            .venda || 0
+                    )
+
+                ).toFixed(2) +
+
+                "</p>";
+
+        }
+
+
+        area.innerHTML +=
+
+            "<p><strong>Total: R$ " +
+
+            total.toFixed(2) +
+
+            "</strong></p>" +
+
+
+            "<button " +
+
+            "class='fechar' " +
+
+            "onclick='fecharMesa(\"" +
+
+            mesaAtual +
+
+            "\")'>" +
+
+            "💰 Fechar mesa" +
+
+            "</button>" +
+
+
+            "</div>";
+
+    }
+
+}
+
+
+/* =====================================================
+   FECHAR MESA
+===================================================== */
+
+function fecharMesa(
+    mesa
+) {
+
+    var confirmar =
+        confirm(
+
+            "Deseja fechar a Mesa " +
+
+            mesa +
+
+            "?"
+
+        );
+
+
+    if (!confirmar) {
+
+        return;
+
+    }
+
+
+    var totalMesa = 0;
+
+
+    for (
+        var i = 0;
+        i < mesasAbertas.length;
+        i++
+    ) {
+
+        if (
+            mesasAbertas[i].mesa
+            ===
+            mesa
+        ) {
+
+            totalMesa +=
+
+                Number(
+                    mesasAbertas[i]
+                        .quantidade
+                )
+                *
+                Number(
+                    mesasAbertas[i]
+                        .venda || 0
+                );
+
+        }
+
+    }
+
+
+    mostrarPagamento(
+        mesa,
+        totalMesa
+    );
+
+}
+
+
+/* =====================================================
+   PAGAMENTO
+===================================================== */
+
+function mostrarPagamento(
+    mesa,
+    totalMesa
+) {
+
+    var area =
+        document.getElementById(
+            "mesasAbertas"
+        );
+
+
+    area.innerHTML +=
+
+        "<div " +
+
+        "id='pagamento_" +
+
+        mesa +
+
+        "' " +
+
+        "class='pagamento'>" +
+
+        "<h2>💰 Fechamento da Mesa " +
+
+        mesa +
+
+        "</h2>" +
+
+        "<h3>Total: R$ " +
+
+        totalMesa.toFixed(2) +
+
+        "</h3>" +
+
+        "<p><strong>Como o cliente pagou?</strong></p>" +
+
+        "<button " +
+
+        "class='dinheiro' " +
+
+        "onclick='confirmarPagamento(\"" +
+
+        mesa +
+
+        "\", \"Dinheiro\")'>" +
+
+        "💵 Dinheiro" +
+
+        "</button>" +
+
+        "<button " +
+
+        "class='cartao' " +
+
+        "onclick='confirmarPagamento(\"" +
+
+        mesa +
+
+        "\", \"Cartão\")'>" +
+
+        "💳 Cartão" +
+
+        "</button>" +
+
+        "<button " +
+
+        "class='pix' " +
+
+        "onclick='confirmarPagamento(\"" +
+
+        mesa +
+
+        "\", \"PIX\")'>" +
+
+        "📱 PIX" +
+
+        "</button>" +
+
+        "<button " +
+
+        "class='cancelar' " +
+
+        "onclick='cancelarPagamento(\"" +
+
+        mesa +
+
+        "\")'>" +
+
+        "❌ Cancelar" +
+
+        "</button>" +
+
+        "</div>";
+
+}
+
+
+/* =====================================================
+   CONFIRMAR PAGAMENTO
+===================================================== */
+
+function confirmarPagamento(
+    mesa,
+    formaPagamento
+) {
+
+    var itensFechados = [];
+
+
+    var totalMesa = 0;
+
+
+    var custoMesa = 0;
+
+
+    for (
+        var i = 0;
+        i < mesasAbertas.length;
+        i++
+    ) {
+
+        if (
+            mesasAbertas[i].mesa
+            ===
+            mesa
+        ) {
+
+            var item =
+                mesasAbertas[i];
+
+
+            var quantidade =
+                Number(
+                    item.quantidade
+                );
+
+
+            var venda =
+                Number(
+                    item.venda || 0
+                );
+
+
+            var custo =
+                Number(
+                    item.custo || 0
+                );
+
+
+            totalMesa +=
+                quantidade *
+                venda;
+
+
+            custoMesa +=
+                quantidade *
+                custo;
+
+
+            itensFechados.push({
+
+                nome:
+                    item.nome,
+
+                quantidade:
+                    quantidade,
+
+                custo:
+                    custo,
+
+                venda:
+                    venda
+
+            });
+
+        }
+
+    }
+
+
+    var agora =
+        new Date();
+
+
+    vendasDoDia.push({
+
+        mesa:
+            mesa,
+
+        horario:
+            agora.toLocaleTimeString(
+                "pt-BR"
+            ),
+
+        total:
+            totalMesa,
+
+        custo:
+            custoMesa,
+
+        formaPagamento:
+            formaPagamento,
+
+        itens:
+            itensFechados
+
+    });
+
+
+    salvarVendasDoDia();
+
+
+    var novasMesas = [];
+
+
+    for (
+        var i = 0;
+        i < mesasAbertas.length;
+        i++
+    ) {
+
+        if (
+            mesasAbertas[i].mesa
+            !==
+            mesa
+        ) {
+
+            novasMesas.push(
+                mesasAbertas[i]
+            );
+
+        }
+
+    }
+
+
+    mesasAbertas =
+        novasMesas;
+
+
+    /*
+       SALVAR MESAS DEPOIS DO FECHAMENTO
+    */
+
+    salvarMesasAbertas();
+
+
+    mostrarMesasAbertas();
+
+
+    alert(
+
+        "Mesa " +
+
+        mesa +
+
+        " fechada com sucesso!\n\n" +
+
+        "Pagamento: " +
+
+        formaPagamento +
+
+        "\n" +
+
+        "Total: R$ " +
+
+        totalMesa.toFixed(2)
+
+    );
+
+}
+
+
+/* =====================================================
+   CANCELAR PAGAMENTO
+===================================================== */
+
+function cancelarPagamento(
+    mesa
+) {
+
+    mostrarMesasAbertas();
+
+}
+
+
+/* =====================================================
+   SALVAR VENDAS
+===================================================== */
+
+function salvarVendasDoDia() {
+
+    var data =
+        obterDataAtual();
+
+
+    localStorage.setItem(
+
+        "vendas_" + data,
+
+        JSON.stringify(
+            vendasDoDia
+        )
+
+    );
+
+}
+
+
+/* =====================================================
+   DATA
+===================================================== */
+
+function obterDataAtual() {
+
+    var agora =
+        new Date();
+
+
+    var dia =
+        String(
+            agora.getDate()
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    var mes =
+        String(
+            agora.getMonth() + 1
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    var ano =
+        agora.getFullYear();
+
+
+    return (
+
+        dia +
+
+        "-" +
+
+        mes +
+
+        "-" +
+
+        ano
+
+    );
+
+}
+
+
+/* =====================================================
+   CARREGAR VENDAS
+===================================================== */
+
+function carregarVendasDoDia() {
+
+    var data =
+        obterDataAtual();
+
+
+    var dados =
+        localStorage.getItem(
+
+            "vendas_" + data
+
+        );
+
+
+    if (!dados) {
+
+        vendasDoDia = [];
+
+        return;
+
+    }
+
+
+    try {
+
+        vendasDoDia =
+            JSON.parse(
+                dados
+            );
+
+
+        if (
+            !Array.isArray(
+                vendasDoDia
+            )
+        ) {
+
+            vendasDoDia = [];
+
+        }
+
+    }
+
+    catch (erro) {
+
+        vendasDoDia = [];
+
+    }
+
+}
+
+
+/* =====================================================
+   FECHAMENTO DIÁRIO
+===================================================== */
+
+function fecharDia() {
+
+    if (
+        mesasAbertas.length > 0
+    ) {
+
+        alert(
+
+            "Ainda existem mesas abertas.\n\n" +
+
+            "Feche todas as mesas antes " +
+
+            "de fazer o fechamento diário."
+
+        );
+
+        return;
+
+    }
+
+
+    if (
+        vendasDoDia.length === 0
+    ) {
+
+        alert(
+            "Ainda não existem mesas fechadas hoje."
+        );
+
+        return;
+
+    }
+
+
+    var totalVendas = 0;
+
+
+    var totalCusto = 0;
+
+
+    var produtosVendidos = {};
+
+
+    var pagamentos = {
+
+        "Dinheiro": 0,
+
+        "Cartão": 0,
+
+        "PIX": 0
+
+    };
+
+
+    for (
+        var i = 0;
+        i < vendasDoDia.length;
+        i++
+    ) {
+
+        var venda =
+            vendasDoDia[i];
+
+
+        totalVendas +=
+            Number(
+                venda.total || 0
+            );
+
+
+        totalCusto +=
+            Number(
+                venda.custo || 0
+            );
+
+
+        var forma =
+            venda.formaPagamento;
+
+
+        if (
+            pagamentos[forma]
+            !==
+            undefined
+        ) {
+
+            pagamentos[forma] +=
+
+                Number(
+                    venda.total || 0
+                );
+
+        }
+
+
+        if (
+            venda.itens
+            &&
+            Array.isArray(
+                venda.itens
+            )
+        ) {
+
+            for (
+                var j = 0;
+                j < venda.itens.length;
+                j++
+            ) {
+
+                var item =
+                    venda.itens[j];
+
+
+                if (
+                    !produtosVendidos[
+                        item.nome
+                    ]
+                ) {
+
+                    produtosVendidos[
+                        item.nome
+                    ] = 0;
+
+                }
+
+
+                produtosVendidos[
+                    item.nome
+                ] +=
+
+                    Number(
+                        item.quantidade || 0
+                    );
+
+            }
+
+        }
+
+    }
+
+
+    var lucro =
+        totalVendas -
+        totalCusto;
+
+
+    var html = "";
+
+
+    html +=
+        "<h2>📊 Fechamento do dia</h2>";
+
+
+    html +=
+
+        "<p><strong>Data:</strong> " +
+
+        formatarDataAtual() +
+
+        "</p>";
+
+
+    html +=
+
+        "<p><strong>Mesas fechadas:</strong> " +
+
+        vendasDoDia.length +
+
+        "</p>";
+
+
+    html += "<hr>";
+
+
+    html +=
+
+        "<h3>💰 Total de vendas</h3>" +
+
+        "<p>R$ " +
+
+        totalVendas.toFixed(2) +
+
+        "</p>";
+
+
+    html +=
+
+        "<h3>💵 Total de custo</h3>" +
+
+        "<p>R$ " +
+
+        totalCusto.toFixed(2) +
+
+        "</p>";
+
+
+    html +=
+
+        "<h3>🟢 Lucro do dia</h3>" +
+
+        "<p class='lucro'>" +
+
+        "R$ " +
+
+        lucro.toFixed(2) +
+
+        "</p>";
+
+
+    html += "<hr>";
+
+
+    html +=
+
+        "<h3>💳 Formas de pagamento</h3>";
+
+
+    html +=
+
+        "<p>💵 Dinheiro: R$ " +
+
+        pagamentos["Dinheiro"].toFixed(2) +
+
+        "</p>";
+
+
+    html +=
+
+        "<p>💳 Cartão: R$ " +
+
+        pagamentos["Cartão"].toFixed(2) +
+
+        "</p>";
+
+
+    html +=
+
+        "<p>📱 PIX: R$ " +
+
+        pagamentos["PIX"].toFixed(2) +
+
+        "</p>";
+
+
+    html += "<hr>";
+
+
+    html +=
+
+        "<h3>🥩 Produtos vendidos</h3>";
+
+
+    var nomesProdutos =
+        Object.keys(
+            produtosVendidos
+        );
+
+
+    if (
+        nomesProdutos.length === 0
+    ) {
+
+        html +=
+            "<p>Nenhum produto vendido.</p>";
+
+    }
+
+
+    for (
+        var i = 0;
+        i < nomesProdutos.length;
+        i++
+    ) {
+
+        var nome =
+            nomesProdutos[i];
+
+
+        html +=
+
+            "<div class='produto-vendido'>" +
+
+            "🥩 " +
+
+            nome +
+
+            " × " +
+
+            produtosVendidos[
+                nome
+            ] +
+
+            "</div>";
+
+    }
+
+
+    html += "<hr>";
+
+
+    html +=
+
+        "<h3>📋 Mesas fechadas</h3>";
+
+
+    for (
+        var i = 0;
+        i < vendasDoDia.length;
+        i++
+    ) {
+
+        var mesa =
+            vendasDoDia[i];
+
+
+        html +=
+
+            "<div class='mesa-fechada'>" +
+
+            "<strong>🍽️ Mesa " +
+
+            mesa.mesa +
+
+            "</strong>" +
+
+            "<p>Horário: " +
+
+            mesa.horario +
+
+            "</p>" +
+
+            "<p>Pagamento: " +
+
+            (
+
+                mesa.formaPagamento ||
+
+                "Não informado"
+
+            ) +
+
+            "</p>" +
+
+            "<p>Total: R$ " +
+
+            Number(
+                mesa.total || 0
+            ).toFixed(2) +
+
+            "</p>" +
+
+            "</div>";
+
+    }
+
+
+    document.getElementById(
+        "resultadoFechamento"
+    ).innerHTML =
+        html;
+
+
+    document.getElementById(
+        "resultadoFechamento"
+    ).style.display =
+        "block";
+
+}
+
+
+/* =====================================================
+   DATA FORMATADA
+===================================================== */
+
+function formatarDataAtual() {
+
+    var agora =
+        new Date();
+
+
+    var dia =
+        String(
+            agora.getDate()
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    var mes =
+        String(
+            agora.getMonth() + 1
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    var ano =
+        agora.getFullYear();
+
+
+    return (
+
+        dia +
+
+        "/" +
+
+        mes +
+
+        "/" +
+
+        ano
+
+    );
+
+}
+
+
+/* =====================================================
+   INICIAR SISTEMA
+===================================================== */
+
+window.onload = function() {
+
+    carregarProdutos();
+
+    carregarVendasDoDia();
+
+    carregarMesasAbertas();
+
+    mostrarMesasAbertas();
+
+};
+
+</script>
+
+
+</body>
+
+</html>
+```

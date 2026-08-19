@@ -1,0 +1,701 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Espetinho do Will - Menu Principal</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family: Arial, sans-serif;
+
+            background-color: #f4f4f4;
+
+            color: #222;
+
+        }
+
+
+        /* ================================
+           CABEÇALHO
+        ================================= */
+
+        header {
+
+            position: relative;
+
+            min-height: 260px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            text-align: center;
+
+            color: white;
+
+            overflow: hidden;
+
+            background:
+
+                linear-gradient(
+                    rgba(0,0,0,0.65),
+                    rgba(0,0,0,0.65)
+                ),
+
+                url("tema-espetinho.jpg");
+
+            background-size: cover;
+
+            background-position: center;
+
+        }
+
+
+        .cabecalho-conteudo {
+
+            position: relative;
+
+            z-index: 2;
+
+            padding: 20px;
+
+        }
+
+
+        .logo {
+
+            font-size: 65px;
+
+            margin-bottom: 5px;
+
+        }
+
+
+        header h1 {
+
+            margin: 0;
+
+            font-size: 38px;
+
+            text-shadow:
+                2px 2px 5px black;
+
+        }
+
+
+        header p {
+
+            margin-top: 10px;
+
+            font-size: 18px;
+
+            color: #eee;
+
+        }
+
+
+        .frase {
+
+            margin-top: 15px;
+
+            font-size: 15px;
+
+            color: #ffc107;
+
+            font-weight: bold;
+
+        }
+
+
+
+        /* ================================
+           CONTAINER
+        ================================= */
+
+        .container {
+
+            max-width: 1050px;
+
+            margin: auto;
+
+            padding: 30px 20px 40px;
+
+        }
+
+
+        .titulo {
+
+            text-align: center;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .titulo h2 {
+
+            margin-bottom: 5px;
+
+        }
+
+
+        .titulo p {
+
+            color: #666;
+
+        }
+
+
+
+        /* ================================
+           BOTÃO SAIR
+        ================================= */
+
+        .botao-sair {
+
+            margin-top: 10px;
+
+            padding: 11px 24px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #dc3545;
+
+            color: white;
+
+            font-size: 16px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+
+        }
+
+
+        .botao-sair:hover {
+
+            background: #bb2d3b;
+
+        }
+
+
+
+        /* ================================
+           MENU
+        ================================= */
+
+        .menu {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 20px;
+
+        }
+
+
+        .botao {
+
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 15px;
+
+            text-align: center;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 3px 12px
+                rgba(0,0,0,0.12);
+
+            transition:
+                transform 0.2s,
+                box-shadow 0.2s;
+
+            border-top: 6px solid #222;
+
+        }
+
+
+        .botao:hover {
+
+            transform:
+                translateY(-5px);
+
+            box-shadow:
+                0 7px 20px
+                rgba(0,0,0,0.20);
+
+        }
+
+
+        .icone {
+
+            font-size: 55px;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .botao h2 {
+
+            margin: 8px 0;
+
+        }
+
+
+        .botao p {
+
+            color: #666;
+
+            margin: 0;
+
+        }
+
+
+        /* CORES */
+
+
+        .pedidos {
+
+            border-top-color: #198754;
+
+        }
+
+
+        .estoque {
+
+            border-top-color: #0d6efd;
+
+        }
+
+
+        .caixa {
+
+            border-top-color: #ffc107;
+
+        }
+
+
+        .fechamento {
+
+            border-top-color: #6f42c1;
+
+        }
+
+
+
+        /* ================================
+           RODAPÉ
+        ================================= */
+
+        footer {
+
+            text-align: center;
+
+            padding: 20px;
+
+            color: #777;
+
+            font-size: 14px;
+
+        }
+
+
+        footer strong {
+
+            color: #222;
+
+        }
+
+
+
+        /* ================================
+           CELULAR
+        ================================= */
+
+        @media (max-width: 700px) {
+
+            header {
+
+                min-height: 230px;
+
+            }
+
+
+            header h1 {
+
+                font-size: 30px;
+
+            }
+
+
+            .logo {
+
+                font-size: 55px;
+
+            }
+
+
+            .menu {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .botao {
+
+                padding: 25px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================
+     CABEÇALHO
+====================================== -->
+
+<header>
+
+    <div class="cabecalho-conteudo">
+
+        <div class="logo">
+            🥩🔥
+        </div>
+
+        <h1>
+            Espetinho do Will
+        </h1>
+
+        <p>
+            Sistema de controle
+        </p>
+
+        <div class="frase">
+            🔥 Sabor na brasa, qualidade na mesa 🔥
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<!-- =====================================
+     CONTEÚDO
+====================================== -->
+
+<div class="container">
+
+
+    <div class="titulo">
+
+        <h2>
+            Menu Principal
+        </h2>
+
+        <p>
+            Escolha uma opção
+        </p>
+
+
+        <!-- BOTÃO SAIR -->
+
+        <button
+            class="botao-sair"
+            onclick="sair()"
+        >
+
+            🚪 Sair
+
+        </button>
+
+    </div>
+
+
+
+    <!-- =================================
+         MENU
+    ================================== -->
+
+    <div class="menu">
+
+
+        <!-- PEDIDOS -->
+
+        <div
+            class="botao pedidos"
+            onclick="abrirPedidos()"
+        >
+
+            <div class="icone">
+                📝
+            </div>
+
+            <h2>
+                Pedidos
+            </h2>
+
+            <p>
+                Controlar os pedidos das mesas
+            </p>
+
+        </div>
+
+
+
+        <!-- ESTOQUE -->
+
+        <div
+            class="botao estoque"
+            onclick="abrirEstoque()"
+        >
+
+            <div class="icone">
+                📦
+            </div>
+
+            <h2>
+                Estoque
+            </h2>
+
+            <p>
+                Controlar produtos e mercadorias
+            </p>
+
+        </div>
+
+
+
+        <!-- CAIXA -->
+
+        <div
+            class="botao caixa"
+            onclick="abrirCaixa()"
+        >
+
+            <div class="icone">
+                💰
+            </div>
+
+            <h2>
+                Caixa
+            </h2>
+
+            <p>
+                Controlar vendas e pagamentos
+            </p>
+
+        </div>
+
+
+
+        <!-- FECHAMENTO -->
+
+        <div
+            class="botao fechamento"
+            onclick="abrirFechamento()"
+        >
+
+            <div class="icone">
+                📊
+            </div>
+
+            <h2>
+                Fechamento Diário
+            </h2>
+
+            <p>
+                Ver vendas, custos e lucro do dia
+            </p>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================
+     RODAPÉ
+====================================== -->
+
+<footer>
+
+    <strong>
+        Espetinho do Will
+    </strong>
+
+    <br>
+
+    Sistema de controle
+
+</footer>
+
+
+
+<script>
+
+
+/* =====================================
+   PROTEÇÃO DO MENU
+===================================== */
+
+
+var usuarioLogado =
+    localStorage.getItem(
+        "usuarioLogado"
+    );
+
+
+if (!usuarioLogado) {
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+
+/* =====================================
+   PEDIDOS
+===================================== */
+
+
+function abrirPedidos() {
+
+    window.location.href =
+        "pedidos.html";
+
+}
+
+
+
+/* =====================================
+   ESTOQUE
+===================================== */
+
+
+function abrirEstoque() {
+
+    window.location.href =
+        "estoque.html";
+
+}
+
+
+
+/* =====================================
+   CAIXA
+===================================== */
+
+
+function abrirCaixa() {
+
+    window.location.href =
+        "caixa.html";
+
+}
+
+
+
+/* =====================================
+   FECHAMENTO
+===================================== */
+
+
+function abrirFechamento() {
+
+    window.location.href =
+        "fechamento.html";
+
+}
+
+
+
+/* =====================================
+   SAIR
+===================================== */
+
+
+function sair() {
+
+
+    var confirmar =
+        confirm(
+            "Deseja realmente sair do sistema?"
+        );
+
+
+    if (!confirmar) {
+
+        return;
+
+    }
+
+
+    /*
+       APAGAR O LOGIN
+    */
+
+
+    localStorage.removeItem(
+        "usuarioLogado"
+    );
+
+
+    /*
+       VOLTAR PARA O LOGIN
+    */
+
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
+```

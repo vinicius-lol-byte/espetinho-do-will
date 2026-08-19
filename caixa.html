@@ -1,0 +1,772 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Caixa - Espetinho do Will</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+        }
+
+        header {
+            background: #222;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 25px;
+        }
+
+        .caixa {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .resumo {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: #555;
+        }
+
+        .valor {
+            font-size: 25px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .dinheiro {
+            border-top: 5px solid #198754;
+        }
+
+        .cartao {
+            border-top: 5px solid #0d6efd;
+        }
+
+        .pix {
+            border-top: 5px solid #6f42c1;
+        }
+
+        .vendas {
+            border-top: 5px solid #ffc107;
+        }
+
+        .total {
+            background: #198754;
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .total h2 {
+            margin: 0;
+        }
+
+        .total .valor {
+            font-size: 32px;
+        }
+
+        .venda {
+            background: #f8f8f8;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 5px solid #198754;
+        }
+
+        .venda strong {
+            font-size: 18px;
+        }
+
+        .botao {
+            display: inline-block;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            margin-right: 5px;
+        }
+
+        .atualizar {
+            background: #0d6efd;
+            color: white;
+        }
+
+        .voltar {
+            background: #6c757d;
+            color: white;
+        }
+
+        .mensagem {
+            text-align: center;
+            color: #666;
+            padding: 20px;
+        }
+
+        @media (max-width: 700px) {
+
+            .resumo {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .botao {
+                width: 100%;
+                margin-right: 0;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <h1>🥩 Espetinho do Will</h1>
+
+    <p>💰 Caixa</p>
+
+</header>
+
+
+<div class="container">
+
+
+    <!-- DATA -->
+
+    <div class="caixa">
+
+        <h2>📅 Caixa de hoje</h2>
+
+        <p id="dataAtual"></p>
+
+        <button
+            class="botao atualizar"
+            onclick="carregarCaixa()"
+        >
+
+            🔄 Atualizar caixa
+
+        </button>
+
+
+        <button
+            class="botao voltar"
+            onclick="voltarMenu()"
+        >
+
+            🏠 Menu Principal
+
+        </button>
+
+    </div>
+
+
+
+    <!-- RESUMO -->
+
+    <div class="resumo">
+
+
+        <!-- DINHEIRO -->
+
+        <div class="card dinheiro">
+
+            <h3>💵 Dinheiro</h3>
+
+            <div
+                id="totalDinheiro"
+                class="valor"
+            >
+
+                R$ 0,00
+
+            </div>
+
+        </div>
+
+
+
+        <!-- CARTÃO -->
+
+        <div class="card cartao">
+
+            <h3>💳 Cartão</h3>
+
+            <div
+                id="totalCartao"
+                class="valor"
+            >
+
+                R$ 0,00
+
+            </div>
+
+        </div>
+
+
+
+        <!-- PIX -->
+
+        <div class="card pix">
+
+            <h3>📱 PIX</h3>
+
+            <div
+                id="totalPix"
+                class="valor"
+            >
+
+                R$ 0,00
+
+            </div>
+
+        </div>
+
+
+
+        <!-- MESAS -->
+
+        <div class="card vendas">
+
+            <h3>🍽️ Mesas fechadas</h3>
+
+            <div
+                id="quantidadeMesas"
+                class="valor"
+            >
+
+                0
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- TOTAL -->
+
+    <div class="total">
+
+        <h2>💰 Total vendido hoje</h2>
+
+        <div
+            id="totalVendas"
+            class="valor"
+        >
+
+            R$ 0,00
+
+        </div>
+
+    </div>
+
+
+
+    <!-- VENDAS -->
+
+    <div class="caixa">
+
+        <h2>📋 Vendas realizadas</h2>
+
+
+        <div id="listaVendas">
+
+            <div class="mensagem">
+
+                Nenhuma venda realizada hoje.
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+
+/* =====================================================
+   PROTEÇÃO DE LOGIN
+===================================================== */
+
+var usuarioLogado =
+    localStorage.getItem("usuarioLogado");
+
+
+if (!usuarioLogado) {
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+/* =====================================================
+   OBTER DATA ATUAL
+===================================================== */
+
+function obterDataAtual() {
+
+    var agora =
+        new Date();
+
+
+    var dia =
+        String(
+            agora.getDate()
+        ).padStart(2, "0");
+
+
+    var mes =
+        String(
+            agora.getMonth() + 1
+        ).padStart(2, "0");
+
+
+    var ano =
+        agora.getFullYear();
+
+
+    return (
+        dia +
+        "-" +
+        mes +
+        "-" +
+        ano
+    );
+
+}
+
+
+/* =====================================================
+   FORMATAR DATA
+===================================================== */
+
+function formatarDataAtual() {
+
+    var agora =
+        new Date();
+
+
+    var dia =
+        String(
+            agora.getDate()
+        ).padStart(2, "0");
+
+
+    var mes =
+        String(
+            agora.getMonth() + 1
+        ).padStart(2, "0");
+
+
+    var ano =
+        agora.getFullYear();
+
+
+    return (
+        dia +
+        "/" +
+        mes +
+        "/" +
+        ano
+    );
+
+}
+
+
+/* =====================================================
+   FORMATAR DINHEIRO
+===================================================== */
+
+function formatarMoeda(valor) {
+
+    return (
+
+        Number(valor || 0)
+            .toLocaleString(
+                "pt-BR",
+                {
+                    style: "currency",
+                    currency: "BRL"
+                }
+            )
+
+    );
+
+}
+
+
+/* =====================================================
+   CARREGAR VENDAS
+===================================================== */
+
+function carregarVendas() {
+
+    var data =
+        obterDataAtual();
+
+
+    var dados =
+        localStorage.getItem(
+            "vendas_" + data
+        );
+
+
+    if (!dados) {
+
+        return [];
+
+    }
+
+
+    try {
+
+        var vendas =
+            JSON.parse(dados);
+
+
+        if (
+            !Array.isArray(vendas)
+        ) {
+
+            return [];
+
+        }
+
+
+        return vendas;
+
+    }
+
+    catch (erro) {
+
+        return [];
+
+    }
+
+}
+
+
+/* =====================================================
+   CARREGAR CAIXA
+===================================================== */
+
+function carregarCaixa() {
+
+    var vendas =
+        carregarVendas();
+
+
+    var totalVendas = 0;
+
+    var totalDinheiro = 0;
+
+    var totalCartao = 0;
+
+    var totalPix = 0;
+
+
+    for (
+        var i = 0;
+        i < vendas.length;
+        i++
+    ) {
+
+        var venda =
+            vendas[i];
+
+
+        var valor =
+            Number(
+                venda.total || 0
+            );
+
+
+        totalVendas +=
+            valor;
+
+
+        var forma =
+            venda.formaPagamento;
+
+
+        if (
+            forma === "Dinheiro"
+        ) {
+
+            totalDinheiro +=
+                valor;
+
+        }
+
+        else if (
+            forma === "Cartão"
+        ) {
+
+            totalCartao +=
+                valor;
+
+        }
+
+        else if (
+            forma === "PIX"
+        ) {
+
+            totalPix +=
+                valor;
+
+        }
+
+    }
+
+
+    document.getElementById(
+        "totalVendas"
+    ).innerText =
+        formatarMoeda(
+            totalVendas
+        );
+
+
+    document.getElementById(
+        "totalDinheiro"
+    ).innerText =
+        formatarMoeda(
+            totalDinheiro
+        );
+
+
+    document.getElementById(
+        "totalCartao"
+    ).innerText =
+        formatarMoeda(
+            totalCartao
+        );
+
+
+    document.getElementById(
+        "totalPix"
+    ).innerText =
+        formatarMoeda(
+            totalPix
+        );
+
+
+    document.getElementById(
+        "quantidadeMesas"
+    ).innerText =
+        vendas.length;
+
+
+    mostrarVendas(vendas);
+
+}
+
+
+/* =====================================================
+   MOSTRAR VENDAS
+===================================================== */
+
+function mostrarVendas(vendas) {
+
+    var area =
+        document.getElementById(
+            "listaVendas"
+        );
+
+
+    area.innerHTML = "";
+
+
+    if (
+        vendas.length === 0
+    ) {
+
+        area.innerHTML =
+
+            "<div class='mensagem'>" +
+
+            "Nenhuma venda realizada hoje." +
+
+            "</div>";
+
+        return;
+
+    }
+
+
+    for (
+        var i = 0;
+        i < vendas.length;
+        i++
+    ) {
+
+        var venda =
+            vendas[i];
+
+
+        var forma =
+            venda.formaPagamento ||
+            "Não informado";
+
+
+        var html = "";
+
+
+        html +=
+            "<div class='venda'>";
+
+
+        html +=
+
+            "<strong>" +
+
+            "🍽️ Mesa " +
+
+            venda.mesa +
+
+            "</strong>";
+
+
+        html +=
+
+            "<p>" +
+
+            "🕐 Horário: " +
+
+            (
+                venda.horario ||
+                "-"
+            ) +
+
+            "</p>";
+
+
+        html +=
+
+            "<p>" +
+
+            "💳 Pagamento: " +
+
+            forma +
+
+            "</p>";
+
+
+        html +=
+
+            "<p>" +
+
+            "💰 Total: <strong>" +
+
+            formatarMoeda(
+                venda.total
+            ) +
+
+            "</strong></p>";
+
+
+        html +=
+            "</div>";
+
+
+        area.innerHTML +=
+            html;
+
+    }
+
+}
+
+
+/* =====================================================
+   VOLTAR PARA MENU
+===================================================== */
+
+function voltarMenu() {
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+/* =====================================================
+   INICIAR
+===================================================== */
+
+window.onload = function() {
+
+    document.getElementById(
+        "dataAtual"
+    ).innerText =
+
+        "Data: " +
+        formatarDataAtual();
+
+
+    carregarCaixa();
+
+};
+
+</script>
+
+
+</body>
+
+</html>
+```

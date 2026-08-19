@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+
+```
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Fechamento Diário - Projeto Espetinho</title>
+
+<style>
+
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+    }
+
+    header {
+        background: #222;
+        color: white;
+        padding: 20px;
+        text-align: center;
+    }
+
+    header h1 {
+        margin: 0;
+    }
+
+    .container {
+        max-width: 900px;
+        margin: auto;
+        padding: 25px;
+    }
+
+    .caixa {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+
+    .valor {
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .lucro {
+        font-size: 32px;
+        font-weight: bold;
+    }
+
+    .produto {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .mesa {
+        background: #f8f8f8;
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+    }
+
+    button {
+        padding: 12px 18px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        background: #333;
+        color: white;
+        font-size: 16px;
+    }
+
+    .voltar {
+        background: #6c757d;
+        margin-bottom: 20px;
+    }
+
+    .aviso {
+        padding: 20px;
+        background: white;
+        border-radius: 10px;
+        text-align: center;
+    }
+
+</style>
+```
+
+</head>
+
+<body>
+
+<header>
+
+```
+<h1>🥩 Projeto Espetinho</h1>
+
+<p>📊 Fechamento Diário</p>
+```
+
+</header>
+
+<div class="container">
+
+```
+<button
+    class="voltar"
+    onclick="voltarMenu()"
+>
+
+    ⬅️ Voltar ao Menu
+
+</button>
+
+
+<div id="resultado">
+
+    <div class="aviso">
+
+        <p>Carregando fechamento...</p>
+
+    </div>
+
+</div>
+```
+
+</div>
+
+<script>
+
+
+/* =====================================================
+   DATA ATUAL
+===================================================== */
+
+
+function obterDataAtual() {
+
+    var agora = new Date();
+
+    var dia =
+        String(
+            agora.getDate()
+        ).padStart(2, "0");
+
+    var mes =
+        String(
+            agora.getMonth() + 1
+        ).padStart(2, "0");
+
+    var ano =
+        agora.getFullYear();
+
+    return (
+        dia +
+        "-" +
+        mes +
+        "-" +
+        ano
+    );
+
+}
+
+
+
+/* =====================================================
+   DATA FORMATADA
+===================================================== */
+
+
+function formatarDataAtual() {
+
+    var agora = new Date();
+
+    var dia =
+        String(
+            agora.getDate()
+        ).padStart(2, "0");
+
+    var mes =
+        String(
+            agora.getMonth() + 1
+        ).padStart(2, "0");
+
+    var ano =
+        agora.getFullYear();
+
+    return (
+        dia +
+        "/" +
+        mes +
+        "/" +
+        ano
+    );
+
+}
+
+
+
+/* =====================================================
+   CARREGAR FECHAMENTO
+===================================================== */
+
+
+function carregarFechamento() {
+
+    var data =
+        obterDataAtual();
+
+    var dados =
+        localStorage.getItem(
+            "vendas_" + data
+        );
+
+
+    var resultado =
+        document.getElementById(
+            "resultado"
+        );
+
+
+    if (!dados) {
+
+        resultado.innerHTML =
+
+            "<div class='aviso'>" +
+
+            "<h2>📊 Fechamento do dia</h2>" +
+
+            "<p>Data: " +
+            formatarDataAtual() +
+            "</p>" +
+
+            "<h3>Nenhuma mesa foi fechada hoje.</h3>" +
+
+            "</div>";
+
+        return;
+
+    }
+
+
+    var vendas;
+
+
+    try {
+
+        vendas =
+            JSON.parse(dados);
+
+    }
+
+    catch (erro) {
+
+        resultado.innerHTML =
+
+            "<div class='aviso'>" +
+
+            "<h2>Erro ao carregar os dados.</h2>" +
+
+            "</div>";
+
+        return;
+
+    }
+
+
+    if (
+        !Array.isArray(vendas) ||
+        vendas.length === 0
+    ) {
+
+        resultado.innerHTML =
+
+            "<div class='aviso'>" +
+
+            "<h2>📊 Fechamento do dia</h2>" +
+
+            "<p>Nenhuma mesa fechada hoje.</p>" +
+
+            "</div>";
+
+        return;
+
+    }
+
+
+
+    /* =================================================
+       CALCULAR TOTAIS
+    ================================================= */
+
+
+    var totalVendas = 0;
+
+    var totalCusto = 0;
+
+    var produtosVendidos = {};
+
+
+
+    for (
+        var i = 0;
+        i < vendas.length;
+        i++
+    ) {
+
+        var venda =
+            vendas[i];
+
+
+        totalVendas +=
+            Number(
+                venda.total || 0
+            );
+
+
+        totalCusto +=
+            Number(
+                venda.custo || 0
+            );
+
+
+        if (
+            venda.itens &&
+            Array.isArray(
+                venda.itens
+            )
+        ) {
+
+            for (
+                var j = 0;
+                j < venda.itens.length;
+                j++
+            ) {
+
+                var item =
+                    venda.itens[j];
+
+
+                var nome =
+                    item.nome;
+
+
+                if (
+                    !produtosVendidos[nome]
+                ) {
+
+                    produtosVendidos[nome] = 0;
+
+                }
+
+
+                produtosVendidos[nome] +=
+                    Number(
+                        item.quantidade || 0
+                    );
+
+            }
+
+        }
+
+    }
+
+
+
+    var lucro =
+        totalVendas -
+        totalCusto;
+
+
+
+    /* =================================================
+       MONTAR TELA
+    ================================================= */
+
+
+    var html = "";
+
+
+    html +=
+
+        "<div class='caixa'>" +
+
+        "<h2>📊 Fechamento do dia</h2>" +
+
+        "<p><strong>Data:</strong> " +
+        formatarDataAtual() +
+        "</p>" +
+
+        "<p><strong>Mesas fechadas:</strong> " +
+        vendas.length +
+        "</p>" +
+
+        "</div>";
+
+
+
+    html +=
+
+        "<div class='caixa'>" +
+
+        "<h2>💰 Total de vendas</h2>" +
+
+        "<p class='valor'>R$ " +
+        totalVendas.toFixed(2) +
+        "</p>" +
+
+        "</div>";
+
+
+
+    html +=
+
+        "<div class='caixa'>" +
+
+        "<h2>💵 Total de custo</h2>" +
+
+        "<p class='valor'>R$ " +
+        totalCusto.toFixed(2) +
+        "</p>" +
+
+        "</div>";
+
+
+
+    html +=
+
+        "<div class='caixa'>" +
+
+        "<h2>🟢 Lucro do dia</h2>" +
+
+        "<p class='lucro'>R$ " +
+        lucro.toFixed(2) +
+        "</p>" +
+
+        "</div>";
+
+
+
+    /* =================================================
+       PRODUTOS VENDIDOS
+    ================================================= */
+
+
+    html +=
+
+        "<div class='caixa'>" +
+
+        "<h2>🥩 Produtos vendidos</h2>";
+
+
+
+    var nomes =
+        Object.keys(
+            produtosVendidos
+        );
+
+
+    if (
+        nomes.length === 0
+    ) {
+
+        html +=
+            "<p>Nenhum produto vendido.</p>";
+
+    }
+
+    else {
+
+        for (
+            var i = 0;
+            i < nomes.length;
+            i++
+        ) {
+
+            var nome =
+                nomes[i];
+
+
+            html +=
+
+                "<div class='produto'>" +
+
+                "🥩 " +
+                nome +
+                " × " +
+                produtosVendidos[nome] +
+
+                "</div>";
+
+        }
+
+    }
+
+
+    html += "</div>";
+
+
+
+    /* =================================================
+       MESAS FECHADAS
+    ================================================= */
+
+
+    html +=
+
+        "<div class='caixa'>" +
+
+        "<h2>📋 Mesas fechadas</h2>";
+
+
+
+    for (
+        var i = 0;
+        i < vendas.length;
+        i++
+    ) {
+
+        var mesa =
+            vendas[i];
+
+
+        html +=
+
+            "<div class='mesa'>" +
+
+            "<h3>🍽️ Mesa " +
+            mesa.mesa +
+            "</h3>" +
+
+            "<p>Horário: " +
+            mesa.horario +
+            "</p>" +
+
+            "<p><strong>Total: R$ " +
+            Number(
+                mesa.total || 0
+            ).toFixed(2) +
+            "</strong></p>" +
+
+            "</div>";
+
+    }
+
+
+    html += "</div>";
+
+
+
+    resultado.innerHTML =
+        html;
+
+}
+
+
+
+/* =====================================================
+   VOLTAR
+===================================================== */
+
+
+function voltarMenu() {
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+
+/* =====================================================
+   INICIAR
+===================================================== */
+
+
+window.onload = function() {
+
+    carregarFechamento();
+
+};
+
+
+</script>
+
+</body>
+
+</html>

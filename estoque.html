@@ -1,0 +1,1345 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Estoque - Espetinho do Will</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family: Arial, sans-serif;
+
+            background: #f4f4f4;
+
+            color: #222;
+
+        }
+
+
+        header {
+
+            background: #222;
+
+            color: white;
+
+            padding: 20px;
+
+            text-align: center;
+
+        }
+
+
+        header h1 {
+
+            margin: 0;
+
+            font-size: 30px;
+
+        }
+
+
+        header p {
+
+            margin: 8px 0 0;
+
+            color: #ddd;
+
+        }
+
+
+        .container {
+
+            max-width: 950px;
+
+            margin: auto;
+
+            padding: 25px;
+
+        }
+
+
+        .voltar {
+
+            background: #222;
+
+            color: white;
+
+            padding: 12px 18px;
+
+            border: none;
+
+            border-radius: 6px;
+
+            cursor: pointer;
+
+            margin-bottom: 20px;
+
+            font-size: 16px;
+
+        }
+
+
+        .caixa {
+
+            background: white;
+
+            padding: 20px;
+
+            border-radius: 10px;
+
+            margin-bottom: 20px;
+
+            box-shadow:
+                0 2px 8px
+                rgba(0,0,0,0.08);
+
+        }
+
+
+        input {
+
+            width: 100%;
+
+            padding: 12px;
+
+            margin-top: 5px;
+
+            margin-bottom: 15px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 5px;
+
+            font-size: 16px;
+
+        }
+
+
+        button {
+
+            padding: 12px 18px;
+
+            border: none;
+
+            border-radius: 6px;
+
+            cursor: pointer;
+
+            font-size: 16px;
+
+        }
+
+
+        .salvar {
+
+            background: #198754;
+
+            color: white;
+
+        }
+
+
+        .salvar:hover {
+
+            background: #157347;
+
+        }
+
+
+        .produto {
+
+            background: white;
+
+            padding: 18px;
+
+            border-radius: 10px;
+
+            margin-bottom: 12px;
+
+            border-left: 6px solid #0d6efd;
+
+            box-shadow:
+                0 2px 7px
+                rgba(0,0,0,0.08);
+
+        }
+
+
+        .produto h3 {
+
+            margin-top: 0;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .produto p {
+
+            margin: 6px 0;
+
+        }
+
+
+        .acoes {
+
+            margin-top: 15px;
+
+        }
+
+
+        .editar {
+
+            background: #0d6efd;
+
+            color: white;
+
+            margin-right: 5px;
+
+        }
+
+
+        .excluir {
+
+            background: #dc3545;
+
+            color: white;
+
+        }
+
+
+        .estoque-baixo {
+
+            border-left-color: #dc3545;
+
+        }
+
+
+        .estoque-normal {
+
+            border-left-color: #198754;
+
+        }
+
+
+        .vazio {
+
+            text-align: center;
+
+            color: #777;
+
+            padding: 20px;
+
+        }
+
+
+        .aviso {
+
+            background: #fff3cd;
+
+            border: 1px solid #ffe69c;
+
+            color: #664d03;
+
+            padding: 15px;
+
+            border-radius: 8px;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        /* =====================================
+           TELA DE SENHA
+        ====================================== */
+
+        #telaSenha {
+
+            position: fixed;
+
+            top: 0;
+
+            left: 0;
+
+            width: 100%;
+
+            height: 100%;
+
+            background: #222;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            z-index: 9999;
+
+        }
+
+
+        .caixaSenha {
+
+            background: white;
+
+            width: 90%;
+
+            max-width: 400px;
+
+            padding: 30px;
+
+            border-radius: 15px;
+
+            text-align: center;
+
+            box-shadow:
+                0 5px 20px
+                rgba(0,0,0,0.3);
+
+        }
+
+
+        .caixaSenha h2 {
+
+            margin-top: 0;
+
+        }
+
+
+        .caixaSenha p {
+
+            color: #555;
+
+        }
+
+
+        .caixaSenha input {
+
+            width: 100%;
+
+            padding: 14px;
+
+            margin-top: 15px;
+
+            margin-bottom: 15px;
+
+            box-sizing: border-box;
+
+            font-size: 18px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 6px;
+
+        }
+
+
+        .botaoSenha {
+
+            width: 100%;
+
+            background: #198754;
+
+            color: white;
+
+            font-size: 18px;
+
+        }
+
+
+        .erroSenha {
+
+            color: #dc3545;
+
+            font-weight: bold;
+
+            margin-top: 15px;
+
+            display: none;
+
+        }
+
+
+        .sairSenha {
+
+            width: 100%;
+
+            background: #6c757d;
+
+            color: white;
+
+            font-size: 16px;
+
+            margin-top: 10px;
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            .container {
+
+                padding: 15px;
+
+            }
+
+
+            header h1 {
+
+                font-size: 25px;
+
+            }
+
+
+            .acoes button {
+
+                width: 100%;
+
+                margin-top: 8px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================
+     TELA DE SENHA
+====================================== -->
+
+<div id="telaSenha">
+
+    <div class="caixaSenha">
+
+        <h2>🔐 Área restrita</h2>
+
+        <p>
+            Digite a senha para acessar o estoque.
+        </p>
+
+
+        <input
+            type="password"
+            id="senhaEstoque"
+            placeholder="Digite a senha"
+            onkeydown="pressionarEnter(event)"
+        >
+
+
+        <button
+            class="botaoSenha"
+            onclick="verificarSenha()"
+        >
+
+            🔓 Entrar
+
+        </button>
+
+
+        <div
+            id="erroSenha"
+            class="erroSenha"
+        >
+
+            ❌ Senha incorreta.
+
+        </div>
+
+
+        <button
+            class="sairSenha"
+            onclick="voltarMenu()"
+        >
+
+            ⬅️ Voltar
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================
+     SISTEMA
+====================================== -->
+
+
+<header>
+
+    <h1>🥩 Espetinho do Will</h1>
+
+    <p>📦 Controle de Estoque</p>
+
+</header>
+
+
+<div class="container">
+
+
+    <button
+        class="voltar"
+        onclick="voltarMenu()"
+    >
+
+        🏠 Voltar ao menu
+
+    </button>
+
+
+    <!-- =====================================
+         CADASTRO
+    ====================================== -->
+
+    <div class="caixa">
+
+        <h2>➕ Cadastrar produto</h2>
+
+
+        <label>
+
+            Nome do produto:
+
+        </label>
+
+
+        <input
+            type="text"
+            id="nome"
+            placeholder="Ex.: Espetinho de carne"
+        >
+
+
+        <label>
+
+            Quantidade em estoque:
+
+        </label>
+
+
+        <input
+            type="number"
+            id="quantidade"
+            min="0"
+            placeholder="Ex.: 50"
+        >
+
+
+        <label>
+
+            Custo do produto:
+
+        </label>
+
+
+        <input
+            type="number"
+            id="custo"
+            min="0"
+            step="0.01"
+            placeholder="Ex.: 5.00"
+        >
+
+
+        <label>
+
+            Preço de venda:
+
+        </label>
+
+
+        <input
+            type="number"
+            id="venda"
+            min="0"
+            step="0.01"
+            placeholder="Ex.: 10.00"
+        >
+
+
+        <button
+            class="salvar"
+            onclick="salvarProduto()"
+        >
+
+            💾 Salvar produto
+
+        </button>
+
+    </div>
+
+
+    <!-- =====================================
+         AVISO
+    ====================================== -->
+
+    <div class="aviso">
+
+        💡 Produtos cadastrados aqui aparecem
+        automaticamente na tela de <strong>Pedidos</strong>.
+
+    </div>
+
+
+    <!-- =====================================
+         PRODUTOS
+    ====================================== -->
+
+    <h2>📦 Produtos cadastrados</h2>
+
+
+    <div id="listaProdutos">
+
+        <p class="vazio">
+
+            Nenhum produto cadastrado.
+
+        </p>
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+
+/* =====================================================
+   PROTEÇÃO DE LOGIN
+===================================================== */
+
+var usuarioLogado =
+    localStorage.getItem("usuarioLogado");
+
+
+if (!usuarioLogado) {
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+/* =====================================================
+   SENHA DO ESTOQUE
+===================================================== */
+
+var SENHA_ESTOQUE = "1234";
+
+
+var estoqueLiberado = false;
+
+
+/* =====================================================
+   VERIFICAR SENHA
+===================================================== */
+
+function verificarSenha() {
+
+    var senha =
+        document.getElementById(
+            "senhaEstoque"
+        ).value;
+
+
+    if (
+        senha === SENHA_ESTOQUE
+    ) {
+
+        estoqueLiberado = true;
+
+
+        document.getElementById(
+            "telaSenha"
+        ).style.display =
+            "none";
+
+
+        document.getElementById(
+            "senhaEstoque"
+        ).value = "";
+
+
+        document.getElementById(
+            "erroSenha"
+        ).style.display =
+            "none";
+
+
+        mostrarProdutos();
+
+    }
+
+    else {
+
+        document.getElementById(
+            "erroSenha"
+        ).style.display =
+            "block";
+
+
+        document.getElementById(
+            "senhaEstoque"
+        ).value = "";
+
+
+        document.getElementById(
+            "senhaEstoque"
+        ).focus();
+
+    }
+
+}
+
+
+/* =====================================================
+   ENTER NA SENHA
+===================================================== */
+
+function pressionarEnter(event) {
+
+    if (
+        event.key === "Enter"
+    ) {
+
+        verificarSenha();
+
+    }
+
+}
+
+
+/* =====================================================
+   VARIÁVEL DE EDIÇÃO
+===================================================== */
+
+var indiceEditando = -1;
+
+
+/* =====================================================
+   VOLTAR AO MENU
+===================================================== */
+
+function voltarMenu() {
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+/* =====================================================
+   OBTER PRODUTOS
+===================================================== */
+
+function obterProdutos() {
+
+    var dados =
+        localStorage.getItem("produtos");
+
+
+    if (!dados) {
+
+        return [];
+
+    }
+
+
+    try {
+
+        var produtos =
+            JSON.parse(dados);
+
+
+        if (!Array.isArray(produtos)) {
+
+            return [];
+
+        }
+
+
+        return produtos;
+
+    }
+
+    catch (erro) {
+
+        return [];
+
+    }
+
+}
+
+
+/* =====================================================
+   SALVAR PRODUTO
+===================================================== */
+
+function salvarProduto() {
+
+
+    if (!estoqueLiberado) {
+
+        alert(
+            "Digite a senha para acessar o estoque."
+        );
+
+        return;
+
+    }
+
+
+    var nome =
+        document.getElementById(
+            "nome"
+        ).value.trim();
+
+
+    var quantidade =
+        Number(
+            document.getElementById(
+                "quantidade"
+            ).value
+        );
+
+
+    var custo =
+        Number(
+            document.getElementById(
+                "custo"
+            ).value
+        );
+
+
+    var venda =
+        Number(
+            document.getElementById(
+                "venda"
+            ).value
+        );
+
+
+    if (nome === "") {
+
+        alert(
+            "Digite o nome do produto."
+        );
+
+        return;
+
+    }
+
+
+    if (quantidade < 0) {
+
+        alert(
+            "Digite uma quantidade válida."
+        );
+
+        return;
+
+    }
+
+
+    if (custo < 0) {
+
+        alert(
+            "Digite um custo válido."
+        );
+
+        return;
+
+    }
+
+
+    if (venda < 0) {
+
+        alert(
+            "Digite um preço de venda válido."
+        );
+
+        return;
+
+    }
+
+
+    var produtos =
+        obterProdutos();
+
+
+    /* EDITANDO */
+
+    if (indiceEditando >= 0) {
+
+        produtos[indiceEditando] = {
+
+            nome:
+                nome,
+
+            quantidade:
+                quantidade,
+
+            custo:
+                custo,
+
+            venda:
+                venda
+
+        };
+
+
+        indiceEditando = -1;
+
+
+        alert(
+            "Produto atualizado com sucesso!"
+        );
+
+    }
+
+
+    /* NOVO PRODUTO */
+
+    else {
+
+        produtos.push({
+
+            nome:
+                nome,
+
+            quantidade:
+                quantidade,
+
+            custo:
+                custo,
+
+            venda:
+                venda
+
+        });
+
+
+        alert(
+            "Produto cadastrado com sucesso!"
+        );
+
+    }
+
+
+    localStorage.setItem(
+
+        "produtos",
+
+        JSON.stringify(
+            produtos
+        )
+
+    );
+
+
+    limparFormulario();
+
+
+    mostrarProdutos();
+
+}
+
+
+/* =====================================================
+   MOSTRAR PRODUTOS
+===================================================== */
+
+function mostrarProdutos() {
+
+
+    if (!estoqueLiberado) {
+
+        return;
+
+    }
+
+
+    var produtos =
+        obterProdutos();
+
+
+    var lista =
+        document.getElementById(
+            "listaProdutos"
+        );
+
+
+    lista.innerHTML = "";
+
+
+    if (
+        produtos.length === 0
+    ) {
+
+        lista.innerHTML =
+
+            "<p class='vazio'>" +
+
+            "Nenhum produto cadastrado." +
+
+            "</p>";
+
+        return;
+
+    }
+
+
+    for (
+        var i = 0;
+        i < produtos.length;
+        i++
+    ) {
+
+        var produto =
+            produtos[i];
+
+
+        var quantidade =
+            Number(
+                produto.quantidade || 0
+            );
+
+
+        var classeEstoque =
+            quantidade <= 5
+                ? "estoque-baixo"
+                : "estoque-normal";
+
+
+        lista.innerHTML +=
+
+            "<div class='produto " +
+            classeEstoque +
+            "'>" +
+
+            "<h3>🥩 " +
+            produto.nome +
+            "</h3>" +
+
+            "<p><strong>Quantidade:</strong> " +
+            quantidade +
+            "</p>" +
+
+            "<p><strong>Custo:</strong> R$ " +
+            Number(
+                produto.custo || 0
+            ).toFixed(2) +
+            "</p>" +
+
+            "<p><strong>Venda:</strong> R$ " +
+            Number(
+                produto.venda || 0
+            ).toFixed(2) +
+            "</p>" +
+
+            "<p><strong>Lucro por unidade:</strong> R$ " +
+
+            (
+                Number(
+                    produto.venda || 0
+                )
+                -
+                Number(
+                    produto.custo || 0
+                )
+            ).toFixed(2) +
+
+            "</p>" +
+
+            (
+                quantidade <= 5
+
+                ?
+
+                "<p style='color:#dc3545;font-weight:bold;'>" +
+                "⚠️ Estoque baixo" +
+                "</p>"
+
+                :
+
+                "<p style='color:#198754;font-weight:bold;'>" +
+                "✅ Estoque normal" +
+                "</p>"
+
+            ) +
+
+            "<div class='acoes'>" +
+
+            "<button " +
+
+            "class='editar' " +
+
+            "onclick='editarProduto(" +
+            i +
+            ")'>" +
+
+            "✏️ Editar" +
+
+            "</button>" +
+
+            "<button " +
+
+            "class='excluir' " +
+
+            "onclick='excluirProduto(" +
+            i +
+            ")'>" +
+
+            "🗑️ Excluir" +
+
+            "</button>" +
+
+            "</div>" +
+
+            "</div>";
+
+    }
+
+}
+
+
+/* =====================================================
+   EDITAR PRODUTO
+===================================================== */
+
+function editarProduto(indice) {
+
+
+    if (!estoqueLiberado) {
+
+        alert(
+            "Digite a senha para acessar o estoque."
+        );
+
+        return;
+
+    }
+
+
+    var produtos =
+        obterProdutos();
+
+
+    var produto =
+        produtos[indice];
+
+
+    if (!produto) {
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "nome"
+    ).value =
+        produto.nome;
+
+
+    document.getElementById(
+        "quantidade"
+    ).value =
+        produto.quantidade;
+
+
+    document.getElementById(
+        "custo"
+    ).value =
+        produto.custo;
+
+
+    document.getElementById(
+        "venda"
+    ).value =
+        produto.venda;
+
+
+    indiceEditando =
+        indice;
+
+
+    window.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+
+    });
+
+}
+
+
+/* =====================================================
+   EXCLUIR PRODUTO
+===================================================== */
+
+function excluirProduto(indice) {
+
+
+    if (!estoqueLiberado) {
+
+        alert(
+            "Digite a senha para acessar o estoque."
+        );
+
+        return;
+
+    }
+
+
+    var produtos =
+        obterProdutos();
+
+
+    var produto =
+        produtos[indice];
+
+
+    if (!produto) {
+
+        return;
+
+    }
+
+
+    var confirmar =
+        confirm(
+
+            "Deseja realmente excluir o produto:\n\n" +
+
+            produto.nome +
+            "?"
+
+        );
+
+
+    if (!confirmar) {
+
+        return;
+
+    }
+
+
+    produtos.splice(
+        indice,
+        1
+    );
+
+
+    localStorage.setItem(
+
+        "produtos",
+
+        JSON.stringify(
+            produtos
+        )
+
+    );
+
+
+    mostrarProdutos();
+
+
+    alert(
+        "Produto excluído."
+    );
+
+}
+
+
+/* =====================================================
+   LIMPAR FORMULÁRIO
+===================================================== */
+
+function limparFormulario() {
+
+    document.getElementById(
+        "nome"
+    ).value = "";
+
+
+    document.getElementById(
+        "quantidade"
+    ).value = "";
+
+
+    document.getElementById(
+        "custo"
+    ).value = "";
+
+
+    document.getElementById(
+        "venda"
+    ).value = "";
+
+
+    indiceEditando = -1;
+
+}
+
+
+/* =====================================================
+   INICIAR
+===================================================== */
+
+window.onload = function() {
+
+
+    /*
+       Começa bloqueado.
+    */
+
+    estoqueLiberado = false;
+
+
+    document.getElementById(
+        "telaSenha"
+    ).style.display =
+        "flex";
+
+
+    document.getElementById(
+        "senhaEstoque"
+    ).focus();
+
+
+};
+
+</script>
+
+
+</body>
+
+</html>
+```
