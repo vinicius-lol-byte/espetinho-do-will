@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -13,10 +12,15 @@
 
     <style>
 
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             font-family: Arial, sans-serif;
             background: #f4f4f4;
+            color: #222;
         }
 
         header {
@@ -28,6 +32,11 @@
 
         header h1 {
             margin: 0;
+        }
+
+        header p {
+            margin-bottom: 0;
+            color: #ddd;
         }
 
         .container {
@@ -85,6 +94,14 @@
             border-top: 5px solid #ffc107;
         }
 
+        .custo {
+            border-top: 5px solid #dc3545;
+        }
+
+        .lucro {
+            border-top: 5px solid #20c997;
+        }
+
         .total {
             background: #198754;
             color: white;
@@ -102,7 +119,7 @@
             font-size: 32px;
         }
 
-        .venda {
+        .venda-item {
             background: #f8f8f8;
             padding: 15px;
             margin-bottom: 10px;
@@ -110,7 +127,7 @@
             border-left: 5px solid #198754;
         }
 
-        .venda strong {
+        .venda-item strong {
             font-size: 18px;
         }
 
@@ -141,6 +158,20 @@
             padding: 20px;
         }
 
+        .erro {
+            background: #f8d7da;
+            color: #842029;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .carregando {
+            text-align: center;
+            padding: 20px;
+            color: #555;
+        }
+
         @media (max-width: 700px) {
 
             .resumo {
@@ -160,6 +191,14 @@
 
     </style>
 
+
+    <!-- SUPABASE -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="supabase.js"></script>
+
+
 </head>
 
 
@@ -178,21 +217,22 @@
 <div class="container">
 
 
-    <!-- DATA -->
+    <!-- CABEÇALHO -->
 
     <div class="caixa">
 
-        <h2>📅 Caixa de hoje</h2>
+        <h2>💰 Caixa</h2>
 
-        <p id="dataAtual"></p>
+        <p>
+            Dados carregados diretamente do banco online.
+        </p>
+
 
         <button
             class="botao atualizar"
             onclick="carregarCaixa()"
         >
-
             🔄 Atualizar caixa
-
         </button>
 
 
@@ -200,11 +240,19 @@
             class="botao voltar"
             onclick="voltarMenu()"
         >
-
             🏠 Menu Principal
-
         </button>
 
+    </div>
+
+
+
+    <!-- ERRO -->
+
+    <div
+        id="areaErro"
+        style="display:none;"
+    >
     </div>
 
 
@@ -214,8 +262,6 @@
     <div class="resumo">
 
 
-        <!-- DINHEIRO -->
-
         <div class="card dinheiro">
 
             <h3>💵 Dinheiro</h3>
@@ -224,16 +270,12 @@
                 id="totalDinheiro"
                 class="valor"
             >
-
                 R$ 0,00
-
             </div>
 
         </div>
 
 
-
-        <!-- CARTÃO -->
 
         <div class="card cartao">
 
@@ -243,16 +285,12 @@
                 id="totalCartao"
                 class="valor"
             >
-
                 R$ 0,00
-
             </div>
 
         </div>
 
 
-
-        <!-- PIX -->
 
         <div class="card pix">
 
@@ -262,16 +300,12 @@
                 id="totalPix"
                 class="valor"
             >
-
                 R$ 0,00
-
             </div>
 
         </div>
 
 
-
-        <!-- MESAS -->
 
         <div class="card vendas">
 
@@ -281,9 +315,37 @@
                 id="quantidadeMesas"
                 class="valor"
             >
-
                 0
+            </div>
 
+        </div>
+
+
+
+        <div class="card custo">
+
+            <h3>📦 Custo das vendas</h3>
+
+            <div
+                id="totalCustos"
+                class="valor"
+            >
+                R$ 0,00
+            </div>
+
+        </div>
+
+
+
+        <div class="card lucro">
+
+            <h3>📈 Lucro</h3>
+
+            <div
+                id="totalLucro"
+                class="valor"
+            >
+                R$ 0,00
             </div>
 
         </div>
@@ -297,15 +359,13 @@
 
     <div class="total">
 
-        <h2>💰 Total vendido hoje</h2>
+        <h2>💰 Total vendido</h2>
 
         <div
             id="totalVendas"
             class="valor"
         >
-
             R$ 0,00
-
         </div>
 
     </div>
@@ -321,10 +381,8 @@
 
         <div id="listaVendas">
 
-            <div class="mensagem">
-
-                Nenhuma venda realizada hoje.
-
+            <div class="carregando">
+                ⏳ Carregando vendas...
             </div>
 
         </div>
@@ -344,7 +402,9 @@
 ===================================================== */
 
 var usuarioLogado =
-    localStorage.getItem("usuarioLogado");
+    localStorage.getItem(
+        "usuarioLogado"
+    );
 
 
 if (!usuarioLogado) {
@@ -355,274 +415,343 @@ if (!usuarioLogado) {
 }
 
 
-/* =====================================================
-   OBTER DATA ATUAL
-===================================================== */
-
-function obterDataAtual() {
-
-    var agora =
-        new Date();
-
-
-    var dia =
-        String(
-            agora.getDate()
-        ).padStart(2, "0");
-
-
-    var mes =
-        String(
-            agora.getMonth() + 1
-        ).padStart(2, "0");
-
-
-    var ano =
-        agora.getFullYear();
-
-
-    return (
-        dia +
-        "-" +
-        mes +
-        "-" +
-        ano
-    );
-
-}
-
-
-/* =====================================================
-   FORMATAR DATA
-===================================================== */
-
-function formatarDataAtual() {
-
-    var agora =
-        new Date();
-
-
-    var dia =
-        String(
-            agora.getDate()
-        ).padStart(2, "0");
-
-
-    var mes =
-        String(
-            agora.getMonth() + 1
-        ).padStart(2, "0");
-
-
-    var ano =
-        agora.getFullYear();
-
-
-    return (
-        dia +
-        "/" +
-        mes +
-        "/" +
-        ano
-    );
-
-}
-
 
 /* =====================================================
    FORMATAR DINHEIRO
 ===================================================== */
 
-function formatarMoeda(valor) {
+function formatarMoeda(
+    valor
+) {
 
-    return (
+    return Number(
+        valor || 0
+    ).toLocaleString(
 
-        Number(valor || 0)
-            .toLocaleString(
-                "pt-BR",
-                {
-                    style: "currency",
-                    currency: "BRL"
-                }
-            )
+        "pt-BR",
+
+        {
+            style: "currency",
+            currency: "BRL"
+        }
 
     );
 
 }
 
 
+
 /* =====================================================
-   CARREGAR VENDAS
+   CARREGAR VENDAS DO SUPABASE
 ===================================================== */
 
-function carregarVendas() {
+async function carregarVendas() {
 
-    var data =
-        obterDataAtual();
+    if (
+        !window.supabaseClient
+    ) {
 
-
-    var dados =
-        localStorage.getItem(
-            "vendas_" + data
+        throw new Error(
+            "Conexão com Supabase não encontrada."
         );
 
+    }
 
-    if (!dados) {
 
-        return [];
+    var resultado =
+        await window.supabaseClient
+            .from("vendas")
+            .select("*")
+            .order(
+                "id",
+                {
+                    ascending: false
+                }
+            );
+
+
+    if (
+        resultado.error
+    ) {
+
+        throw resultado.error;
 
     }
 
 
-    try {
-
-        var vendas =
-            JSON.parse(dados);
-
-
-        if (
-            !Array.isArray(vendas)
-        ) {
-
-            return [];
-
-        }
-
-
-        return vendas;
-
-    }
-
-    catch (erro) {
-
-        return [];
-
-    }
+    return resultado.data || [];
 
 }
+
 
 
 /* =====================================================
    CARREGAR CAIXA
 ===================================================== */
 
-function carregarCaixa() {
-
-    var vendas =
-        carregarVendas();
+async function carregarCaixa() {
 
 
-    var totalVendas = 0;
-
-    var totalDinheiro = 0;
-
-    var totalCartao = 0;
-
-    var totalPix = 0;
+    var lista =
+        document.getElementById(
+            "listaVendas"
+        );
 
 
-    for (
-        var i = 0;
-        i < vendas.length;
-        i++
-    ) {
-
-        var venda =
-            vendas[i];
+    var areaErro =
+        document.getElementById(
+            "areaErro"
+        );
 
 
-        var valor =
-            Number(
-                venda.total || 0
+    areaErro.style.display =
+        "none";
+
+
+    lista.innerHTML =
+
+        "<div class='carregando'>" +
+
+        "⏳ Carregando vendas..." +
+
+        "</div>";
+
+
+    try {
+
+
+        var vendas =
+            await carregarVendas();
+
+
+        var totalVendas =
+            0;
+
+
+        var totalCustos =
+            0;
+
+
+        var totalDinheiro =
+            0;
+
+
+        var totalCartao =
+            0;
+
+
+        var totalPix =
+            0;
+
+
+
+        /*
+           SOMAR VENDAS
+        */
+
+        for (
+            var i = 0;
+            i < vendas.length;
+            i++
+        ) {
+
+
+            var venda =
+                vendas[i];
+
+
+            var valor =
+                Number(
+                    venda.total || 0
+                );
+
+
+            var custo =
+                Number(
+                    venda.custo || 0
+                );
+
+
+            totalVendas +=
+                valor;
+
+
+            totalCustos +=
+                custo;
+
+
+
+            /*
+               FORMAS DE PAGAMENTO
+            */
+
+            var forma =
+                venda.forma_pagamento;
+
+
+            if (
+                forma === "Dinheiro"
+            ) {
+
+                totalDinheiro +=
+                    valor;
+
+            }
+
+
+            else if (
+                forma === "Cartão"
+            ) {
+
+                totalCartao +=
+                    valor;
+
+            }
+
+
+            else if (
+                forma === "PIX"
+            ) {
+
+                totalPix +=
+                    valor;
+
+            }
+
+        }
+
+
+
+        /*
+           LUCRO
+        */
+
+        var totalLucro =
+
+            totalVendas -
+
+            totalCustos;
+
+
+
+        /*
+           MOSTRAR RESUMO
+        */
+
+        document.getElementById(
+            "totalVendas"
+        ).innerText =
+            formatarMoeda(
+                totalVendas
             );
 
 
-        totalVendas +=
-            valor;
+        document.getElementById(
+            "totalCustos"
+        ).innerText =
+            formatarMoeda(
+                totalCustos
+            );
 
 
-        var forma =
-            venda.formaPagamento;
+        document.getElementById(
+            "totalLucro"
+        ).innerText =
+            formatarMoeda(
+                totalLucro
+            );
 
 
-        if (
-            forma === "Dinheiro"
-        ) {
+        document.getElementById(
+            "totalDinheiro"
+        ).innerText =
+            formatarMoeda(
+                totalDinheiro
+            );
 
-            totalDinheiro +=
-                valor;
 
-        }
+        document.getElementById(
+            "totalCartao"
+        ).innerText =
+            formatarMoeda(
+                totalCartao
+            );
 
-        else if (
-            forma === "Cartão"
-        ) {
 
-            totalCartao +=
-                valor;
+        document.getElementById(
+            "totalPix"
+        ).innerText =
+            formatarMoeda(
+                totalPix
+            );
 
-        }
 
-        else if (
-            forma === "PIX"
-        ) {
+        document.getElementById(
+            "quantidadeMesas"
+        ).innerText =
+            vendas.length;
 
-            totalPix +=
-                valor;
 
-        }
+
+        /*
+           MOSTRAR LISTA
+        */
+
+        mostrarVendas(
+            vendas
+        );
 
     }
 
 
-    document.getElementById(
-        "totalVendas"
-    ).innerText =
-        formatarMoeda(
-            totalVendas
+    catch (erro) {
+
+
+        console.error(
+            "Erro ao carregar caixa:",
+            erro
         );
 
 
-    document.getElementById(
-        "totalDinheiro"
-    ).innerText =
-        formatarMoeda(
-            totalDinheiro
-        );
+        lista.innerHTML =
+            "";
 
 
-    document.getElementById(
-        "totalCartao"
-    ).innerText =
-        formatarMoeda(
-            totalCartao
-        );
+        areaErro.innerHTML =
+
+            "<div class='erro'>" +
+
+            "❌ Não foi possível carregar o caixa." +
+
+            "<br><br>" +
+
+            "Erro: " +
+
+            (
+                erro.message ||
+                "Erro desconhecido."
+            ) +
+
+            "</div>";
 
 
-    document.getElementById(
-        "totalPix"
-    ).innerText =
-        formatarMoeda(
-            totalPix
-        );
+        areaErro.style.display =
+            "block";
 
-
-    document.getElementById(
-        "quantidadeMesas"
-    ).innerText =
-        vendas.length;
-
-
-    mostrarVendas(vendas);
+    }
 
 }
+
 
 
 /* =====================================================
    MOSTRAR VENDAS
 ===================================================== */
 
-function mostrarVendas(vendas) {
+function mostrarVendas(
+    vendas
+) {
+
 
     var area =
         document.getElementById(
@@ -630,7 +759,9 @@ function mostrarVendas(vendas) {
         );
 
 
-    area.innerHTML = "";
+    area.innerHTML =
+        "";
+
 
 
     if (
@@ -641,7 +772,7 @@ function mostrarVendas(vendas) {
 
             "<div class='mensagem'>" +
 
-            "Nenhuma venda realizada hoje." +
+            "Nenhuma venda registrada." +
 
             "</div>";
 
@@ -650,26 +781,29 @@ function mostrarVendas(vendas) {
     }
 
 
+
     for (
         var i = 0;
         i < vendas.length;
         i++
     ) {
 
+
         var venda =
             vendas[i];
 
 
         var forma =
-            venda.formaPagamento ||
+            venda.forma_pagamento ||
             "Não informado";
 
 
-        var html = "";
+        var html =
+            "";
 
 
         html +=
-            "<div class='venda'>";
+            "<div class='venda-item'>";
 
 
         html +=
@@ -681,6 +815,17 @@ function mostrarVendas(vendas) {
             venda.mesa +
 
             "</strong>";
+
+
+        html +=
+
+            "<p>" +
+
+            "🧾 Venda ID: " +
+
+            venda.id +
+
+            "</p>";
 
 
         html +=
@@ -712,10 +857,49 @@ function mostrarVendas(vendas) {
 
             "<p>" +
 
+            "📦 Custo: " +
+
+            formatarMoeda(
+                venda.custo
+            ) +
+
+            "</p>";
+
+
+        html +=
+
+            "<p>" +
+
             "💰 Total: <strong>" +
 
             formatarMoeda(
                 venda.total
+            ) +
+
+            "</strong></p>";
+
+
+        var lucroVenda =
+
+            Number(
+                venda.total || 0
+            )
+
+            -
+
+            Number(
+                venda.custo || 0
+            );
+
+
+        html +=
+
+            "<p>" +
+
+            "📈 Lucro: <strong>" +
+
+            formatarMoeda(
+                lucroVenda
             ) +
 
             "</strong></p>";
@@ -733,8 +917,9 @@ function mostrarVendas(vendas) {
 }
 
 
+
 /* =====================================================
-   VOLTAR PARA MENU
+   VOLTAR
 ===================================================== */
 
 function voltarMenu() {
@@ -745,23 +930,18 @@ function voltarMenu() {
 }
 
 
+
 /* =====================================================
    INICIAR
 ===================================================== */
 
-window.onload = function() {
+window.onload =
+    async function() {
 
-    document.getElementById(
-        "dataAtual"
-    ).innerText =
+        await carregarCaixa();
 
-        "Data: " +
-        formatarDataAtual();
+    };
 
-
-    carregarCaixa();
-
-};
 
 </script>
 
@@ -769,4 +949,3 @@ window.onload = function() {
 </body>
 
 </html>
-```
