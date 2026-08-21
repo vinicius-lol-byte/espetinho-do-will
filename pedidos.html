@@ -5,8 +5,10 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Pedidos - Espetinho do Will</title>
 
@@ -20,6 +22,7 @@
             margin: 0;
             font-family: Arial, sans-serif;
             background: #f4f4f4;
+            color: #222;
         }
 
         header {
@@ -44,6 +47,7 @@
             padding: 20px;
             border-radius: 10px;
             margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
         }
 
         select,
@@ -52,7 +56,9 @@
             padding: 12px;
             margin-top: 5px;
             margin-bottom: 15px;
-            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
         }
 
         button {
@@ -61,7 +67,8 @@
             margin-right: 5px;
             cursor: pointer;
             border: none;
-            border-radius: 5px;
+            border-radius: 6px;
+            font-size: 16px;
         }
 
         button:disabled {
@@ -83,7 +90,12 @@
         .fechar {
             background: #dc3545;
             color: white;
-            font-size: 16px;
+        }
+
+        .voltar {
+            background: #222;
+            color: white;
+            margin-bottom: 20px;
         }
 
         .item {
@@ -106,30 +118,6 @@
             margin-top: 20px;
         }
 
-        .fechamento {
-            background: #0d6efd;
-            color: white;
-            font-size: 18px;
-            margin-bottom: 20px;
-        }
-
-        .fechamento-dia {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 25px;
-        }
-
-        .lucro {
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .produto-vendido {
-            padding: 8px;
-            border-bottom: 1px solid #ddd;
-        }
-
         .pagamento {
             background: white;
             padding: 20px;
@@ -140,7 +128,6 @@
 
         .pagamento button {
             width: 100%;
-            font-size: 18px;
             margin-top: 10px;
         }
 
@@ -181,24 +168,53 @@
             background: #fd7e14;
             color: white;
             width: 100%;
+        }
+
+        /* =========================================
+           COMPROVANTE PDF
+        ========================================= */
+
+        .comprovante-area {
+            background: #d1e7dd;
+            border-left: 6px solid #198754;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 25px 0;
+        }
+
+        .comprovante-area h2 {
+            margin-top: 0;
+        }
+
+        .baixar-pdf {
+            background: #198754;
+            color: white;
+            width: 100%;
             font-size: 18px;
         }
 
-        .voltar {
-            background: #222;
+        .fechamento {
+            background: #0d6efd;
             color: white;
-            font-size: 16px;
-            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .fechamento-dia {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .lucro {
+            font-size: 24px;
+            font-weight: bold;
         }
 
         @media (max-width: 700px) {
 
             .container {
                 padding: 15px;
-            }
-
-            header h1 {
-                font-size: 26px;
             }
 
             button {
@@ -210,7 +226,20 @@
 
     </style>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- SUPABASE -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+    ></script>
+
+
+    <!-- JSPDF -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"
+    ></script>
+
 
     <script src="supabase.js"></script>
 
@@ -240,9 +269,15 @@
     </button>
 
 
+
+    <!-- =========================================
+         NOVO PEDIDO
+    ========================================== -->
+
     <div class="caixa">
 
         <h2>Novo pedido</h2>
+
 
         <label>Mesa:</label>
 
@@ -251,64 +286,6 @@
             <option value="">
                 Selecione a mesa
             </option>
-
-            <option value="0">Mesa 0</option>
-            <option value="1">Mesa 1</option>
-            <option value="2">Mesa 2</option>
-            <option value="3">Mesa 3</option>
-            <option value="4">Mesa 4</option>
-            <option value="5">Mesa 5</option>
-            <option value="6">Mesa 6</option>
-            <option value="7">Mesa 7</option>
-            <option value="8">Mesa 8</option>
-            <option value="9">Mesa 9</option>
-            <option value="10">Mesa 10</option>
-            <option value="11">Mesa 11</option>
-            <option value="12">Mesa 12</option>
-            <option value="13">Mesa 13</option>
-            <option value="14">Mesa 14</option>
-            <option value="15">Mesa 15</option>
-            <option value="16">Mesa 16</option>
-            <option value="17">Mesa 17</option>
-            <option value="18">Mesa 18</option>
-            <option value="19">Mesa 19</option>
-            <option value="20">Mesa 20</option>
-            <option value="21">Mesa 21</option>
-            <option value="22">Mesa 22</option>
-            <option value="23">Mesa 23</option>
-            <option value="24">Mesa 24</option>
-            <option value="25">Mesa 25</option>
-            <option value="26">Mesa 26</option>
-            <option value="27">Mesa 27</option>
-            <option value="28">Mesa 28</option>
-            <option value="29">Mesa 29</option>
-            <option value="30">Mesa 30</option>
-            <option value="31">Mesa 31</option>
-            <option value="32">Mesa 32</option>
-            <option value="33">Mesa 33</option>
-            <option value="34">Mesa 34</option>
-            <option value="35">Mesa 35</option>
-            <option value="36">Mesa 36</option>
-            <option value="37">Mesa 37</option>
-            <option value="38">Mesa 38</option>
-            <option value="39">Mesa 39</option>
-            <option value="40">Mesa 40</option>
-            <option value="41">Mesa 41</option>
-            <option value="42">Mesa 42</option>
-            <option value="43">Mesa 43</option>
-            <option value="44">Mesa 44</option>
-            <option value="45">Mesa 45</option>
-            <option value="46">Mesa 46</option>
-            <option value="47">Mesa 47</option>
-            <option value="48">Mesa 48</option>
-            <option value="49">Mesa 49</option>
-            <option value="50">Mesa 50</option>
-            <option value="51">Mesa 51</option>
-            <option value="52">Mesa 52</option>
-            <option value="53">Mesa 53</option>
-            <option value="54">Mesa 54</option>
-            <option value="55">Mesa 55</option>
-            <option value="56">Mesa 56</option>
 
         </select>
 
@@ -344,6 +321,11 @@
     </div>
 
 
+
+    <!-- =========================================
+         ITENS DO PEDIDO
+    ========================================== -->
+
     <h2>Itens do pedido</h2>
 
 
@@ -373,6 +355,11 @@
     </button>
 
 
+
+    <!-- =========================================
+         MESAS ABERTAS
+    ========================================== -->
+
     <h2>Mesas abertas</h2>
 
 
@@ -382,6 +369,40 @@
 
     </div>
 
+
+
+    <!-- =========================================
+         COMPROVANTE
+    ========================================== -->
+
+    <div
+        id="areaComprovante"
+        class="comprovante-area"
+        style="display:none;"
+    >
+
+        <h2>
+            🧾 Comprovante disponível
+        </h2>
+
+        <p id="textoComprovante">
+            Mesa fechada com sucesso.
+        </p>
+
+        <button
+            class="baixar-pdf"
+            onclick="baixarUltimoComprovante()"
+        >
+            📄 Baixar PDF
+        </button>
+
+    </div>
+
+
+
+    <!-- =========================================
+         FECHAMENTO
+    ========================================== -->
 
     <h2>📊 Fechamento diário</h2>
 
@@ -405,6 +426,7 @@
 </div>
 
 
+
 <script>
 
 
@@ -426,6 +448,7 @@ if (!usuarioLogado) {
 }
 
 
+
 /* =====================================================
    VARIÁVEIS
 ===================================================== */
@@ -438,11 +461,73 @@ var vendasDoDia = [];
 
 var produtosDisponiveis = [];
 
-var pagamentoEmAndamento = false;
+var pagamentoEmAndamento =
+    false;
+
+
+/*
+   Guarda os dados da última mesa fechada
+   para gerar o PDF.
+*/
+
+var ultimoComprovante =
+    null;
+
 
 
 /* =====================================================
-   DATA ISO PARA SUPABASE
+   CRIAR MESAS 0 ATÉ 56
+===================================================== */
+
+function carregarNumeroMesas() {
+
+    var select =
+        document.getElementById(
+            "mesa"
+        );
+
+
+    select.innerHTML =
+
+        "<option value=''>" +
+
+        "Selecione a mesa" +
+
+        "</option>";
+
+
+    for (
+        var i = 0;
+        i <= 56;
+        i++
+    ) {
+
+        var option =
+            document.createElement(
+                "option"
+            );
+
+
+        option.value =
+            String(i);
+
+
+        option.textContent =
+            "Mesa " + i;
+
+
+        select.appendChild(
+            option
+        );
+
+    }
+
+}
+
+
+
+/* =====================================================
+   DATA ISO
 ===================================================== */
 
 function obterDataISO() {
@@ -474,14 +559,21 @@ function obterDataISO() {
 
 
     return (
+
         ano +
+
         "-" +
+
         mes +
+
         "-" +
+
         dia
+
     );
 
 }
+
 
 
 /* =====================================================
@@ -517,14 +609,77 @@ function obterDataBrasil() {
 
 
     return (
+
         dia +
+
         "/" +
+
         mes +
+
         "/" +
+
         ano
+
     );
 
 }
+
+
+
+/* =====================================================
+   HORA
+===================================================== */
+
+function obterHorario() {
+
+    var agora =
+        new Date();
+
+
+    return agora.toLocaleTimeString(
+
+        "pt-BR",
+
+        {
+            hour:
+                "2-digit",
+
+            minute:
+                "2-digit"
+        }
+
+    );
+
+}
+
+
+
+/* =====================================================
+   FORMATAR MOEDA
+===================================================== */
+
+function formatarMoeda(
+    valor
+) {
+
+    return Number(
+        valor || 0
+    ).toLocaleString(
+
+        "pt-BR",
+
+        {
+            style:
+                "currency",
+
+            currency:
+                "BRL"
+        }
+
+    );
+
+}
+
 
 
 /* =====================================================
@@ -534,13 +689,17 @@ function obterDataBrasil() {
 function salvarMesasAbertas() {
 
     localStorage.setItem(
+
         "mesasAbertas",
+
         JSON.stringify(
             mesasAbertas
         )
+
     );
 
 }
+
 
 
 /* =====================================================
@@ -593,6 +752,7 @@ function carregarMesasAbertas() {
 }
 
 
+
 /* =====================================================
    VOLTAR
 ===================================================== */
@@ -601,10 +761,12 @@ function voltarMenu() {
 
     salvarMesasAbertas();
 
+
     window.location.href =
         "index.html";
 
 }
+
 
 
 /* =====================================================
@@ -632,17 +794,24 @@ async function carregarProdutos() {
 
         var resultado =
             await window.supabaseClient
-                .from("produtos")
-                .select("*")
+                .from(
+                    "produtos"
+                )
+                .select(
+                    "*"
+                )
                 .order(
                     "nome",
                     {
-                        ascending: true
+                        ascending:
+                            true
                     }
                 );
 
 
-        if (resultado.error) {
+        if (
+            resultado.error
+        ) {
 
             throw resultado.error;
 
@@ -719,8 +888,9 @@ async function carregarProdutos() {
 }
 
 
+
 /* =====================================================
-   OBTER PRODUTO
+   LOCALIZAR PRODUTO
 ===================================================== */
 
 function obterProdutoPorId(
@@ -753,6 +923,7 @@ function obterProdutoPorId(
 }
 
 
+
 /* =====================================================
    ADICIONAR ITEM
 ===================================================== */
@@ -779,7 +950,9 @@ function adicionarItem() {
         );
 
 
-    if (mesa === "") {
+    if (
+        mesa === ""
+    ) {
 
         alert(
             "Escolha uma mesa."
@@ -790,7 +963,9 @@ function adicionarItem() {
     }
 
 
-    if (produtoId === "") {
+    if (
+        produtoId === ""
+    ) {
 
         alert(
             "Escolha um produto."
@@ -835,7 +1010,12 @@ function adicionarItem() {
     }
 
 
-    var quantidadeJaAdicionada =
+    /*
+       Ver quanto do mesmo produto
+       já está no pedido.
+    */
+
+    var quantidadeNoPedido =
         0;
 
 
@@ -855,7 +1035,8 @@ function adicionarItem() {
             )
         ) {
 
-            quantidadeJaAdicionada +=
+            quantidadeNoPedido +=
+
                 Number(
                     pedido[i].quantidade
                 );
@@ -866,7 +1047,7 @@ function adicionarItem() {
 
 
     if (
-        quantidadeJaAdicionada +
+        quantidadeNoPedido +
         quantidade >
         Number(
             produto.quantidade
@@ -875,11 +1056,11 @@ function adicionarItem() {
 
         alert(
 
-            "Estoque insuficiente para: " +
+            "Estoque insuficiente para " +
 
             produto.nome +
 
-            "\n\nDisponível: " +
+            ".\n\nDisponível: " +
 
             produto.quantidade
 
@@ -922,9 +1103,11 @@ function adicionarItem() {
 
     document.getElementById(
         "quantidade"
-    ).value = "";
+    ).value =
+        "";
 
 }
+
 
 
 /* =====================================================
@@ -943,16 +1126,17 @@ function mostrarPedido() {
         "";
 
 
-    var total =
-        0;
-
-
     if (
         pedido.length === 0
     ) {
 
         lista.innerHTML =
-            "<p>Nenhum item adicionado.</p>";
+
+            "<p>" +
+
+            "Nenhum item adicionado." +
+
+            "</p>";
 
 
         document.getElementById(
@@ -967,11 +1151,13 @@ function mostrarPedido() {
             "none";
 
 
-        mostrarMesasAbertas();
-
         return;
 
     }
+
+
+    var total =
+        0;
 
 
     for (
@@ -1005,18 +1191,30 @@ function mostrarPedido() {
 
             "<div class='item'>" +
 
-            "<h3>🍽️ Mesa " +
+            "<strong>🍽️ Mesa " +
+
             item.mesa +
-            "</h3>" +
+
+            "</strong>" +
 
             "<p>" +
-            item.nome +
+
+            escaparHTML(
+                item.nome
+            ) +
+
             " × " +
+
             item.quantidade +
+
             "</p>" +
 
-            "<p>R$ " +
-            subtotal.toFixed(2) +
+            "<p>" +
+
+            formatarMoeda(
+                subtotal
+            ) +
+
             "</p>" +
 
             "</div>";
@@ -1028,9 +1226,11 @@ function mostrarPedido() {
         "totalPedido"
     ).innerText =
 
-        "Total: R$ " +
+        "Total: " +
 
-        total.toFixed(2);
+        formatarMoeda(
+            total
+        );
 
 
     document.getElementById(
@@ -1044,10 +1244,8 @@ function mostrarPedido() {
     ).style.display =
         "inline-block";
 
-
-    mostrarMesasAbertas();
-
 }
+
 
 
 /* =====================================================
@@ -1072,6 +1270,10 @@ async function enviarPedido() {
     try {
 
 
+        /*
+           VALIDAR ESTOQUE
+        */
+
         for (
             var i = 0;
             i < pedido.length;
@@ -1084,8 +1286,12 @@ async function enviarPedido() {
 
             var consulta =
                 await window.supabaseClient
-                    .from("produtos")
-                    .select("*")
+                    .from(
+                        "produtos"
+                    )
+                    .select(
+                        "*"
+                    )
                     .eq(
                         "id",
                         item.produtoId
@@ -1093,7 +1299,9 @@ async function enviarPedido() {
                     .single();
 
 
-            if (consulta.error) {
+            if (
+                consulta.error
+            ) {
 
                 throw consulta.error;
 
@@ -1112,7 +1320,7 @@ async function enviarPedido() {
 
                 alert(
 
-                    "Estoque insuficiente para: " +
+                    "Estoque insuficiente para " +
 
                     consulta.data.nome
 
@@ -1121,12 +1329,18 @@ async function enviarPedido() {
 
                 await carregarProdutos();
 
+
                 return;
 
             }
 
         }
 
+
+
+        /*
+           BAIXAR ESTOQUE
+        */
 
         for (
             var i = 0;
@@ -1140,8 +1354,12 @@ async function enviarPedido() {
 
             var consulta =
                 await window.supabaseClient
-                    .from("produtos")
-                    .select("quantidade")
+                    .from(
+                        "produtos"
+                    )
+                    .select(
+                        "quantidade"
+                    )
                     .eq(
                         "id",
                         item.produtoId
@@ -1149,7 +1367,9 @@ async function enviarPedido() {
                     .single();
 
 
-            if (consulta.error) {
+            if (
+                consulta.error
+            ) {
 
                 throw consulta.error;
 
@@ -1169,9 +1389,11 @@ async function enviarPedido() {
                 );
 
 
-            var atualizacao =
+            var atualizar =
                 await window.supabaseClient
-                    .from("produtos")
+                    .from(
+                        "produtos"
+                    )
                     .update({
 
                         quantidade:
@@ -1184,14 +1406,21 @@ async function enviarPedido() {
                     );
 
 
-            if (atualizacao.error) {
+            if (
+                atualizar.error
+            ) {
 
-                throw atualizacao.error;
+                throw atualizar.error;
 
             }
 
         }
 
+
+
+        /*
+           COLOCAR NA MESA
+        */
 
         for (
             var i = 0;
@@ -1227,25 +1456,32 @@ async function enviarPedido() {
         salvarMesasAbertas();
 
 
-        pedido = [];
+        pedido =
+            [];
 
 
         mostrarPedido();
 
 
+        mostrarMesasAbertas();
+
+
         document.getElementById(
             "mesa"
-        ).value = "";
+        ).value =
+            "";
 
 
         document.getElementById(
             "produto"
-        ).value = "";
+        ).value =
+            "";
 
 
         document.getElementById(
             "quantidade"
-        ).value = "";
+        ).value =
+            "";
 
 
         await carregarProdutos();
@@ -1280,6 +1516,7 @@ async function enviarPedido() {
 }
 
 
+
 /* =====================================================
    MOSTRAR MESAS
 ===================================================== */
@@ -1301,14 +1538,19 @@ function mostrarMesasAbertas() {
     ) {
 
         area.innerHTML =
-            "<p>Nenhuma mesa aberta.</p>";
+
+            "<p>" +
+
+            "Nenhuma mesa aberta." +
+
+            "</p>";
 
         return;
 
     }
 
 
-    var mesas =
+    var numeros =
         [];
 
 
@@ -1318,18 +1560,21 @@ function mostrarMesasAbertas() {
         i++
     ) {
 
-        var mesa =
-            mesasAbertas[i].mesa;
+        var numero =
+            String(
+                mesasAbertas[i].mesa
+            );
 
 
         if (
-            mesas.indexOf(
-                mesa
-            ) === -1
+            numeros.indexOf(
+                numero
+            )
+            === -1
         ) {
 
-            mesas.push(
-                mesa
+            numeros.push(
+                numero
             );
 
         }
@@ -1337,30 +1582,32 @@ function mostrarMesasAbertas() {
     }
 
 
-    mesas.sort(
+    numeros.sort(
+
         function(a, b) {
 
             return Number(a) - Number(b);
 
         }
+
     );
 
 
     for (
         var i = 0;
-        i < mesas.length;
+        i < numeros.length;
         i++
     ) {
 
         var mesaAtual =
-            mesas[i];
+            numeros[i];
 
 
         var total =
             0;
 
 
-        var itensMesa =
+        var itens =
             [];
 
 
@@ -1371,12 +1618,16 @@ function mostrarMesasAbertas() {
         ) {
 
             if (
-                mesasAbertas[j].mesa
+                String(
+                    mesasAbertas[j].mesa
+                )
                 ===
-                mesaAtual
+                String(
+                    mesaAtual
+                )
             ) {
 
-                itensMesa.push(
+                itens.push(
                     mesasAbertas[j]
                 );
 
@@ -1398,57 +1649,66 @@ function mostrarMesasAbertas() {
         }
 
 
-        area.innerHTML +=
+        var html =
 
             "<div class='item mesa-aberta'>" +
 
             "<h3>🍽️ Mesa " +
+
             mesaAtual +
+
             "</h3>";
 
 
         for (
             var k = 0;
-            k < itensMesa.length;
+            k < itens.length;
             k++
         ) {
 
-            area.innerHTML +=
+            var subtotal =
+
+                Number(
+                    itens[k].quantidade
+                )
+
+                *
+
+                Number(
+                    itens[k].venda || 0
+                );
+
+
+            html +=
 
                 "<p>" +
 
-                itensMesa[k].nome +
+                escaparHTML(
+                    itens[k].nome
+                ) +
 
                 " × " +
 
-                itensMesa[k].quantidade +
+                itens[k].quantidade +
 
-                " — R$ " +
+                " — " +
 
-                (
-
-                    Number(
-                        itensMesa[k].quantidade
-                    )
-
-                    *
-
-                    Number(
-                        itensMesa[k].venda || 0
-                    )
-
-                ).toFixed(2) +
+                formatarMoeda(
+                    subtotal
+                ) +
 
                 "</p>";
 
         }
 
 
-        area.innerHTML +=
+        html +=
 
-            "<p><strong>Total: R$ " +
+            "<p><strong>Total: " +
 
-            total.toFixed(2) +
+            formatarMoeda(
+                total
+            ) +
 
             "</strong></p>" +
 
@@ -1467,11 +1727,17 @@ function mostrarMesasAbertas() {
 
             "</button>" +
 
+
             "</div>";
+
+
+        area.innerHTML +=
+            html;
 
     }
 
 }
+
 
 
 /* =====================================================
@@ -1493,9 +1759,11 @@ function calcularTotalMesa(
     ) {
 
         if (
-            mesasAbertas[i].mesa
+            String(
+                mesasAbertas[i].mesa
+            )
             ===
-            mesa
+            String(mesa)
         ) {
 
             total +=
@@ -1518,6 +1786,7 @@ function calcularTotalMesa(
     return total;
 
 }
+
 
 
 /* =====================================================
@@ -1560,8 +1829,9 @@ function fecharMesa(
 }
 
 
+
 /* =====================================================
-   PAGAMENTO
+   MOSTRAR PAGAMENTO
 ===================================================== */
 
 function mostrarPagamento(
@@ -1583,11 +1853,17 @@ function mostrarPagamento(
         "<div class='pagamento'>" +
 
         "<h2>💰 Fechamento da Mesa " +
+
         mesa +
+
         "</h2>" +
 
-        "<h3>Total: R$ " +
-        totalMesa.toFixed(2) +
+        "<h3>Total: " +
+
+        formatarMoeda(
+            totalMesa
+        ) +
+
         "</h3>" +
 
         "<p><strong>Como deseja fechar?</strong></p>" +
@@ -1599,7 +1875,7 @@ function mostrarPagamento(
 
         mesa +
 
-        "\", \"Dinheiro\")'>" +
+        "\",\"Dinheiro\")'>" +
 
         "💵 Dinheiro" +
 
@@ -1612,7 +1888,7 @@ function mostrarPagamento(
 
         mesa +
 
-        "\", \"Cartão\")'>" +
+        "\",\"Cartão\")'>" +
 
         "💳 Cartão" +
 
@@ -1625,7 +1901,7 @@ function mostrarPagamento(
 
         mesa +
 
-        "\", \"PIX\")'>" +
+        "\",\"PIX\")'>" +
 
         "📱 PIX" +
 
@@ -1666,8 +1942,9 @@ function mostrarPagamento(
 }
 
 
+
 /* =====================================================
-   SELECIONAR CLIENTE
+   CLIENTES
 ===================================================== */
 
 async function abrirSelecaoCliente(
@@ -1676,7 +1953,8 @@ async function abrirSelecaoCliente(
 
     var area =
         document.getElementById(
-            "selecaoCliente_" + mesa
+            "selecaoCliente_" +
+            mesa
         );
 
 
@@ -1693,17 +1971,24 @@ async function abrirSelecaoCliente(
 
         var resultado =
             await window.supabaseClient
-                .from("clientes")
-                .select("*")
+                .from(
+                    "clientes"
+                )
+                .select(
+                    "*"
+                )
                 .order(
                     "nome",
                     {
-                        ascending: true
+                        ascending:
+                            true
                     }
                 );
 
 
-        if (resultado.error) {
+        if (
+            resultado.error
+        ) {
 
             throw resultado.error;
 
@@ -1738,7 +2023,9 @@ async function abrirSelecaoCliente(
             "<h3>👤 Escolha o cliente</h3>" +
 
             "<select id='clienteConta_" +
+
             mesa +
+
             "'>" +
 
             "<option value=''>" +
@@ -1817,6 +2104,7 @@ async function abrirSelecaoCliente(
 }
 
 
+
 /* =====================================================
    ADICIONAR AO FIADO
 ===================================================== */
@@ -1834,14 +2122,22 @@ async function adicionarMesaContaCliente(
     }
 
 
-    var select =
+    var campo =
         document.getElementById(
-            "clienteConta_" + mesa
+            "clienteConta_" +
+            mesa
         );
 
 
+    if (!campo) {
+
+        return;
+
+    }
+
+
     var clienteId =
-        select.value;
+        campo.value;
 
 
     if (
@@ -1861,12 +2157,11 @@ async function adicionarMesaContaCliente(
         true;
 
 
-    var contaCriadaId =
+    var contaId =
         null;
 
 
     try {
-
 
         var itens =
             [];
@@ -1887,9 +2182,11 @@ async function adicionarMesaContaCliente(
         ) {
 
             if (
-                mesasAbertas[i].mesa
+                String(
+                    mesasAbertas[i].mesa
+                )
                 ===
-                mesa
+                String(mesa)
             ) {
 
                 var item =
@@ -1936,7 +2233,7 @@ async function adicionarMesaContaCliente(
         ) {
 
             throw new Error(
-                "Nenhum item encontrado na mesa."
+                "Nenhum item encontrado."
             );
 
         }
@@ -1944,7 +2241,9 @@ async function adicionarMesaContaCliente(
 
         var resultadoConta =
             await window.supabaseClient
-                .from("contas_clientes")
+                .from(
+                    "contas_clientes"
+                )
                 .insert({
 
                     cliente_id:
@@ -1979,7 +2278,9 @@ async function adicionarMesaContaCliente(
                         null
 
                 })
-                .select("id")
+                .select(
+                    "id"
+                )
                 .single();
 
 
@@ -1992,7 +2293,7 @@ async function adicionarMesaContaCliente(
         }
 
 
-        contaCriadaId =
+        contaId =
             resultadoConta.data.id;
 
 
@@ -2009,7 +2310,7 @@ async function adicionarMesaContaCliente(
             itensBanco.push({
 
                 conta_id:
-                    contaCriadaId,
+                    contaId,
 
                 produto_id:
                     itens[i].produtoId,
@@ -2039,7 +2340,9 @@ async function adicionarMesaContaCliente(
 
         var resultadoItens =
             await window.supabaseClient
-                .from("itens_conta_cliente")
+                .from(
+                    "itens_conta_cliente"
+                )
                 .insert(
                     itensBanco
                 );
@@ -2050,11 +2353,13 @@ async function adicionarMesaContaCliente(
         ) {
 
             await window.supabaseClient
-                .from("contas_clientes")
+                .from(
+                    "contas_clientes"
+                )
                 .delete()
                 .eq(
                     "id",
-                    contaCriadaId
+                    contaId
                 );
 
 
@@ -2070,15 +2375,17 @@ async function adicionarMesaContaCliente(
 
         alert(
 
-            "✅ Consumo adicionado à conta do cliente!\n\n" +
+            "✅ Consumo adicionado à conta!\n\n" +
 
             "Mesa " +
+
             mesa +
-            " liberada.\n\n" +
 
-            "Total: R$ " +
+            " liberada.\n\nTotal: " +
 
-            total.toFixed(2)
+            formatarMoeda(
+                total
+            )
 
         );
 
@@ -2112,6 +2419,7 @@ async function adicionarMesaContaCliente(
     }
 
 }
+
 
 
 /* =====================================================
@@ -2157,9 +2465,11 @@ async function confirmarPagamento(
         ) {
 
             if (
-                mesasAbertas[i].mesa
+                String(
+                    mesasAbertas[i].mesa
+                )
                 ===
-                mesa
+                String(mesa)
             ) {
 
                 var item =
@@ -2172,7 +2482,7 @@ async function confirmarPagamento(
                     );
 
 
-                var venda =
+                var valorVenda =
                     Number(
                         item.venda || 0
                     );
@@ -2185,12 +2495,16 @@ async function confirmarPagamento(
 
 
                 totalMesa +=
+
                     quantidade *
-                    venda;
+
+                    valorVenda;
 
 
                 custoMesa +=
+
                     quantidade *
+
                     custo;
 
 
@@ -2209,7 +2523,7 @@ async function confirmarPagamento(
                         custo,
 
                     venda:
-                        venda
+                        valorVenda
 
                 });
 
@@ -2218,19 +2532,30 @@ async function confirmarPagamento(
         }
 
 
-        var agora =
-            new Date();
+        if (
+            itensFechados.length === 0
+        ) {
+
+            throw new Error(
+                "Nenhum item encontrado na mesa."
+            );
+
+        }
 
 
         var horario =
-            agora.toLocaleTimeString(
-                "pt-BR"
-            );
+            obterHorario();
 
+
+        /*
+           CRIAR VENDA
+        */
 
         var resultadoVenda =
             await window.supabaseClient
-                .from("vendas")
+                .from(
+                    "vendas"
+                )
                 .insert({
 
                     mesa:
@@ -2254,7 +2579,9 @@ async function confirmarPagamento(
                         formaPagamento
 
                 })
-                .select("id")
+                .select(
+                    "id"
+                )
                 .single();
 
 
@@ -2270,6 +2597,11 @@ async function confirmarPagamento(
         var vendaId =
             resultadoVenda.data.id;
 
+
+
+        /*
+           GRAVAR ITENS
+        */
 
         var itensBanco =
             [];
@@ -2308,7 +2640,9 @@ async function confirmarPagamento(
 
         var resultadoItens =
             await window.supabaseClient
-                .from("itens_venda")
+                .from(
+                    "itens_venda"
+                )
                 .insert(
                     itensBanco
                 );
@@ -2318,10 +2652,31 @@ async function confirmarPagamento(
             resultadoItens.error
         ) {
 
+            /*
+               Remove a venda se os itens
+               não forem gravados.
+            */
+
+            await window.supabaseClient
+                .from(
+                    "vendas"
+                )
+                .delete()
+                .eq(
+                    "id",
+                    vendaId
+                );
+
+
             throw resultadoItens.error;
 
         }
 
+
+
+        /*
+           SALVAR NO FECHAMENTO LOCAL
+        */
 
         vendasDoDia.push({
 
@@ -2352,24 +2707,106 @@ async function confirmarPagamento(
         salvarVendasDoDia();
 
 
+
+        /*
+           PREPARAR COMPROVANTE
+        */
+
+        ultimoComprovante = {
+
+            mesa:
+                mesa,
+
+            data:
+                obterDataBrasil(),
+
+            horario:
+                horario,
+
+            itens:
+                itensFechados,
+
+            total:
+                totalMesa,
+
+            formaPagamento:
+                formaPagamento
+
+        };
+
+
+
+        /*
+           LIBERAR MESA
+        */
+
         removerMesaAberta(
             mesa
         );
 
 
+
+        /*
+           MOSTRAR BOTÃO PDF
+        */
+
+        mostrarComprovante();
+
+
+
         alert(
 
-            "Mesa " +
+            "✅ Mesa " +
+
             mesa +
+
             " fechada com sucesso!\n\n" +
 
             "Pagamento: " +
+
             formaPagamento +
-            "\n" +
 
-            "Total: R$ " +
-            totalMesa.toFixed(2)
+            "\nTotal: " +
 
+            formatarMoeda(
+                totalMesa
+            ) +
+
+            "\n\nO comprovante está disponível abaixo."
+
+        );
+
+
+
+        /*
+           ROLAR ATÉ O BOTÃO
+        */
+
+        setTimeout(
+            function() {
+
+                var area =
+                    document.getElementById(
+                        "areaComprovante"
+                    );
+
+
+                if (area) {
+
+                    area.scrollIntoView({
+
+                        behavior:
+                            "smooth",
+
+                        block:
+                            "center"
+
+                    });
+
+                }
+
+            },
+            300
         );
 
     }
@@ -2404,6 +2841,480 @@ async function confirmarPagamento(
 }
 
 
+
+/* =====================================================
+   MOSTRAR COMPROVANTE
+===================================================== */
+
+function mostrarComprovante() {
+
+    if (
+        !ultimoComprovante
+    ) {
+
+        return;
+
+    }
+
+
+    var area =
+        document.getElementById(
+            "areaComprovante"
+        );
+
+
+    var texto =
+        document.getElementById(
+            "textoComprovante"
+        );
+
+
+    texto.innerText =
+
+        "Mesa " +
+
+        ultimoComprovante.mesa +
+
+        " — " +
+
+        formatarMoeda(
+            ultimoComprovante.total
+        );
+
+
+    area.style.display =
+        "block";
+
+}
+
+
+
+/* =====================================================
+   BAIXAR PDF 80 MM
+===================================================== */
+
+function baixarUltimoComprovante() {
+
+    if (
+        !ultimoComprovante
+    ) {
+
+        alert(
+            "Nenhum comprovante disponível."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        !window.jspdf ||
+        !window.jspdf.jsPDF
+    ) {
+
+        alert(
+
+            "Não foi possível carregar o gerador de PDF.\n\n" +
+
+            "Atualize a página e tente novamente."
+
+        );
+
+        return;
+
+    }
+
+
+    var dados =
+        ultimoComprovante;
+
+
+    /*
+       80 mm de largura.
+       A altura aumenta conforme
+       a quantidade de itens.
+    */
+
+    var altura =
+
+        75 +
+
+        (
+            dados.itens.length *
+            15
+        );
+
+
+    if (
+        altura < 110
+    ) {
+
+        altura =
+            110;
+
+    }
+
+
+    var jsPDF =
+        window.jspdf.jsPDF;
+
+
+    var pdf =
+        new jsPDF({
+
+            orientation:
+                "portrait",
+
+            unit:
+                "mm",
+
+            format:
+                [
+                    80,
+                    altura
+                ]
+
+        });
+
+
+    var largura =
+        80;
+
+
+    var y =
+        10;
+
+
+
+    /* =========================================
+       ESPETINHO DO WILL
+    ========================================= */
+
+    pdf.setFont(
+        "helvetica",
+        "bold"
+    );
+
+
+    pdf.setFontSize(
+        14
+    );
+
+
+    pdf.text(
+
+        "ESPETINHO DO WILL",
+
+        largura / 2,
+
+        y,
+
+        {
+            align:
+                "center"
+        }
+
+    );
+
+
+    y +=
+        10;
+
+
+
+    /* =========================================
+       DADOS
+    ========================================= */
+
+    pdf.setFont(
+        "helvetica",
+        "normal"
+    );
+
+
+    pdf.setFontSize(
+        10
+    );
+
+
+    pdf.text(
+        "Mesa " +
+        String(
+            dados.mesa
+        ),
+        5,
+        y
+    );
+
+
+    y +=
+        5;
+
+
+    pdf.text(
+        "Data: " +
+        dados.data,
+        5,
+        y
+    );
+
+
+    y +=
+        5;
+
+
+    pdf.text(
+        "Horario: " +
+        dados.horario,
+        5,
+        y
+    );
+
+
+    y +=
+        7;
+
+
+
+    /*
+       LINHA
+    */
+
+    pdf.line(
+        5,
+        y,
+        75,
+        y
+    );
+
+
+    y +=
+        8;
+
+
+
+    /* =========================================
+       PRODUTOS
+    ========================================= */
+
+    for (
+        var i = 0;
+        i < dados.itens.length;
+        i++
+    ) {
+
+        var item =
+            dados.itens[i];
+
+
+        pdf.setFont(
+            "helvetica",
+            "bold"
+        );
+
+
+        var descricao =
+            String(
+                item.quantidade
+            )
+            +
+            "x "
+            +
+            String(
+                item.nome
+            );
+
+
+        var linhas =
+            pdf.splitTextToSize(
+
+                descricao,
+
+                68
+
+            );
+
+
+        pdf.text(
+            linhas,
+            5,
+            y
+        );
+
+
+        y +=
+
+            linhas.length *
+
+            4.5;
+
+
+        pdf.setFont(
+            "helvetica",
+            "normal"
+        );
+
+
+        pdf.text(
+
+            "Unitario: " +
+
+            formatarMoedaPDF(
+                item.venda
+            ),
+
+            5,
+
+            y
+
+        );
+
+
+        y +=
+            9;
+
+    }
+
+
+
+    /* =========================================
+       LINHA
+    ========================================= */
+
+    pdf.line(
+        5,
+        y,
+        75,
+        y
+    );
+
+
+    y +=
+        9;
+
+
+
+    /* =========================================
+       TOTAL
+    ========================================= */
+
+    pdf.setFont(
+        "helvetica",
+        "bold"
+    );
+
+
+    pdf.setFontSize(
+        13
+    );
+
+
+    pdf.text(
+
+        "TOTAL: " +
+
+        formatarMoedaPDF(
+            dados.total
+        ),
+
+        5,
+
+        y
+
+    );
+
+
+    y +=
+        9;
+
+
+
+    /* =========================================
+       PAGAMENTO
+    ========================================= */
+
+    pdf.setFont(
+        "helvetica",
+        "normal"
+    );
+
+
+    pdf.setFontSize(
+        10
+    );
+
+
+    pdf.text(
+
+        "Pagamento: " +
+
+        String(
+            dados.formaPagamento
+        ),
+
+        5,
+
+        y
+
+    );
+
+
+
+    /* =========================================
+       BAIXAR
+    ========================================= */
+
+    var nomeArquivo =
+
+        "mesa-" +
+
+        dados.mesa +
+
+        "-" +
+
+        obterDataISO() +
+
+        ".pdf";
+
+
+    pdf.save(
+        nomeArquivo
+    );
+
+}
+
+
+
+/* =====================================================
+   MOEDA PARA PDF
+===================================================== */
+
+function formatarMoedaPDF(
+    valor
+) {
+
+    return (
+
+        "R$ " +
+
+        Number(
+            valor || 0
+        )
+        .toFixed(
+            2
+        )
+        .replace(
+            ".",
+            ","
+        )
+
+    );
+
+}
+
+
+
 /* =====================================================
    REMOVER MESA
 ===================================================== */
@@ -2412,7 +3323,7 @@ function removerMesaAberta(
     mesa
 ) {
 
-    var novasMesas =
+    var novas =
         [];
 
 
@@ -2423,12 +3334,14 @@ function removerMesaAberta(
     ) {
 
         if (
-            mesasAbertas[i].mesa
+            String(
+                mesasAbertas[i].mesa
+            )
             !==
-            mesa
+            String(mesa)
         ) {
 
-            novasMesas.push(
+            novas.push(
                 mesasAbertas[i]
             );
 
@@ -2438,7 +3351,7 @@ function removerMesaAberta(
 
 
     mesasAbertas =
-        novasMesas;
+        novas;
 
 
     salvarMesasAbertas();
@@ -2447,6 +3360,7 @@ function removerMesaAberta(
     mostrarMesasAbertas();
 
 }
+
 
 
 /* =====================================================
@@ -2460,19 +3374,64 @@ function cancelarPagamento() {
 }
 
 
+
 /* =====================================================
-   VENDAS LOCAL
+   VENDAS DO DIA LOCAL STORAGE
 ===================================================== */
+
+function obterDataLocalStorage() {
+
+    var agora =
+        new Date();
+
+
+    var dia =
+        String(
+            agora.getDate()
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    var mes =
+        String(
+            agora.getMonth() + 1
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    var ano =
+        agora.getFullYear();
+
+
+    return (
+
+        dia +
+
+        "-" +
+
+        mes +
+
+        "-" +
+
+        ano
+
+    );
+
+}
+
+
 
 function salvarVendasDoDia() {
 
-    var data =
-        obterDataAtual();
-
-
     localStorage.setItem(
 
-        "vendas_" + data,
+        "vendas_" +
+
+        obterDataLocalStorage(),
 
         JSON.stringify(
             vendasDoDia
@@ -2483,15 +3442,16 @@ function salvarVendasDoDia() {
 }
 
 
+
 function carregarVendasDoDia() {
-
-    var data =
-        obterDataAtual();
-
 
     var dados =
         localStorage.getItem(
-            "vendas_" + data
+
+            "vendas_" +
+
+            obterDataLocalStorage()
+
         );
 
 
@@ -2533,51 +3493,9 @@ function carregarVendasDoDia() {
 }
 
 
-/* =====================================================
-   DATA LOCAL STORAGE
-===================================================== */
-
-function obterDataAtual() {
-
-    var agora =
-        new Date();
-
-
-    var dia =
-        String(
-            agora.getDate()
-        ).padStart(
-            2,
-            "0"
-        );
-
-
-    var mes =
-        String(
-            agora.getMonth() + 1
-        ).padStart(
-            2,
-            "0"
-        );
-
-
-    var ano =
-        agora.getFullYear();
-
-
-    return (
-        dia +
-        "-" +
-        mes +
-        "-" +
-        ano
-    );
-
-}
-
 
 /* =====================================================
-   FECHAMENTO DO DIA
+   FECHAR DIA
 ===================================================== */
 
 function fecharDia() {
@@ -2590,7 +3508,7 @@ function fecharDia() {
 
             "Ainda existem mesas abertas.\n\n" +
 
-            "Feche todas antes do fechamento diário."
+            "Feche todas antes do fechamento."
 
         );
 
@@ -2612,23 +3530,24 @@ function fecharDia() {
     }
 
 
-    var totalVendas =
+    var total =
         0;
 
 
-    var totalCusto =
+    var custo =
         0;
 
 
-    var pagamentos = {
+    var dinheiro =
+        0;
 
-        "Dinheiro": 0,
 
-        "Cartão": 0,
+    var cartao =
+        0;
 
-        "PIX": 0
 
-    };
+    var pix =
+        0;
 
 
     for (
@@ -2641,27 +3560,55 @@ function fecharDia() {
             vendasDoDia[i];
 
 
-        totalVendas +=
+        total +=
+
             Number(
                 venda.total || 0
             );
 
 
-        totalCusto +=
+        custo +=
+
             Number(
                 venda.custo || 0
             );
 
 
         if (
-            pagamentos[
-                venda.formaPagamento
-            ] !== undefined
+            venda.formaPagamento ===
+            "Dinheiro"
         ) {
 
-            pagamentos[
-                venda.formaPagamento
-            ] +=
+            dinheiro +=
+
+                Number(
+                    venda.total || 0
+                );
+
+        }
+
+
+        else if (
+            venda.formaPagamento ===
+            "Cartão"
+        ) {
+
+            cartao +=
+
+                Number(
+                    venda.total || 0
+                );
+
+        }
+
+
+        else if (
+            venda.formaPagamento ===
+            "PIX"
+        ) {
+
+            pix +=
+
                 Number(
                     venda.total || 0
                 );
@@ -2672,8 +3619,8 @@ function fecharDia() {
 
 
     var lucro =
-        totalVendas -
-        totalCusto;
+        total -
+        custo;
 
 
     var html =
@@ -2688,47 +3635,53 @@ function fecharDia() {
 
         "<hr>" +
 
-        "<h3>💰 Total recebido</h3>" +
+        "<p><strong>Total recebido:</strong> " +
 
-        "<p>R$ " +
-
-        totalVendas.toFixed(2) +
-
-        "</p>" +
-
-        "<h3>📦 Custo</h3>" +
-
-        "<p>R$ " +
-
-        totalCusto.toFixed(2) +
+        formatarMoeda(
+            total
+        ) +
 
         "</p>" +
 
-        "<h3>📈 Lucro</h3>" +
+        "<p><strong>Custo:</strong> " +
 
-        "<p class='lucro'>R$ " +
+        formatarMoeda(
+            custo
+        ) +
 
-        lucro.toFixed(2) +
+        "</p>" +
+
+        "<p class='lucro'>📈 Lucro: " +
+
+        formatarMoeda(
+            lucro
+        ) +
 
         "</p>" +
 
         "<hr>" +
 
-        "<p>💵 Dinheiro: R$ " +
+        "<p>💵 Dinheiro: " +
 
-        pagamentos["Dinheiro"].toFixed(2) +
-
-        "</p>" +
-
-        "<p>💳 Cartão: R$ " +
-
-        pagamentos["Cartão"].toFixed(2) +
+        formatarMoeda(
+            dinheiro
+        ) +
 
         "</p>" +
 
-        "<p>📱 PIX: R$ " +
+        "<p>💳 Cartão: " +
 
-        pagamentos["PIX"].toFixed(2) +
+        formatarMoeda(
+            cartao
+        ) +
+
+        "</p>" +
+
+        "<p>📱 PIX: " +
+
+        formatarMoeda(
+            pix
+        ) +
 
         "</p>";
 
@@ -2747,6 +3700,7 @@ function fecharDia() {
 }
 
 
+
 /* =====================================================
    ESCAPAR HTML
 ===================================================== */
@@ -2758,13 +3712,29 @@ function escaparHTML(
     return String(
         texto || ""
     )
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
 
 }
+
 
 
 /* =====================================================
@@ -2774,13 +3744,19 @@ function escaparHTML(
 window.onload =
     async function() {
 
-        await carregarProdutos();
+        carregarNumeroMesas();
 
-        carregarVendasDoDia();
 
         carregarMesasAbertas();
 
+
+        carregarVendasDoDia();
+
+
         mostrarMesasAbertas();
+
+
+        await carregarProdutos();
 
     };
 
