@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -11,227 +10,226 @@
 
     <title>Estoque - Espetinho do Will</title>
 
-    <style>
+        <style>
+        * { box-sizing: border-box; }
 
-        * {
-            box-sizing: border-box;
+        :root {
+            --preto: #070707;
+            --preto2: #111111;
+            --preto3: #1b1b1b;
+            --dourado: #d4af37;
+            --dourado-claro: #f0d77a;
+            --dourado-escuro: #8d6d1c;
+            --prata: #d7d7d7;
+            --prata2: #8f8f8f;
+            --bordo: #7c1d24;
+            --bordo-claro: #a52a32;
+            --texto: #f4f4f4;
+            --texto2: #b7b7b7;
         }
 
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f4f4;
-            color: #222;
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--texto);
+            background:
+                radial-gradient(circle at top, #1b1b1b 0%, #0d0d0d 38%, #050505 100%);
+        }
+
+        .tela-carregando {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle, #171717, #050505);
+            color: var(--dourado-claro);
+            font-size: 18px;
+            font-weight: bold;
         }
 
         header {
-            background: #222;
-            color: white;
-            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            padding: 28px 20px;
             text-align: center;
+            background: linear-gradient(145deg, #111, #050505);
+            border-bottom: 1px solid rgba(212,175,55,.65);
+            box-shadow: 0 8px 28px rgba(0,0,0,.45);
+        }
+
+        header::after {
+            content: "";
+            position: absolute;
+            left: 0; right: 0; bottom: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--dourado), var(--prata), var(--dourado), transparent);
         }
 
         header h1 {
             margin: 0;
             font-size: 30px;
+            background: linear-gradient(90deg, var(--dourado-escuro), var(--dourado-claro), #fff1a8, var(--dourado));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        header p {
-            margin: 8px 0 0;
-            color: #ddd;
-        }
+        header p { margin: 8px 0 0; color: #d0d0d0; }
 
         .container {
             max-width: 950px;
             margin: auto;
-            padding: 25px;
-        }
-
-        .voltar {
-            background: #222;
-            color: white;
-            padding: 12px 18px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            margin-bottom: 20px;
-            font-size: 16px;
+            padding: 28px 20px 45px;
         }
 
         .caixa {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(145deg, #202020, #111 58%, #171717);
+            padding: 22px;
+            border-radius: 14px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid #393939;
+            box-shadow: 0 10px 28px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.04);
         }
+
+        .caixa::before {
+            content: "";
+            position: absolute;
+            left: 0; right: 0; top: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--dourado-escuro), var(--dourado-claro), var(--prata), var(--dourado));
+        }
+
+        h2 { color: var(--dourado-claro); }
+        label { color: #ddd; font-weight: bold; }
 
         input {
             width: 100%;
-            padding: 12px;
-            margin-top: 5px;
+            padding: 13px;
+            margin-top: 6px;
             margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            color: #f4f4f4;
+            background: linear-gradient(180deg, #171717, #101010);
+            border: 1px solid #454545;
+            border-radius: 8px;
             font-size: 16px;
+            outline: none;
+            transition: .2s;
         }
+
+        input:focus {
+            border-color: var(--dourado);
+            box-shadow: 0 0 0 3px rgba(212,175,55,.10);
+        }
+
+        input::placeholder { color: #757575; }
 
         button {
             padding: 12px 18px;
-            border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 15px;
+            font-weight: bold;
+            border: 1px solid #555;
+            color: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,.28);
+            transition: transform .2s, filter .2s;
         }
+
+        button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            filter: brightness(1.12);
+        }
+
+        button:disabled { opacity: .6; cursor: not-allowed; }
 
         .salvar {
-            background: #198754;
-            color: white;
+            background: linear-gradient(180deg, #b89228, #725714);
+            border-color: rgba(240,215,122,.55);
         }
 
-        .salvar:hover {
-            background: #157347;
+        .voltar {
+            background: linear-gradient(180deg, #3b3b3b, #1e1e1e);
+            color: var(--prata);
+            border-color: #585858;
+            margin-bottom: 20px;
         }
 
         .produto {
-            background: white;
-            padding: 18px;
-            border-radius: 10px;
-            margin-bottom: 12px;
-            border-left: 6px solid #0d6efd;
-            box-shadow: 0 2px 7px rgba(0,0,0,0.08);
+            background: linear-gradient(145deg, #1d1d1d, #101010);
+            padding: 19px;
+            border-radius: 12px;
+            margin-bottom: 14px;
+            border: 1px solid #393939;
+            box-shadow: 0 7px 22px rgba(0,0,0,.30);
         }
 
         .produto h3 {
             margin-top: 0;
             margin-bottom: 10px;
+            color: var(--dourado-claro);
         }
 
-        .produto p {
-            margin: 6px 0;
-        }
+        .produto p { margin: 6px 0; color: #c4c4c4; }
+        .produto strong { color: #eee; }
 
-        .acoes {
-            margin-top: 15px;
-        }
+        .acoes { margin-top: 15px; }
 
         .editar {
-            background: #0d6efd;
-            color: white;
+            background: linear-gradient(180deg, #777, #3e3e3e);
+            border-color: #8d8d8d;
             margin-right: 5px;
         }
 
         .excluir {
-            background: #dc3545;
-            color: white;
+            background: linear-gradient(180deg, var(--bordo-claro), #4d1015);
+            border-color: #8b333a;
         }
 
-        .estoque-baixo {
-            border-left-color: #dc3545;
-        }
+        .estoque-baixo { border-left: 5px solid var(--bordo-claro); }
+        .estoque-normal { border-left: 5px solid #789480; }
 
-        .estoque-normal {
-            border-left-color: #198754;
-        }
-
-        .vazio {
+        .vazio, .carregando {
             text-align: center;
-            color: #777;
+            color: #9c9c9c;
             padding: 20px;
         }
 
         .aviso {
-            background: #fff3cd;
-            border: 1px solid #ffe69c;
-            color: #664d03;
+            background: linear-gradient(180deg, #332b16, #1d180c);
+            border: 1px solid #655525;
+            color: var(--dourado-claro);
             padding: 15px;
-            border-radius: 8px;
+            border-radius: 9px;
             margin-bottom: 20px;
         }
 
-        .carregando {
-            text-align: center;
-            padding: 20px;
-            color: #555;
-        }
-
         .erro {
-            background: #f8d7da;
-            border: 1px solid #f5c2c7;
-            color: #842029;
+            background: linear-gradient(180deg, #471418, #280b0d);
+            border: 1px solid #79272d;
+            color: #ffd5d7;
             padding: 15px;
             border-radius: 8px;
             margin-bottom: 20px;
         }
 
         .sucesso {
-            background: #d1e7dd;
-            border: 1px solid #a3cfbb;
-            color: #0f5132;
+            background: linear-gradient(180deg, #193024, #0d1d14);
+            border: 1px solid #315944;
+            color: #c8ead4;
             padding: 15px;
             border-radius: 8px;
             margin-bottom: 20px;
         }
 
-        /* =====================================
-           TELA DE SENHA
-        ====================================== */
-
-        #telaSenha {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #222;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            padding: 20px;
-        }
-
-        .caixaSenha {
-            background: white;
-            width: 100%;
-            max-width: 400px;
-            padding: 30px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.3);
-        }
-
-        .caixaSenha h2 {
-            margin-top: 0;
-        }
-
-        .caixaSenha input {
-            text-align: center;
-            font-size: 20px;
-        }
-
-        .botaoSenha {
-            width: 100%;
-            background: #198754;
-            color: white;
-        }
-
-        .erroSenha {
-            color: #dc3545;
-            font-weight: bold;
-            margin-top: 15px;
-            display: none;
-        }
-
         @media (max-width: 700px) {
-
-            .container {
-                padding: 15px;
-            }
-
-            header h1 {
-                font-size: 25px;
-            }
+            .container { padding: 18px 14px 35px; }
+            header { padding: 24px 15px; }
+            header h1 { font-size: 25px; }
 
             .acoes button {
                 width: 100%;
@@ -239,8 +237,8 @@
                 margin-right: 0;
             }
 
+            .salvar, .voltar { width: 100%; }
         }
-
     </style>
 
     <!-- BIBLIOTECA SUPABASE -->
@@ -254,50 +252,12 @@
 
 <body>
 
-
-<!-- =====================================
-     TELA DE SENHA
-====================================== -->
-
-<div id="telaSenha">
-
-    <div class="caixaSenha">
-
-        <h2>🔐 Acesso ao Estoque</h2>
-
-        <p>
-            Digite a senha para acessar o estoque.
-        </p>
-
-        <input
-            type="password"
-            id="senhaEstoque"
-            placeholder="Digite a senha"
-            onkeydown="if(event.key === 'Enter') verificarSenha()"
-        >
-
-        <button
-            class="botaoSenha"
-            onclick="verificarSenha()"
-        >
-            🔓 Entrar
-        </button>
-
-        <div
-            id="erroSenha"
-            class="erroSenha"
-        >
-            ❌ Senha incorreta.
-        </div>
-
-    </div>
-
+<div id="telaCarregando" class="tela-carregando">
+    🔐 Verificando acesso...
 </div>
 
 
-<!-- =====================================
-     CABEÇALHO
-====================================== -->
+<!-- CABEÇALHO -->
 
 <header>
 
@@ -435,93 +395,68 @@
 
 
 /* =====================================================
-   CONFIGURAÇÃO
+   VARIÁVEIS
 ===================================================== */
-
-/*
-   A senha abaixo é a senha atual do Estoque.
-
-   Se sua senha anterior era diferente,
-   altere somente o texto entre as aspas.
-*/
-
-var SENHA_ESTOQUE = "1234";
-
-
-/*
-   Índice do produto que está sendo editado.
-*/
 
 var idEditando = null;
 
 
 /* =====================================================
-   PROTEÇÃO
+   LOGIN COM SUPABASE
 ===================================================== */
 
-function verificarSenha() {
+async function verificarLogin() {
 
-    var senha =
-        document.getElementById(
-            "senhaEstoque"
-        ).value;
+    try {
 
+        if (!window.supabaseClient) {
 
-    var erro =
-        document.getElementById(
-            "erroSenha"
-        );
+            throw new Error(
+                "Supabase não carregou."
+            );
 
+        }
 
-    if (senha === SENHA_ESTOQUE) {
+        var resultado =
+            await window.supabaseClient
+                .auth
+                .getSession();
 
-        localStorage.setItem(
-            "estoqueLiberado",
-            "true"
-        );
+        if (resultado.error) {
 
+            throw resultado.error;
 
-        document.getElementById(
-            "telaSenha"
-        ).style.display = "none";
+        }
 
+        var sessao =
+            resultado.data.session;
 
-        erro.style.display = "none";
+        if (!sessao) {
 
+            window.location.replace(
+                "login.html"
+            );
 
-        carregarProdutos();
+            return false;
+
+        }
+
+        return true;
 
     }
 
-    else {
+    catch (erro) {
 
-        erro.style.display = "block";
-
-    }
-
-}
-
-
-/* =====================================================
-   VERIFICAR SE JÁ ESTÁ LIBERADO
-===================================================== */
-
-function verificarAcesso() {
-
-    var liberado =
-        localStorage.getItem(
-            "estoqueLiberado"
+        console.error(
+            "Erro ao verificar login:",
+            erro
         );
 
+        window.location.replace(
+            "login.html"
+        );
 
-    if (liberado === "true") {
-
-        document.getElementById(
-            "telaSenha"
-        ).style.display = "none";
-
-
-        carregarProdutos();
+        return false;
 
     }
 
@@ -782,7 +717,7 @@ function mostrarProdutos(
 
                 ?
 
-                "<p style='color:#dc3545;font-weight:bold;'>" +
+                "<p style='color:#d56a70;font-weight:bold;'>" +
 
                 "⚠️ Estoque baixo" +
 
@@ -790,7 +725,7 @@ function mostrarProdutos(
 
                 :
 
-                "<p style='color:#198754;font-weight:bold;'>" +
+                "<p style='color:#9abb9f;font-weight:bold;'>" +
 
                 "✅ Estoque normal" +
 
@@ -1383,11 +1318,26 @@ function limparFormulario() {
    INICIAR
 ===================================================== */
 
-window.onload = function() {
+window.onload =
+    async function() {
 
-    verificarAcesso();
+        var autorizado =
+            await verificarLogin();
 
-};
+        if (!autorizado) {
+
+            return;
+
+        }
+
+        document.getElementById(
+            "telaCarregando"
+        ).style.display =
+            "none";
+
+        await carregarProdutos();
+
+    };
 
 </script>
 
@@ -1395,4 +1345,3 @@ window.onload = function() {
 </body>
 
 </html>
-```
