@@ -16,53 +16,230 @@
             box-sizing: border-box;
         }
 
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f4f4;
-            color: #222;
+        :root {
+            --preto: #070707;
+            --preto-2: #101010;
+            --preto-3: #1a1a1a;
+
+            --dourado: #d4af37;
+            --dourado-claro: #f0d77a;
+            --dourado-escuro: #8e6f1e;
+
+            --prata: #d8d8d8;
+            --prata-2: #8f8f8f;
+
+            --bordo: #7d1e24;
+            --bordo-claro: #a62a32;
+
+            --verde: #3f8c65;
+            --texto: #f4f4f4;
+            --texto-2: #b8b8b8;
         }
 
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            min-height: 100vh;
+            color: var(--texto);
+
+            background:
+                radial-gradient(
+                    circle at top,
+                    #1a1a1a 0%,
+                    #0d0d0d 38%,
+                    #050505 100%
+                );
+        }
+
+        /* =====================================
+           CARREGAMENTO
+        ====================================== */
+
+        .tela-carregando {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+
+            background:
+                radial-gradient(
+                    circle,
+                    #171717,
+                    #050505
+                );
+
+            color: var(--dourado-claro);
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        /* =====================================
+           CABEÇALHO
+        ====================================== */
+
         header {
-            background: #222;
-            color: white;
-            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            padding: 28px 20px;
             text-align: center;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #111111,
+                    #050505
+                );
+
+            border-bottom:
+                1px solid rgba(212,175,55,0.65);
+
+            box-shadow:
+                0 8px 28px rgba(0,0,0,0.45);
+        }
+
+        header::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 3px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    var(--dourado),
+                    var(--prata),
+                    var(--dourado),
+                    transparent
+                );
         }
 
         header h1 {
             margin: 0;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--dourado-escuro),
+                    var(--dourado-claro),
+                    #fff1a8,
+                    var(--dourado)
+                );
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         header p {
             margin: 8px 0 0;
-            color: #ddd;
+            color: #d0d0d0;
         }
+
+        /* =====================================
+           ESTRUTURA
+        ====================================== */
 
         .container {
             max-width: 1000px;
             margin: auto;
-            padding: 25px;
+            padding: 28px 20px 45px;
         }
 
         .caixa {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #202020,
+                    #111111 58%,
+                    #171717
+                );
+
+            padding: 22px;
+            border-radius: 14px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+            border: 1px solid #393939;
+
+            box-shadow:
+                0 10px 28px rgba(0,0,0,0.35),
+                inset 0 1px 0 rgba(255,255,255,0.04);
+        }
+
+        .caixa::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            height: 3px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--dourado-escuro),
+                    var(--dourado-claro),
+                    var(--prata),
+                    var(--dourado)
+                );
+        }
+
+        .caixa h2,
+        #areaListaClientes > h2 {
+            color: var(--dourado-claro);
+        }
+
+        label {
+            color: #dddddd;
+            font-weight: bold;
         }
 
         input,
         textarea,
         select {
             width: 100%;
-            padding: 12px;
-            margin-top: 5px;
+            padding: 13px;
+            margin-top: 6px;
             margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
+
+            color: #f4f4f4;
+            background:
+                linear-gradient(
+                    180deg,
+                    #171717,
+                    #101010
+                );
+
+            border: 1px solid #454545;
+            border-radius: 8px;
             font-size: 16px;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: var(--dourado);
+            box-shadow:
+                0 0 0 3px rgba(212,175,55,0.10);
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #757575;
+        }
+
+        option {
+            background: #151515;
+            color: white;
         }
 
         textarea {
@@ -72,12 +249,28 @@
 
         button {
             padding: 12px 18px;
-            border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 15px;
+            font-weight: bold;
             margin-top: 5px;
             margin-right: 5px;
+
+            border: 1px solid #555;
+            color: white;
+
+            box-shadow:
+                0 5px 15px rgba(0,0,0,0.28);
+
+            transition:
+                transform 0.2s,
+                filter 0.2s,
+                border-color 0.2s;
+        }
+
+        button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            filter: brightness(1.12);
         }
 
         button:disabled {
@@ -85,49 +278,111 @@
             cursor: not-allowed;
         }
 
-        .salvar {
-            background: #198754;
-            color: white;
+        .salvar,
+        .receber {
+            background:
+                linear-gradient(
+                    180deg,
+                    #b89228,
+                    #725714
+                );
+
+            border-color:
+                rgba(240,215,122,0.55);
         }
 
         .editar {
-            background: #0d6efd;
-            color: white;
+            background:
+                linear-gradient(
+                    180deg,
+                    #777777,
+                    #3e3e3e
+                );
+
+            border-color: #8d8d8d;
         }
 
         .excluir {
-            background: #dc3545;
-            color: white;
+            background:
+                linear-gradient(
+                    180deg,
+                    var(--bordo-claro),
+                    #4d1015
+                );
+
+            border-color: #8b333a;
         }
 
         .conta {
-            background: #6f42c1;
-            color: white;
-        }
+            background:
+                linear-gradient(
+                    180deg,
+                    #9f7c20,
+                    #59430d
+                );
 
-        .receber {
-            background: #198754;
-            color: white;
+            border-color:
+                rgba(212,175,55,0.65);
         }
 
         .voltar {
-            background: #222;
-            color: white;
+            background:
+                linear-gradient(
+                    180deg,
+                    #3b3b3b,
+                    #1e1e1e
+                );
+
+            color: var(--prata);
+            border-color: #585858;
             margin-bottom: 20px;
         }
 
+        /* =====================================
+           CLIENTES
+        ====================================== */
+
         .cliente {
-            background: white;
-            padding: 18px;
-            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #1c1c1c,
+                    #101010
+                );
+
+            padding: 19px;
+            border-radius: 12px;
             margin-bottom: 15px;
-            border-left: 6px solid #0d6efd;
-            box-shadow: 0 2px 7px rgba(0,0,0,0.08);
+
+            border:
+                1px solid #393939;
+
+            border-left:
+                4px solid var(--dourado);
+
+            box-shadow:
+                0 7px 22px rgba(0,0,0,0.30);
         }
 
         .cliente h3 {
             margin-top: 0;
+            color: var(--dourado-claro);
         }
+
+        .cliente p {
+            color: #c1c1c1;
+        }
+
+        .cliente strong {
+            color: #eeeeee;
+        }
+
+        /* =====================================
+           RESUMO DA CONTA
+        ====================================== */
 
         .resumo-conta {
             display: grid;
@@ -137,108 +392,205 @@
         }
 
         .card {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #202020,
+                    #111111
+                );
+
+            padding: 22px;
+            border-radius: 12px;
             text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+            border: 1px solid #3d3d3d;
+
+            box-shadow:
+                0 8px 25px rgba(0,0,0,0.32);
         }
 
         .card h3 {
             margin-top: 0;
-            color: #555;
+            color: #c9c9c9;
+            font-size: 16px;
         }
 
         .valor {
             font-size: 25px;
             font-weight: bold;
+            color: #ffffff;
         }
 
         .consumido {
-            border-top: 5px solid #0d6efd;
+            border-top: 4px solid var(--dourado);
         }
 
         .pago-card {
-            border-top: 5px solid #198754;
+            border-top: 4px solid #8fa997;
         }
 
         .saldo-card {
-            border-top: 5px solid #dc3545;
+            border-top: 4px solid var(--bordo-claro);
         }
 
         .saldo-zero {
-            border-top: 5px solid #198754;
+            border-top: 4px solid #71947e;
         }
 
+        /* =====================================
+           HISTÓRICOS
+        ====================================== */
+
         .consumo {
-            background: #fff3cd;
-            border-left: 6px solid #ffc107;
-            padding: 15px;
-            border-radius: 8px;
+            background:
+                linear-gradient(
+                    145deg,
+                    #262015,
+                    #15120d
+                );
+
+            border-left:
+                5px solid var(--dourado);
+
+            border: 1px solid #4e4123;
+            border-left-width: 5px;
+
+            padding: 16px;
+            border-radius: 10px;
             margin-bottom: 15px;
         }
 
         .consumo h3 {
             margin-top: 0;
+            color: var(--dourado-claro);
+        }
+
+        .consumo p {
+            color: #c6c6c6;
         }
 
         .produto-consumo {
-            background: white;
-            padding: 10px;
-            border-radius: 6px;
+            background:
+                linear-gradient(
+                    180deg,
+                    #202020,
+                    #141414
+                );
+
+            padding: 11px;
+            border-radius: 7px;
             margin-top: 8px;
+
+            border: 1px solid #3e3e3e;
+            color: #e1e1e1;
         }
 
         .pagamento {
-            background: #d1e7dd;
-            border-left: 6px solid #198754;
-            padding: 15px;
-            border-radius: 8px;
+            background:
+                linear-gradient(
+                    145deg,
+                    #162019,
+                    #0e1510
+                );
+
+            border:
+                1px solid #314a38;
+
+            border-left:
+                5px solid #72937d;
+
+            padding: 16px;
+            border-radius: 10px;
             margin-bottom: 12px;
+        }
+
+        .pagamento h3 {
+            color: #a8c5b1;
         }
 
         .pagamento p {
             margin: 5px 0;
+            color: #c8c8c8;
         }
 
         .recebimento {
-            border-left: 6px solid #198754;
+            border-left:
+                4px solid var(--dourado);
         }
+
+        /* =====================================
+           MENSAGENS
+        ====================================== */
 
         .mensagem {
             text-align: center;
             padding: 20px;
-            color: #666;
+            color: #9c9c9c;
         }
 
         .erro {
-            background: #f8d7da;
-            color: #842029;
+            background:
+                linear-gradient(
+                    180deg,
+                    #471418,
+                    #280b0d
+                );
+
+            color: #ffd5d7;
+            border: 1px solid #79272d;
+
             padding: 15px;
             border-radius: 8px;
             margin-bottom: 20px;
         }
 
         .sucesso {
-            background: #d1e7dd;
-            color: #0f5132;
+            background:
+                linear-gradient(
+                    180deg,
+                    #193024,
+                    #0d1d14
+                );
+
+            color: #c8ead4;
+            border: 1px solid #315944;
+
             padding: 15px;
             border-radius: 8px;
             margin-bottom: 20px;
         }
 
         .aviso {
-            background: #fff3cd;
-            color: #664d03;
-            border: 1px solid #ffe69c;
+            background:
+                linear-gradient(
+                    180deg,
+                    #332b16,
+                    #1d180c
+                );
+
+            color: var(--dourado-claro);
+            border: 1px solid #655525;
+
             padding: 15px;
             border-radius: 8px;
             margin-bottom: 20px;
         }
 
         .quitado {
-            background: #d1e7dd;
-            color: #0f5132;
+            background:
+                linear-gradient(
+                    180deg,
+                    #1b2f23,
+                    #101c15
+                );
+
+            color: #bfe2ca;
+
+            border: 1px solid #365a42;
+
             padding: 18px;
             border-radius: 10px;
             text-align: center;
@@ -250,10 +602,14 @@
             display: none;
         }
 
+        /* =====================================
+           CELULAR
+        ====================================== */
+
         @media (max-width: 700px) {
 
             .container {
-                padding: 15px;
+                padding: 18px 14px 35px;
             }
 
             .resumo-conta {
@@ -265,9 +621,18 @@
                 margin-right: 0;
             }
 
+            header {
+                padding: 24px 15px;
+            }
+
+            header h1 {
+                font-size: 28px;
+            }
+
         }
 
     </style>
+
 
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -279,6 +644,13 @@
 
 
 <body>
+
+<div
+    id="telaCarregando"
+    class="tela-carregando"
+>
+    🔐 Verificando acesso...
+</div>
 
 
 <header>
@@ -593,19 +965,63 @@
 
 
 /* =====================================================
-   LOGIN
+   LOGIN COM SUPABASE
 ===================================================== */
 
-var usuarioLogado =
-    localStorage.getItem(
-        "usuarioLogado"
-    );
+async function verificarLogin() {
 
+    try {
 
-if (!usuarioLogado) {
+        if (!window.supabaseClient) {
 
-    window.location.href =
-        "login.html";
+            throw new Error(
+                "Supabase não carregou."
+            );
+
+        }
+
+        var resultado =
+            await window.supabaseClient
+                .auth
+                .getSession();
+
+        if (resultado.error) {
+
+            throw resultado.error;
+
+        }
+
+        var sessao =
+            resultado.data.session;
+
+        if (!sessao) {
+
+            window.location.replace(
+                "login.html"
+            );
+
+            return false;
+
+        }
+
+        return true;
+
+    }
+
+    catch (erro) {
+
+        console.error(
+            "Erro ao verificar login:",
+            erro
+        );
+
+        window.location.replace(
+            "login.html"
+        );
+
+        return false;
+
+    }
 
 }
 
@@ -2375,6 +2791,20 @@ function fecharContaCliente() {
 
 window.onload =
     async function() {
+
+        var autorizado =
+            await verificarLogin();
+
+        if (!autorizado) {
+
+            return;
+
+        }
+
+        document.getElementById(
+            "telaCarregando"
+        ).style.display =
+            "none";
 
         await carregarClientes();
 
