@@ -12,226 +12,258 @@
 
     <title>Login - Espetinho do Will</title>
 
-
     <style>
 
         * {
             box-sizing: border-box;
         }
 
+        :root {
+            --preto: #070707;
+            --preto-2: #111111;
+            --preto-3: #1b1b1b;
+
+            --dourado: #d4af37;
+            --dourado-claro: #f0d77a;
+            --dourado-escuro: #8f701d;
+
+            --prata: #d7d7d7;
+            --prata-2: #8f8f8f;
+
+            --bordo: #7d1e24;
+            --bordo-claro: #a62a32;
+
+            --texto: #f4f4f4;
+            --texto-2: #b7b7b7;
+        }
 
         body {
-
             margin: 0;
-
-            font-family: Arial, sans-serif;
-
             min-height: 100vh;
 
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
             display: flex;
-
             align-items: center;
-
             justify-content: center;
 
+            color: var(--texto);
+
             background:
-
                 linear-gradient(
-                    rgba(0,0,0,0.85),
-                    rgba(0,0,0,0.90)
+                    rgba(0,0,0,0.84),
+                    rgba(0,0,0,0.92)
                 ),
-
                 url("tema-espetinho.jpg");
 
             background-size: cover;
-
             background-position: center;
-
-            color: white;
-
+            background-attachment: fixed;
         }
-
 
         .login-container {
-
             width: 100%;
-
-            max-width: 430px;
-
+            max-width: 440px;
             padding: 20px;
-
         }
 
-
         .login-box {
-
-            background: #111111;
+            position: relative;
+            overflow: hidden;
 
             padding: 38px;
 
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(31,31,31,0.97),
+                    rgba(12,12,12,0.98) 60%,
+                    rgba(22,22,22,0.98)
+                );
+
             border-radius: 18px;
 
-            border: 1px solid #d4af37;
+            border:
+                1px solid
+                rgba(212,175,55,0.75);
 
             box-shadow:
-
-                0 10px 40px rgba(0,0,0,0.65),
-
-                0 0 25px rgba(212,175,55,0.08);
+                0 16px 50px rgba(0,0,0,0.72),
+                0 0 28px rgba(212,175,55,0.08),
+                inset 0 1px 0 rgba(255,255,255,0.05);
 
             text-align: center;
-
         }
 
+        .login-box::before {
+            content: "";
+            position: absolute;
+
+            left: 0;
+            right: 0;
+            top: 0;
+
+            height: 4px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--dourado-escuro),
+                    var(--dourado-claro),
+                    var(--prata),
+                    var(--dourado)
+                );
+        }
 
         .logo {
-
-            font-size: 65px;
-
+            font-size: 64px;
             margin-bottom: 8px;
 
+            filter:
+                drop-shadow(
+                    0 3px 7px
+                    rgba(0,0,0,0.7)
+                );
         }
-
 
         h1 {
-
             margin: 0;
-
             font-size: 30px;
 
-            color: #d4af37;
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--dourado-escuro),
+                    var(--dourado-claro),
+                    #fff2ae,
+                    var(--dourado)
+                );
 
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-
 
         .subtitulo {
-
-            color: #bdbdbd;
-
+            color: #bcbcbc;
             margin-top: 8px;
-
             margin-bottom: 30px;
-
         }
-
 
         .campo {
-
             text-align: left;
-
             margin-bottom: 18px;
-
         }
 
-
         .campo label {
-
             display: block;
 
             margin-bottom: 7px;
 
             font-weight: bold;
-
-            color: #d4af37;
-
+            color: var(--dourado-claro);
         }
 
-
         .campo input {
-
             width: 100%;
 
             padding: 14px;
 
-            border: 1px solid #444;
+            border:
+                1px solid #464646;
 
             border-radius: 8px;
 
             font-size: 16px;
-
             outline: none;
 
-            background: #1c1c1c;
+            background:
+                linear-gradient(
+                    180deg,
+                    #1b1b1b,
+                    #101010
+                );
 
             color: white;
 
+            transition: 0.2s;
         }
-
 
         .campo input::placeholder {
-
             color: #777;
-
         }
-
 
         .campo input:focus {
-
-            border-color: #d4af37;
+            border-color: var(--dourado);
 
             box-shadow:
-                0 0 0 2px
-                rgba(212,175,55,0.12);
-
+                0 0 0 3px
+                rgba(212,175,55,0.10);
         }
 
-
         .botao-login {
-
             width: 100%;
 
             padding: 15px;
 
-            border: none;
-
             border-radius: 8px;
 
-            background: #d4af37;
+            border:
+                1px solid
+                rgba(240,215,122,0.55);
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #d5b23c,
+                    #8b6a19
+                );
 
             color: #111;
 
             font-size: 18px;
-
             font-weight: bold;
 
             cursor: pointer;
 
             margin-top: 8px;
 
-            transition: 0.2s;
+            box-shadow:
+                0 6px 18px
+                rgba(0,0,0,0.35);
 
+            transition:
+                0.2s;
         }
-
 
         .botao-login:hover {
-
-            background: #f0c94b;
-
-            transform: translateY(-1px);
-
+            filter: brightness(1.12);
+            transform: translateY(-2px);
         }
-
 
         .botao-login:disabled {
-
             opacity: 0.6;
-
             cursor: not-allowed;
-
             transform: none;
-
         }
 
-
         .erro {
-
             display: none;
 
-            background: #3a1111;
+            background:
+                linear-gradient(
+                    180deg,
+                    #471418,
+                    #280b0d
+                );
 
-            border: 1px solid #8b2c2c;
+            border:
+                1px solid #79272d;
 
-            color: #ffb3b3;
+            color: #ffd2d5;
 
             padding: 13px;
 
@@ -240,71 +272,50 @@
             margin-bottom: 18px;
 
             font-size: 14px;
-
         }
 
-
         .carregando {
-
             display: none;
 
-            color: #d4af37;
+            color: var(--dourado-claro);
 
             margin-top: 18px;
 
             font-size: 14px;
-
         }
-
 
         .rodape {
-
             margin-top: 28px;
 
-            color: #777;
+            color: #747474;
 
             font-size: 13px;
-
             line-height: 1.5;
-
         }
-
 
         @media (max-width: 500px) {
 
             .login-container {
-
                 padding: 15px;
-
             }
-
 
             .login-box {
-
                 padding: 30px 22px;
-
             }
 
-
             h1 {
-
                 font-size: 26px;
-
             }
 
         }
 
     </style>
 
-
-    <!-- SUPABASE -->
-
     <script
         src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
     </script>
 
     <script src="supabase.js"></script>
-
 
 </head>
 
@@ -314,35 +325,25 @@
 
 <div class="login-container">
 
-
     <div class="login-box">
-
 
         <div class="logo">
             🥩🔥
         </div>
 
-
         <h1>
             Espetinho do Will
         </h1>
 
-
         <p class="subtitulo">
             Sistema de gerenciamento
         </p>
-
-
 
         <div
             id="mensagemErro"
             class="erro"
         >
         </div>
-
-
-
-        <!-- EMAIL -->
 
         <div class="campo">
 
@@ -359,10 +360,6 @@
 
         </div>
 
-
-
-        <!-- SENHA -->
-
         <div class="campo">
 
             <label for="senha">
@@ -378,32 +375,20 @@
 
         </div>
 
-
-
-        <!-- BOTÃO -->
-
         <button
             id="botaoEntrar"
             class="botao-login"
             onclick="entrar()"
         >
-
             🔐 Entrar
-
         </button>
-
-
 
         <div
             id="carregando"
             class="carregando"
         >
-
             ⏳ Verificando acesso...
-
         </div>
-
-
 
         <div class="rodape">
 
@@ -415,14 +400,16 @@
 
         </div>
 
-
     </div>
 
 </div>
 
 
-
 <script>
+
+
+var loginEmAndamento =
+    false;
 
 
 /* =====================================================
@@ -431,13 +418,9 @@
 
 async function verificarSessao() {
 
-
     try {
 
-
-        if (
-            !window.supabaseClient
-        ) {
+        if (!window.supabaseClient) {
 
             mostrarErro(
                 "Não foi possível conectar ao sistema."
@@ -447,14 +430,12 @@ async function verificarSessao() {
 
         }
 
+        var resultado =
+            await window.supabaseClient
+                .auth
+                .getSession();
 
-        const resultado =
-            await window.supabaseClient.auth.getSession();
-
-
-        if (
-            resultado.error
-        ) {
+        if (resultado.error) {
 
             console.error(
                 resultado.error
@@ -464,16 +445,13 @@ async function verificarSessao() {
 
         }
 
+        if (resultado.data.session) {
 
-        if (
-            resultado.data.session
-        ) {
-
-            window.location.href =
-                "index.html";
+            window.location.replace(
+                "index.html"
+            );
 
         }
-
 
     }
 
@@ -489,47 +467,41 @@ async function verificarSessao() {
 }
 
 
-
 /* =====================================================
    LOGIN
 ===================================================== */
 
 async function entrar() {
 
+    if (loginEmAndamento) {
+
+        return;
+
+    }
 
     var email =
         document.getElementById(
             "email"
         ).value.trim();
 
-
     var senha =
         document.getElementById(
             "senha"
         ).value;
-
 
     var botao =
         document.getElementById(
             "botaoEntrar"
         );
 
-
     var carregando =
         document.getElementById(
             "carregando"
         );
 
-
     esconderErro();
 
-
-
-    /* VALIDAR CAMPOS */
-
-    if (
-        email === ""
-    ) {
+    if (email === "") {
 
         mostrarErro(
             "Digite seu e-mail."
@@ -543,10 +515,7 @@ async function entrar() {
 
     }
 
-
-    if (
-        senha === ""
-    ) {
+    if (senha === "") {
 
         mostrarErro(
             "Digite sua senha."
@@ -560,104 +529,97 @@ async function entrar() {
 
     }
 
+    if (!window.supabaseClient) {
 
+        mostrarErro(
+            "Não foi possível conectar ao sistema."
+        );
+
+        return;
+
+    }
 
     try {
 
+        loginEmAndamento =
+            true;
 
         botao.disabled =
             true;
 
-
         botao.innerText =
             "Entrando...";
-
 
         carregando.style.display =
             "block";
 
-
-
-        const resultado =
+        var resultado =
             await window.supabaseClient
                 .auth
                 .signInWithPassword({
 
-                    email: email,
+                    email:
+                        email,
 
-                    password: senha
+                    password:
+                        senha
 
                 });
 
-
-
-        if (
-            resultado.error
-        ) {
+        if (resultado.error) {
 
             throw resultado.error;
 
         }
 
+        if (resultado.data.session) {
 
-
-        if (
-            resultado.data.session
-        ) {
-
-            window.location.href =
-                "index.html";
+            window.location.replace(
+                "index.html"
+            );
 
             return;
 
         }
 
-
-
         throw new Error(
             "Não foi possível iniciar a sessão."
         );
 
-
     }
 
     catch (erro) {
-
 
         console.error(
             "Erro no login:",
             erro
         );
 
-
         mostrarErro(
             "E-mail ou senha incorretos."
         );
-
 
         document.getElementById(
             "senha"
         ).value =
             "";
 
-
         document.getElementById(
             "senha"
         ).focus();
-
 
     }
 
     finally {
 
+        loginEmAndamento =
+            false;
 
         botao.disabled =
             false;
 
-
         botao.innerText =
             "🔐 Entrar";
-
 
         carregando.style.display =
             "none";
@@ -665,7 +627,6 @@ async function entrar() {
     }
 
 }
-
 
 
 /* =====================================================
@@ -681,16 +642,13 @@ function mostrarErro(
             "mensagemErro"
         );
 
-
     mensagem.innerText =
         texto;
-
 
     mensagem.style.display =
         "block";
 
 }
-
 
 
 /* =====================================================
@@ -707,7 +665,6 @@ function esconderErro() {
 }
 
 
-
 /* =====================================================
    ENTER PARA ENTRAR
 ===================================================== */
@@ -717,7 +674,8 @@ document.addEventListener(
     function(event) {
 
         if (
-            event.key === "Enter"
+            event.key === "Enter" &&
+            !loginEmAndamento
         ) {
 
             entrar();
@@ -726,7 +684,6 @@ document.addEventListener(
 
     }
 );
-
 
 
 /* =====================================================
