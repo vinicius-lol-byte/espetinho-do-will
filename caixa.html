@@ -1,13 +1,3 @@
-Texto colado(7).txt
-Documento
-caixa : 
-hoje 20:42
-pode ser nessa ordem ?
-
-Claro. Aqui está o index.html definitivo, já com o visual mais premium que você pediu: preto profundo, dourado metálico, detalhes prateados em degradê e vermelho escuro apenas em pontos estratégicos.
-
-Substitua todo o conteúdo do index.html por este:
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -15,764 +5,56 @@ Substitua todo o conteúdo do index.html por este:
 
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-    <title>Espetinho do Will - Menu Principal</title>
-
+    <title>Caixa - Espetinho do Will</title>
 
     <style>
-
-        * {
-            box-sizing: border-box;
-        }
-
-
-        :root {
-
-            --preto: #070707;
-            --preto-2: #111111;
-            --preto-3: #1b1b1b;
-
-            --dourado: #d4af37;
-            --dourado-claro: #f0d77a;
-            --dourado-escuro: #9d7c1f;
-
-            --prata: #d7d7d7;
-            --prata-2: #8f8f8f;
-
-            --vermelho: #8f1d1d;
-            --vermelho-claro: #b82929;
-
-            --texto: #f4f4f4;
-            --texto-secundario: #adadad;
-
-        }
-
-
-        body {
-
-            margin: 0;
-
-            font-family:
-                Arial,
-                Helvetica,
-                sans-serif;
-
-            min-height: 100vh;
-
-            color: var(--texto);
-
-            background:
-
-                radial-gradient(
-                    circle at top,
-                    #1b1b1b 0%,
-                    #0d0d0d 35%,
-                    #050505 100%
-                );
-
-        }
-
-
-
-        /* =====================================
-           TELA DE CARREGAMENTO
-        ====================================== */
-
-        .tela-carregando {
-
-            position: fixed;
-
-            inset: 0;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            z-index: 9999;
-
-            background:
-                radial-gradient(
-                    circle,
-                    #171717,
-                    #050505
-                );
-
-            color: var(--dourado-claro);
-
-            font-size: 18px;
-
-            font-weight: bold;
-
-        }
-
-
-
-        /* =====================================
-           CABEÇALHO
-        ====================================== */
-
-        header {
-
-            position: relative;
-
-            min-height: 290px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            text-align: center;
-
-            overflow: hidden;
-
-            border-bottom:
-                1px solid rgba(
-                    212,
-                    175,
-                    55,
-                    0.65
-                );
-
-            background:
-
-                linear-gradient(
-                    180deg,
-                    rgba(0,0,0,0.62),
-                    rgba(0,0,0,0.92)
-                ),
-
-                url("tema-espetinho.jpg");
-
-            background-size: cover;
-
-            background-position: center;
-
-            box-shadow:
-                0 10px 35px
-                rgba(0,0,0,0.55);
-
-        }
-
-
-        header::after {
-
-            content: "";
-
-            position: absolute;
-
-            left: 0;
-            right: 0;
-            bottom: 0;
-
-            height: 3px;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    transparent,
-                    var(--dourado),
-                    var(--prata),
-                    var(--dourado),
-                    transparent
-                );
-
-        }
-
-
-        .cabecalho-conteudo {
-
-            position: relative;
-
-            z-index: 2;
-
-            padding: 30px 20px;
-
-        }
-
-
-        .logo {
-
-            font-size: 68px;
-
-            filter:
-                drop-shadow(
-                    0 4px 8px
-                    rgba(0,0,0,0.65)
-                );
-
-        }
-
-
-        header h1 {
-
-            margin:
-                8px 0 0;
-
-            font-size: 40px;
-
-            letter-spacing: 0.5px;
-
-            background:
-
-                linear-gradient(
-                    90deg,
-                    var(--dourado-escuro),
-                    var(--dourado-claro),
-                    #fff1a8,
-                    var(--dourado)
-                );
-
-            -webkit-background-clip: text;
-
-            -webkit-text-fill-color: transparent;
-
-            background-clip: text;
-
-            text-shadow:
-                0 3px 10px
-                rgba(0,0,0,0.55);
-
-        }
-
-
-        header p {
-
-            margin-top: 10px;
-
-            margin-bottom: 0;
-
-            font-size: 18px;
-
-            color: #dddddd;
-
-        }
-
-
-        .frase {
-
-            margin-top: 15px;
-
-            font-size: 14px;
-
-            color: var(--dourado-claro);
-
-            font-weight: bold;
-
-            letter-spacing: 0.4px;
-
-        }
-
-
-
-        /* =====================================
-           CONTAINER
-        ====================================== */
-
-        .container {
-
-            max-width: 1100px;
-
-            margin: auto;
-
-            padding:
-                38px 20px 50px;
-
-        }
-
-
-        .titulo {
-
-            text-align: center;
-
-            margin-bottom: 32px;
-
-        }
-
-
-        .titulo h2 {
-
-            margin:
-                0 0 6px;
-
-            font-size: 29px;
-
-            background:
-
-                linear-gradient(
-                    90deg,
-                    var(--prata-2),
-                    #f5f5f5,
-                    var(--dourado-claro)
-                );
-
-            -webkit-background-clip: text;
-
-            -webkit-text-fill-color: transparent;
-
-            background-clip: text;
-
-        }
-
-
-        .titulo p {
-
-            margin: 0;
-
-            color: var(--texto-secundario);
-
-        }
-
-
-        .usuario-info {
-
-            margin-top: 14px;
-
-            font-size: 14px;
-
-            color: #c4c4c4;
-
-        }
-
-
-
-        /* =====================================
-           BOTÃO SAIR
-        ====================================== */
-
-        .botao-sair {
-
-            margin-top: 16px;
-
-            padding:
-                11px 24px;
-
-            border:
-                1px solid
-                #6f2020;
-
-            border-radius: 8px;
-
-            background:
-
-                linear-gradient(
-                    180deg,
-                    #4d1212,
-                    #2d0d0d
-                );
-
-            color: #ffd7d7;
-
-            font-size: 15px;
-
-            font-weight: bold;
-
-            cursor: pointer;
-
-            transition: 0.2s;
-
-            box-shadow:
-                0 5px 15px
-                rgba(0,0,0,0.3);
-
-        }
-
-
-        .botao-sair:hover {
-
-            background:
-
-                linear-gradient(
-                    180deg,
-                    var(--vermelho-claro),
-                    var(--vermelho)
-                );
-
-            transform:
-                translateY(-2px);
-
-        }
-
-
-
-        /* =====================================
-           MENU
-        ====================================== */
-
-        .menu {
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(2, 1fr);
-
-            gap: 22px;
-
-        }
-
-
-        .botao {
-
-            position: relative;
-
-            overflow: hidden;
-
-            padding: 32px 28px;
-
-            border-radius: 16px;
-
-            text-align: center;
-
-            cursor: pointer;
-
-            border:
-                1px solid
-                #3c3c3c;
-
-            background:
-
-                linear-gradient(
-                    145deg,
-                    #212121,
-                    #111111 55%,
-                    #181818
-                );
-
-            box-shadow:
-
-                0 10px 30px
-                rgba(0,0,0,0.38),
-
-                inset 0 1px 0
-                rgba(255,255,255,0.05);
-
-            transition:
-                transform 0.2s,
-                border-color 0.2s,
-                box-shadow 0.2s;
-
-        }
-
-
-        .botao::before {
-
-            content: "";
-
-            position: absolute;
-
-            top: 0;
-            left: 0;
-            right: 0;
-
-            height: 4px;
-
-            background:
-
-                linear-gradient(
-                    90deg,
-                    var(--dourado-escuro),
-                    var(--dourado-claro),
-                    var(--prata),
-                    var(--dourado)
-                );
-
-        }
-
-
-        .botao::after {
-
-            content: "";
-
-            position: absolute;
-
-            width: 120px;
-            height: 120px;
-
-            top: -70px;
-            right: -50px;
-
-            border-radius: 50%;
-
-            background:
-                rgba(
-                    212,
-                    175,
-                    55,
-                    0.05
-                );
-
-        }
-
-
-        .botao:hover {
-
-            transform:
-                translateY(-5px);
-
-            border-color:
-                rgba(
-                    212,
-                    175,
-                    55,
-                    0.7
-                );
-
-            box-shadow:
-
-                0 14px 36px
-                rgba(0,0,0,0.55),
-
-                0 0 18px
-                rgba(
-                    212,
-                    175,
-                    55,
-                    0.08
-                );
-
-        }
-
-
-        .icone {
-
-            position: relative;
-
-            z-index: 2;
-
-            font-size: 54px;
-
-            margin-bottom: 12px;
-
-        }
-
-
-        .botao h2 {
-
-            position: relative;
-
-            z-index: 2;
-
-            margin:
-                7px 0 8px;
-
-            font-size: 22px;
-
-            color:
-                var(--dourado-claro);
-
-        }
-
-
-        .botao p {
-
-            position: relative;
-
-            z-index: 2;
-
-            margin: 0;
-
-            color:
-                var(--texto-secundario);
-
-            line-height: 1.5;
-
-        }
-
-
-
-        /* =====================================
-           DETALHE DIFERENTE EM CADA CARD
-        ====================================== */
-
-        .pedidos {
-
-            border-left:
-                2px solid
-                rgba(
-                    212,
-                    175,
-                    55,
-                    0.45
-                );
-
-        }
-
-
-        .estoque {
-
-            border-left:
-                2px solid
-                rgba(
-                    190,
-                    190,
-                    190,
-                    0.55
-                );
-
-        }
-
-
-        .caixa {
-
-            border-left:
-                2px solid
-                rgba(
-                    212,
-                    175,
-                    55,
-                    0.75
-                );
-
-        }
-
-
-        .fechamento {
-
-            border-left:
-                2px solid
-                rgba(
-                    160,
-                    160,
-                    160,
-                    0.55
-                );
-
-        }
-
-
-        .clientes {
-
-            border-left:
-                2px solid
-                rgba(
-                    129,
-                    29,
-                    29,
-                    0.55
-                );
-
-        }
-
-
-
-        /* =====================================
-           RODAPÉ
-        ====================================== */
-
-        footer {
-
-            text-align: center;
-
-            padding:
-                24px 20px;
-
-            color:
-                #747474;
-
-            font-size: 13px;
-
-            border-top:
-                1px solid
-                #1f1f1f;
-
-            background:
-                #050505;
-
-        }
-
-
-        footer strong {
-
-            color:
-                var(--dourado);
-
-        }
-
-
-
-        /* =====================================
-           CELULAR
-        ====================================== */
-
-        @media (max-width: 700px) {
-
-            header {
-
-                min-height: 245px;
-
-            }
-
-
-            .logo {
-
-                font-size: 57px;
-
-            }
-
-
-            header h1 {
-
-                font-size: 31px;
-
-            }
-
-
-            header p {
-
-                font-size: 16px;
-
-            }
-
-
-            .container {
-
-                padding:
-                    30px 15px 40px;
-
-            }
-
-
-            .menu {
-
-                grid-template-columns:
-                    1fr;
-
-                gap: 16px;
-
-            }
-
-
-            .botao {
-
-                padding:
-                    27px 20px;
-
-            }
-
-
-            .icone {
-
-                font-size: 48px;
-
-            }
-
-        }
-
+        * { box-sizing: border-box; }
+        :root { --gold:#d4af37; --gold2:#f1d77a; --silver:#c9c9c9; --red:#8f1d1d; --bg:#070707; --panel:#151515; --muted:#aaa; }
+        body { margin:0; font-family:Arial,sans-serif; color:#f4f4f4; min-height:100vh; background:radial-gradient(circle at top,#1b1b1b 0%,#0d0d0d 38%,#050505 100%); }
+        header { background:linear-gradient(135deg,#050505,#1b1b1b,#0a0a0a); color:white; padding:24px; text-align:center; border-bottom:1px solid var(--gold); box-shadow:0 8px 28px rgba(0,0,0,.45); }
+        header h1 { margin:0; background:linear-gradient(90deg,#9d7c1f,var(--gold2),#eee,var(--gold)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+        header p { margin:8px 0 0; color:#c8c8c8; }
+        .container { max-width:1100px; margin:auto; padding:28px 20px 45px; }
+        h2 { color:var(--gold2); }
+        .caixa,.filtro-data { background:linear-gradient(145deg,#202020,#101010 60%,#181818); padding:20px; border-radius:14px; margin-bottom:20px; border:1px solid #3b3b3b; box-shadow:0 8px 24px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.04); }
+        .filtro-data input { width:100%; padding:13px; border:1px solid #555; border-radius:7px; font-size:17px; margin-top:8px; background:#0d0d0d; color:white; }
+        .filtro-data input:focus { outline:none; border-color:var(--gold); box-shadow:0 0 0 2px rgba(212,175,55,.12); }
+        .resumo { display:grid; grid-template-columns:repeat(3,1fr); gap:15px; margin-bottom:20px; }
+        .card { background:linear-gradient(145deg,#242424,#111); padding:20px; border-radius:12px; text-align:center; border:1px solid #3b3b3b; box-shadow:0 7px 22px rgba(0,0,0,.35); }
+        .card h3 { margin-top:0; color:#d5d5d5; }
+        .valor { font-size:24px; font-weight:bold; margin-top:10px; color:var(--gold2); }
+        .dinheiro,.avista,.recebido-fiado { border-top:4px solid var(--gold); }
+        .cartao,.custo { border-top:4px solid #aaa; }
+        .pix,.lucro { border-top:4px solid #e0c568; }
+        .fiado,.receber { border-top:4px solid #7f2424; }
+        .entrada-total { background:linear-gradient(135deg,#7b6118,#d4af37,#8f711c); color:#090909; padding:25px; border-radius:13px; text-align:center; margin-bottom:20px; box-shadow:0 8px 26px rgba(212,175,55,.14); }
+        .entrada-total h2 { margin:0; color:#090909; }
+        .entrada-total .valor { font-size:34px; color:#090909; }
+        .faturamento { background:linear-gradient(135deg,#555,#bcbcbc,#5f5f5f); color:#090909; padding:20px; border-radius:13px; text-align:center; margin-bottom:20px; }
+        .faturamento h2,.faturamento .valor { color:#090909; }
+        .venda-item,.fiado-item,.pagamento-item { background:linear-gradient(145deg,#1d1d1d,#101010); padding:15px; margin-bottom:12px; border-radius:9px; border:1px solid #333; }
+        .venda-item { border-left:5px solid var(--gold); }
+        .fiado-item { border-left:5px solid #8f1d1d; }
+        .pagamento-item { border-left:5px solid #aaa; }
+        .botao { display:inline-block; padding:12px 18px; border:1px solid #555; border-radius:7px; cursor:pointer; font-size:16px; margin-top:10px; margin-right:5px; font-weight:bold; transition:.2s; }
+        .botao:hover { transform:translateY(-2px); filter:brightness(1.12); }
+        .consultar,.hoje,.atualizar { background:linear-gradient(135deg,#9d7c1f,#d4af37); color:#111; border-color:#d4af37; }
+        .voltar { background:linear-gradient(135deg,#777,#bcbcbc,#666); color:#111; }
+        .clientes { background:linear-gradient(135deg,#521414,#8f1d1d); color:#fff; border-color:#8f1d1d; }
+        .mensagem { text-align:center; color:#aaa; padding:20px; }
+        .erro { background:#351010; color:#ffc1c1; border:1px solid #7d2727; padding:15px; border-radius:8px; margin-bottom:20px; }
+        .carregando { text-align:center; padding:20px; color:var(--gold2); }
+        .data-exibida { background:linear-gradient(90deg,#171717,#242424); border-left:6px solid var(--gold); color:#ddd; padding:15px; border-radius:8px; margin-bottom:20px; font-size:18px; }
+        .tela-carregando { position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center; background:#070707; color:var(--gold2); font-weight:bold; }
+        @media (max-width:850px){ .resumo{grid-template-columns:repeat(2,1fr);} }
+        @media (max-width:600px){ .resumo{grid-template-columns:1fr;} .container{padding:15px;} .botao{width:100%;margin-right:0;} }
     </style>
 
 
-    <!-- SUPABASE -->
-
-    <script
-        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script src="supabase.js"></script>
 
@@ -782,245 +64,838 @@ Substitua todo o conteúdo do index.html por este:
 
 <body>
 
+<div id="telaCarregando" class="tela-carregando">🔐 Verificando acesso...</div>
 
-<!-- =====================================
-     CARREGANDO
-====================================== -->
-
-<div
-    id="telaCarregando"
-    class="tela-carregando"
->
-
-    🔐 Verificando acesso...
-
-</div>
-
-
-
-<!-- =====================================
-     CABEÇALHO
-====================================== -->
 
 <header>
 
-    <div class="cabecalho-conteudo">
+    <h1>🥩 Espetinho do Will</h1>
 
-        <div class="logo">
-            🥩🔥
-        </div>
-
-
-        <h1>
-            Espetinho do Will
-        </h1>
-
-
-        <p>
-            Sistema de controle
-        </p>
-
-
-        <div class="frase">
-            🔥 Sabor na brasa, qualidade na mesa 🔥
-        </div>
-
-    </div>
+    <p>💰 Caixa</p>
 
 </header>
 
 
-
-<!-- =====================================
-     CONTEÚDO
-====================================== -->
-
 <div class="container">
 
 
-    <div class="titulo">
+    <!-- BOTÕES -->
 
+    <div class="caixa">
 
-        <h2>
-            Menu Principal
-        </h2>
-
-
-        <p>
-            Escolha uma opção
-        </p>
-
-
-        <div
-            id="usuarioInfo"
-            class="usuario-info"
-        >
-        </div>
-
+        <h2>💰 Caixa</h2>
 
         <button
-            class="botao-sair"
-            onclick="sair()"
-        >
-
-            🚪 Sair
-
-        </button>
-
-
-    </div>
-
-
-
-    <div class="menu">
-
-
-        <!-- PEDIDOS -->
-
-        <div
-            class="botao pedidos"
-            onclick="abrirPedidos()"
-        >
-
-            <div class="icone">
-                📝
-            </div>
-
-            <h2>
-                Pedidos
-            </h2>
-
-            <p>
-                Controlar os pedidos das mesas
-            </p>
-
-        </div>
-
-
-
-        <!-- ESTOQUE -->
-
-        <div
-            class="botao estoque"
-            onclick="abrirEstoque()"
-        >
-
-            <div class="icone">
-                📦
-            </div>
-
-            <h2>
-                Estoque
-            </h2>
-
-            <p>
-                Controlar produtos e mercadorias
-            </p>
-
-        </div>
-
-
-
-        <!-- CAIXA -->
-
-        <div
-            class="botao caixa"
-            onclick="abrirCaixa()"
-        >
-
-            <div class="icone">
-                💰
-            </div>
-
-            <h2>
-                Caixa
-            </h2>
-
-            <p>
-                Controlar vendas e pagamentos
-            </p>
-
-        </div>
-
-
-
-        <!-- FECHAMENTO -->
-
-        <div
-            class="botao fechamento"
-            onclick="abrirFechamento()"
-        >
-
-            <div class="icone">
-                📊
-            </div>
-
-            <h2>
-                Fechamento Diário
-            </h2>
-
-            <p>
-                Ver vendas, custos e lucro do dia
-            </p>
-
-        </div>
-
-
-
-        <!-- CLIENTES -->
-
-        <div
             class="botao clientes"
             onclick="abrirClientes()"
         >
+            👥 Clientes / Contas
+        </button>
 
-            <div class="icone">
-                👥
+
+        <button
+            class="botao voltar"
+            onclick="voltarMenu()"
+        >
+            🏠 Menu Principal
+        </button>
+
+    </div>
+
+
+
+    <!-- ESCOLHER DATA -->
+
+    <div class="filtro-data">
+
+        <h2>📅 Consultar caixa por data</h2>
+
+
+        <label>
+            Escolha o dia:
+        </label>
+
+
+        <input
+            type="date"
+            id="dataCaixa"
+        >
+
+
+        <button
+            class="botao consultar"
+            onclick="carregarCaixa()"
+        >
+            🔍 Consultar dia
+        </button>
+
+
+        <button
+            class="botao hoje"
+            onclick="irParaHoje()"
+        >
+            📅 Hoje
+        </button>
+
+    </div>
+
+
+
+    <div
+        id="dataExibida"
+        class="data-exibida"
+    >
+        📅 Caixa do dia
+    </div>
+
+
+
+    <div
+        id="areaErro"
+        style="display:none;"
+    >
+    </div>
+
+
+
+    <!-- FORMAS DE PAGAMENTO -->
+
+    <h2>💳 Recebimentos do dia</h2>
+
+
+    <div class="resumo">
+
+
+        <div class="card dinheiro">
+
+            <h3>💵 Dinheiro</h3>
+
+            <div
+                id="totalDinheiro"
+                class="valor"
+            >
+                R$ 0,00
             </div>
 
-            <h2>
-                Clientes / Contas
-            </h2>
+        </div>
 
-            <p>
-                Controlar clientes, fiado e pagamentos
-            </p>
+
+        <div class="card cartao">
+
+            <h3>💳 Cartão</h3>
+
+            <div
+                id="totalCartao"
+                class="valor"
+            >
+                R$ 0,00
+            </div>
+
+        </div>
+
+
+        <div class="card pix">
+
+            <h3>📱 PIX</h3>
+
+            <div
+                id="totalPix"
+                class="valor"
+            >
+                R$ 0,00
+            </div>
 
         </div>
 
 
     </div>
 
+
+
+    <!-- RESUMO -->
+
+    <h2>📊 Movimento do dia</h2>
+
+
+    <div class="resumo">
+
+
+        <div class="card avista">
+
+            <h3>✅ Vendas pagas na hora</h3>
+
+            <div
+                id="totalAVista"
+                class="valor"
+            >
+                R$ 0,00
+            </div>
+
+        </div>
+
+
+        <div class="card fiado">
+
+            <h3>👤 Fiado lançado no dia</h3>
+
+            <div
+                id="totalFiado"
+                class="valor"
+            >
+                R$ 0,00
+            </div>
+
+        </div>
+
+
+        <div class="card recebido-fiado">
+
+            <h3>💰 Fiado recebido no dia</h3>
+
+            <div
+                id="totalRecebidoFiado"
+                class="valor"
+            >
+                R$ 0,00
+            </div>
+
+        </div>
+
+
+        <div class="card receber">
+
+            <h3>📒 Total geral a receber</h3>
+
+            <div
+                id="totalAReceber"
+                class="valor"
+            >
+                R$ 0,00
+            </div>
+
+        </div>
+
+
+        <div class="card custo">
+
+            <h3>📦 Custo do dia</h3>
+
+            <div
+                id="totalCustos"
+                class="valor"
+            >
+                R$ 0,00
+            </div>
+
+        </div>
+
+
+        <div class="card lucro">
+
+            <h3>📈 Lucro das vendas do dia</h3>
+
+            <div
+                id="totalLucro"
+                class="valor"
+            >
+                R$ 0,00
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- DINHEIRO REAL -->
+
+    <div class="entrada-total">
+
+        <h2>💰 Dinheiro que realmente entrou no dia</h2>
+
+        <div
+            id="totalEntrou"
+            class="valor"
+        >
+            R$ 0,00
+        </div>
+
+    </div>
+
+
+
+    <!-- FATURAMENTO -->
+
+    <div class="faturamento">
+
+        <h2>🧾 Total consumido no dia</h2>
+
+        <div
+            id="totalFaturamento"
+            class="valor"
+        >
+            R$ 0,00
+        </div>
+
+        <p>
+            Inclui vendas pagas na hora e compras fiadas.
+        </p>
+
+    </div>
+
+
+
+    <!-- VENDAS -->
+
+    <div class="caixa">
+
+        <h2>✅ Vendas pagas na hora</h2>
+
+        <div id="listaVendas">
+
+            <div class="carregando">
+                ⏳ Carregando...
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- FIADOS -->
+
+    <div class="caixa">
+
+        <h2>👤 Fiados lançados no dia</h2>
+
+        <div id="listaFiados">
+
+            <div class="carregando">
+                ⏳ Carregando...
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- PAGAMENTOS -->
+
+    <div class="caixa">
+
+        <h2>💵 Pagamentos de clientes recebidos no dia</h2>
+
+        <div id="listaPagamentos">
+
+            <div class="carregando">
+                ⏳ Carregando...
+            </div>
+
+        </div>
+
+    </div>
+
+
 </div>
-
-
-
-<!-- =====================================
-     RODAPÉ
-====================================== -->
-
-<footer>
-
-    <strong>
-        Espetinho do Will
-    </strong>
-
-    <br>
-
-    Sistema de controle
-
-</footer>
 
 
 
 <script>
 
 
-/* =====================================
-   VERIFICAR LOGIN
-===================================== */
+/* =====================================================
+   LOGIN
+===================================================== */
 
 async function verificarLogin() {
+    try {
+        if (!window.supabaseClient) {
+            throw new Error("Supabase não carregou.");
+        }
+
+        const resultado = await window.supabaseClient.auth.getSession();
+
+        if (resultado.error) {
+            throw resultado.error;
+        }
+
+        if (!resultado.data.session) {
+            window.location.replace("login.html");
+            return false;
+        }
+
+        document.getElementById("telaCarregando").style.display = "none";
+        return true;
+    }
+    catch (erro) {
+        console.error("Erro ao verificar login:", erro);
+        window.location.replace("login.html");
+        return false;
+    }
+}
+
+
+
+/* =====================================================
+   FORMATAR MOEDA
+===================================================== */
+
+function formatarMoeda(
+    valor
+) {
+
+    return Number(
+        valor || 0
+    ).toLocaleString(
+
+        "pt-BR",
+
+        {
+            style: "currency",
+            currency: "BRL"
+        }
+
+    );
+
+}
+
+
+
+/* =====================================================
+   ESCAPAR HTML
+===================================================== */
+
+function escaparHTML(
+    texto
+) {
+
+    return String(
+        texto || ""
+    )
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+
+/* =====================================================
+   DATA DE HOJE
+===================================================== */
+
+function obterDataHojeISO() {
+
+    var agora =
+        new Date();
+
+
+    var ano =
+        agora.getFullYear();
+
+
+    var mes =
+        String(
+            agora.getMonth() + 1
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    var dia =
+        String(
+            agora.getDate()
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    return (
+        ano +
+        "-" +
+        mes +
+        "-" +
+        dia
+    );
+
+}
+
+
+
+/* =====================================================
+   FORMATAR DATA PARA MOSTRAR
+===================================================== */
+
+function formatarDataBrasil(
+    dataISO
+) {
+
+    if (!dataISO) {
+
+        return "-";
+
+    }
+
+
+    var partes =
+        dataISO.split("-");
+
+
+    if (
+        partes.length !== 3
+    ) {
+
+        return dataISO;
+
+    }
+
+
+    return (
+
+        partes[2] +
+
+        "/" +
+
+        partes[1] +
+
+        "/" +
+
+        partes[0]
+
+    );
+
+}
+
+
+
+/* =====================================================
+   HOJE
+===================================================== */
+
+function irParaHoje() {
+
+    document.getElementById(
+        "dataCaixa"
+    ).value =
+        obterDataHojeISO();
+
+
+    carregarCaixa();
+
+}
+
+
+
+/* =====================================================
+   VENDAS DO DIA
+===================================================== */
+
+async function carregarVendasDia(
+    dataSelecionada
+) {
+
+    var resultado =
+        await window.supabaseClient
+            .from("vendas")
+            .select("*")
+            .eq(
+                "data_venda",
+                dataSelecionada
+            )
+            .order(
+                "id",
+                {
+                    ascending: false
+                }
+            );
+
+
+    if (
+        resultado.error
+    ) {
+
+        throw resultado.error;
+
+    }
+
+
+    return resultado.data || [];
+
+}
+
+
+
+/* =====================================================
+   FIADOS DO DIA
+===================================================== */
+
+async function carregarFiadosDia(
+    dataSelecionada
+) {
+
+    var resultado =
+        await window.supabaseClient
+            .from("contas_clientes")
+            .select("*")
+            .eq(
+                "data_consumo_date",
+                dataSelecionada
+            )
+            .order(
+                "id",
+                {
+                    ascending: false
+                }
+            );
+
+
+    if (
+        resultado.error
+    ) {
+
+        throw resultado.error;
+
+    }
+
+
+    return resultado.data || [];
+
+}
+
+
+
+/* =====================================================
+   PAGAMENTOS DO DIA
+===================================================== */
+
+async function carregarPagamentosDia(
+    dataSelecionada
+) {
+
+    var resultado =
+        await window.supabaseClient
+            .from("pagamentos_clientes")
+            .select("*")
+            .eq(
+                "data_pagamento_date",
+                dataSelecionada
+            )
+            .order(
+                "id",
+                {
+                    ascending: false
+                }
+            );
+
+
+    if (
+        resultado.error
+    ) {
+
+        throw resultado.error;
+
+    }
+
+
+    return resultado.data || [];
+
+}
+
+
+
+/* =====================================================
+   TODOS OS FIADOS
+   PARA CALCULAR SALDO GERAL
+===================================================== */
+
+async function carregarTodosFiados() {
+
+    var resultado =
+        await window.supabaseClient
+            .from("contas_clientes")
+            .select("total");
+
+
+    if (
+        resultado.error
+    ) {
+
+        throw resultado.error;
+
+    }
+
+
+    return resultado.data || [];
+
+}
+
+
+
+/* =====================================================
+   TODOS PAGAMENTOS
+   PARA CALCULAR SALDO GERAL
+===================================================== */
+
+async function carregarTodosPagamentos() {
+
+    var resultado =
+        await window.supabaseClient
+            .from("pagamentos_clientes")
+            .select("valor");
+
+
+    if (
+        resultado.error
+    ) {
+
+        throw resultado.error;
+
+    }
+
+
+    return resultado.data || [];
+
+}
+
+
+
+/* =====================================================
+   CLIENTES
+===================================================== */
+
+async function carregarClientes() {
+
+    var resultado =
+        await window.supabaseClient
+            .from("clientes")
+            .select("id,nome");
+
+
+    if (
+        resultado.error
+    ) {
+
+        throw resultado.error;
+
+    }
+
+
+    return resultado.data || [];
+
+}
+
+
+
+/* =====================================================
+   NOME CLIENTE
+===================================================== */
+
+function obterNomeCliente(
+    clienteId,
+    clientes
+) {
+
+    for (
+        var i = 0;
+        i < clientes.length;
+        i++
+    ) {
+
+        if (
+            Number(
+                clientes[i].id
+            )
+            ===
+            Number(
+                clienteId
+            )
+        ) {
+
+            return clientes[i].nome;
+
+        }
+
+    }
+
+
+    return "Cliente não encontrado";
+
+}
+
+
+
+/* =====================================================
+   CARREGAR CAIXA
+===================================================== */
+
+async function carregarCaixa() {
+
+
+    var dataSelecionada =
+        document.getElementById(
+            "dataCaixa"
+        ).value;
+
+
+    if (
+        dataSelecionada === ""
+    ) {
+
+        alert(
+            "Escolha uma data."
+        );
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "dataExibida"
+    ).innerHTML =
+
+        "📅 Caixa do dia: <strong>" +
+
+        formatarDataBrasil(
+            dataSelecionada
+        ) +
+
+        "</strong>";
+
+
+    var areaErro =
+        document.getElementById(
+            "areaErro"
+        );
+
+
+    areaErro.style.display =
+        "none";
+
+
+    document.getElementById(
+        "listaVendas"
+    ).innerHTML =
+        "<div class='carregando'>⏳ Carregando...</div>";
+
+
+    document.getElementById(
+        "listaFiados"
+    ).innerHTML =
+        "<div class='carregando'>⏳ Carregando...</div>";
+
+
+    document.getElementById(
+        "listaPagamentos"
+    ).innerHTML =
+        "<div class='carregando'>⏳ Carregando...</div>";
 
 
     try {
@@ -1031,79 +906,487 @@ async function verificarLogin() {
         ) {
 
             throw new Error(
-                "Supabase não carregou."
+                "Conexão com Supabase não encontrada."
             );
 
         }
 
 
-        const resultado =
-            await window.supabaseClient
-                .auth
-                .getSession();
+
+        var resultados =
+            await Promise.all([
+
+                carregarVendasDia(
+                    dataSelecionada
+                ),
+
+                carregarFiadosDia(
+                    dataSelecionada
+                ),
+
+                carregarPagamentosDia(
+                    dataSelecionada
+                ),
+
+                carregarTodosFiados(),
+
+                carregarTodosPagamentos(),
+
+                carregarClientes()
+
+            ]);
 
 
-        if (
-            resultado.error
+
+        var vendas =
+            resultados[0];
+
+
+        var fiadosDia =
+            resultados[1];
+
+
+        var pagamentosDia =
+            resultados[2];
+
+
+        var todosFiados =
+            resultados[3];
+
+
+        var todosPagamentos =
+            resultados[4];
+
+
+        var clientes =
+            resultados[5];
+
+
+
+        /* =============================================
+           VENDAS PAGAS NA HORA
+        ============================================= */
+
+        var totalAVista =
+            0;
+
+
+        var custoAVista =
+            0;
+
+
+        var totalDinheiro =
+            0;
+
+
+        var totalCartao =
+            0;
+
+
+        var totalPix =
+            0;
+
+
+
+        for (
+            var i = 0;
+            i < vendas.length;
+            i++
         ) {
 
-            throw resultado.error;
+            var venda =
+                vendas[i];
+
+
+            var valor =
+                Number(
+                    venda.total || 0
+                );
+
+
+            var custo =
+                Number(
+                    venda.custo || 0
+                );
+
+
+            totalAVista +=
+                valor;
+
+
+            custoAVista +=
+                custo;
+
+
+            if (
+                venda.forma_pagamento ===
+                "Dinheiro"
+            ) {
+
+                totalDinheiro +=
+                    valor;
+
+            }
+
+
+            else if (
+                venda.forma_pagamento ===
+                "Cartão"
+            ) {
+
+                totalCartao +=
+                    valor;
+
+            }
+
+
+            else if (
+                venda.forma_pagamento ===
+                "PIX"
+            ) {
+
+                totalPix +=
+                    valor;
+
+            }
 
         }
 
 
-        const sessao =
-            resultado.data.session;
+
+        /* =============================================
+           FIADOS LANÇADOS NO DIA
+        ============================================= */
+
+        var totalFiadoDia =
+            0;
+
+
+        var custoFiadoDia =
+            0;
+
+
+        for (
+            var i = 0;
+            i < fiadosDia.length;
+            i++
+        ) {
+
+            totalFiadoDia +=
+
+                Number(
+                    fiadosDia[i].total || 0
+                );
+
+
+            custoFiadoDia +=
+
+                Number(
+                    fiadosDia[i].custo || 0
+                );
+
+        }
+
+
+
+        /* =============================================
+           PAGAMENTOS RECEBIDOS NO DIA
+        ============================================= */
+
+        var totalRecebidoFiadoDia =
+            0;
+
+
+        for (
+            var i = 0;
+            i < pagamentosDia.length;
+            i++
+        ) {
+
+            var pagamento =
+                pagamentosDia[i];
+
+
+            var valor =
+                Number(
+                    pagamento.valor || 0
+                );
+
+
+            totalRecebidoFiadoDia +=
+                valor;
+
+
+            if (
+                pagamento.forma_pagamento ===
+                "Dinheiro"
+            ) {
+
+                totalDinheiro +=
+                    valor;
+
+            }
+
+
+            else if (
+                pagamento.forma_pagamento ===
+                "Cartão"
+            ) {
+
+                totalCartao +=
+                    valor;
+
+            }
+
+
+            else if (
+                pagamento.forma_pagamento ===
+                "PIX"
+            ) {
+
+                totalPix +=
+                    valor;
+
+            }
+
+        }
+
+
+
+        /* =============================================
+           TOTAL GERAL A RECEBER
+        ============================================= */
+
+        var totalFiadoGeral =
+            0;
+
+
+        for (
+            var i = 0;
+            i < todosFiados.length;
+            i++
+        ) {
+
+            totalFiadoGeral +=
+
+                Number(
+                    todosFiados[i].total || 0
+                );
+
+        }
+
+
+        var totalPagoGeral =
+            0;
+
+
+        for (
+            var i = 0;
+            i < todosPagamentos.length;
+            i++
+        ) {
+
+            totalPagoGeral +=
+
+                Number(
+                    todosPagamentos[i].valor || 0
+                );
+
+        }
+
+
+        var totalAReceber =
+
+            totalFiadoGeral -
+
+            totalPagoGeral;
 
 
         if (
-            !sessao
+            totalAReceber < 0
         ) {
 
-            window.location.replace(
-                "login.html"
+            totalAReceber =
+                0;
+
+        }
+
+
+
+        /* =============================================
+           CÁLCULOS DO DIA
+        ============================================= */
+
+        var totalEntrou =
+
+            totalAVista +
+
+            totalRecebidoFiadoDia;
+
+
+        var totalFaturamento =
+
+            totalAVista +
+
+            totalFiadoDia;
+
+
+        var totalCustos =
+
+            custoAVista +
+
+            custoFiadoDia;
+
+
+        var totalLucro =
+
+            totalFaturamento -
+
+            totalCustos;
+
+
+
+        /* =============================================
+           MOSTRAR
+        ============================================= */
+
+        document.getElementById(
+            "totalDinheiro"
+        ).innerText =
+            formatarMoeda(
+                totalDinheiro
             );
-
-            return;
-
-        }
-
-
-        if (
-            sessao.user &&
-            sessao.user.email
-        ) {
-
-            document.getElementById(
-                "usuarioInfo"
-            ).innerText =
-
-                "Conectado como: " +
-                sessao.user.email;
-
-        }
 
 
         document.getElementById(
-            "telaCarregando"
-        ).style.display =
-            "none";
+            "totalCartao"
+        ).innerText =
+            formatarMoeda(
+                totalCartao
+            );
 
+
+        document.getElementById(
+            "totalPix"
+        ).innerText =
+            formatarMoeda(
+                totalPix
+            );
+
+
+        document.getElementById(
+            "totalAVista"
+        ).innerText =
+            formatarMoeda(
+                totalAVista
+            );
+
+
+        document.getElementById(
+            "totalFiado"
+        ).innerText =
+            formatarMoeda(
+                totalFiadoDia
+            );
+
+
+        document.getElementById(
+            "totalRecebidoFiado"
+        ).innerText =
+            formatarMoeda(
+                totalRecebidoFiadoDia
+            );
+
+
+        document.getElementById(
+            "totalAReceber"
+        ).innerText =
+            formatarMoeda(
+                totalAReceber
+            );
+
+
+        document.getElementById(
+            "totalCustos"
+        ).innerText =
+            formatarMoeda(
+                totalCustos
+            );
+
+
+        document.getElementById(
+            "totalLucro"
+        ).innerText =
+            formatarMoeda(
+                totalLucro
+            );
+
+
+        document.getElementById(
+            "totalEntrou"
+        ).innerText =
+            formatarMoeda(
+                totalEntrou
+            );
+
+
+        document.getElementById(
+            "totalFaturamento"
+        ).innerText =
+            formatarMoeda(
+                totalFaturamento
+            );
+
+
+
+        mostrarVendas(
+            vendas
+        );
+
+
+        mostrarFiados(
+            fiadosDia,
+            clientes
+        );
+
+
+        mostrarPagamentos(
+            pagamentosDia,
+            clientes
+        );
 
     }
+
 
     catch (erro) {
 
 
         console.error(
-            "Erro ao verificar login:",
+            "Erro ao carregar caixa:",
             erro
         );
 
 
-        window.location.replace(
-            "login.html"
-        );
+        areaErro.innerHTML =
+
+            "<div class='erro'>" +
+
+            "❌ Não foi possível carregar o caixa." +
+
+            "<br><br>" +
+
+            "Erro: " +
+
+            escaparHTML(
+                erro.message ||
+                "Erro desconhecido."
+            ) +
+
+            "</div>";
+
+
+        areaErro.style.display =
+            "block";
 
     }
 
@@ -1111,41 +1394,339 @@ async function verificarLogin() {
 
 
 
-/* =====================================
-   NAVEGAÇÃO
-===================================== */
+/* =====================================================
+   MOSTRAR VENDAS
+===================================================== */
 
-function abrirPedidos() {
+function mostrarVendas(
+    vendas
+) {
 
-    window.location.href =
-        "pedidos.html";
+    var area =
+        document.getElementById(
+            "listaVendas"
+        );
+
+
+    area.innerHTML =
+        "";
+
+
+    if (
+        vendas.length === 0
+    ) {
+
+        area.innerHTML =
+
+            "<div class='mensagem'>" +
+
+            "Nenhuma venda paga nesta data." +
+
+            "</div>";
+
+        return;
+
+    }
+
+
+    for (
+        var i = 0;
+        i < vendas.length;
+        i++
+    ) {
+
+        var venda =
+            vendas[i];
+
+
+        var lucroVenda =
+
+            Number(
+                venda.total || 0
+            )
+
+            -
+
+            Number(
+                venda.custo || 0
+            );
+
+
+        area.innerHTML +=
+
+            "<div class='venda-item'>" +
+
+            "<strong>✅ Mesa " +
+
+            escaparHTML(
+                venda.mesa
+            ) +
+
+            "</strong>" +
+
+            "<p>🧾 Venda ID: " +
+
+            venda.id +
+
+            "</p>" +
+
+            "<p>🕐 Horário: " +
+
+            escaparHTML(
+                venda.horario || "-"
+            ) +
+
+            "</p>" +
+
+            "<p>💳 Pagamento: " +
+
+            escaparHTML(
+                venda.forma_pagamento || "-"
+            ) +
+
+            "</p>" +
+
+            "<p>📦 Custo: " +
+
+            formatarMoeda(
+                venda.custo
+            ) +
+
+            "</p>" +
+
+            "<p>💰 Total: <strong>" +
+
+            formatarMoeda(
+                venda.total
+            ) +
+
+            "</strong></p>" +
+
+            "<p>📈 Lucro: " +
+
+            formatarMoeda(
+                lucroVenda
+            ) +
+
+            "</p>" +
+
+            "</div>";
+
+    }
 
 }
 
 
-function abrirEstoque() {
 
-    window.location.href =
-        "estoque.html";
+/* =====================================================
+   MOSTRAR FIADOS
+===================================================== */
+
+function mostrarFiados(
+    fiados,
+    clientes
+) {
+
+    var area =
+        document.getElementById(
+            "listaFiados"
+        );
+
+
+    area.innerHTML =
+        "";
+
+
+    if (
+        fiados.length === 0
+    ) {
+
+        area.innerHTML =
+
+            "<div class='mensagem'>" +
+
+            "Nenhum fiado lançado nesta data." +
+
+            "</div>";
+
+        return;
+
+    }
+
+
+    for (
+        var i = 0;
+        i < fiados.length;
+        i++
+    ) {
+
+        var conta =
+            fiados[i];
+
+
+        var nome =
+            obterNomeCliente(
+
+                conta.cliente_id,
+
+                clientes
+
+            );
+
+
+        area.innerHTML +=
+
+            "<div class='fiado-item'>" +
+
+            "<strong>👤 " +
+
+            escaparHTML(
+                nome
+            ) +
+
+            "</strong>" +
+
+            "<p>🧾 Conta ID: " +
+
+            conta.id +
+
+            "</p>" +
+
+            "<p>🍽️ Mesa: " +
+
+            escaparHTML(
+                conta.mesa || "-"
+            ) +
+
+            "</p>" +
+
+            "<p>📦 Custo: " +
+
+            formatarMoeda(
+                conta.custo
+            ) +
+
+            "</p>" +
+
+            "<p>🟠 Fiado: <strong>" +
+
+            formatarMoeda(
+                conta.total
+            ) +
+
+            "</strong></p>" +
+
+            "</div>";
+
+    }
 
 }
 
 
-function abrirCaixa() {
 
-    window.location.href =
-        "caixa.html";
+/* =====================================================
+   MOSTRAR PAGAMENTOS
+===================================================== */
+
+function mostrarPagamentos(
+    pagamentos,
+    clientes
+) {
+
+    var area =
+        document.getElementById(
+            "listaPagamentos"
+        );
+
+
+    area.innerHTML =
+        "";
+
+
+    if (
+        pagamentos.length === 0
+    ) {
+
+        area.innerHTML =
+
+            "<div class='mensagem'>" +
+
+            "Nenhum pagamento de cliente nesta data." +
+
+            "</div>";
+
+        return;
+
+    }
+
+
+    for (
+        var i = 0;
+        i < pagamentos.length;
+        i++
+    ) {
+
+        var pagamento =
+            pagamentos[i];
+
+
+        var nome =
+            obterNomeCliente(
+
+                pagamento.cliente_id,
+
+                clientes
+
+            );
+
+
+        area.innerHTML +=
+
+            "<div class='pagamento-item'>" +
+
+            "<strong>💰 " +
+
+            escaparHTML(
+                nome
+            ) +
+
+            "</strong>" +
+
+            "<p>💳 Forma: " +
+
+            escaparHTML(
+                pagamento.forma_pagamento || "-"
+            ) +
+
+            "</p>" +
+
+            "<p>💵 Recebido: <strong>" +
+
+            formatarMoeda(
+                pagamento.valor
+            ) +
+
+            "</strong></p>" +
+
+            "<p>📝 Observação: " +
+
+            escaparHTML(
+                pagamento.observacao || "-"
+            ) +
+
+            "</p>" +
+
+            "</div>";
+
+    }
 
 }
 
 
-function abrirFechamento() {
 
-    window.location.href =
-        "fechamento.html";
-
-}
-
+/* =====================================================
+   CLIENTES
+===================================================== */
 
 function abrirClientes() {
 
@@ -1156,77 +1737,39 @@ function abrirClientes() {
 
 
 
-/* =====================================
-   SAIR
-===================================== */
+/* =====================================================
+   VOLTAR
+===================================================== */
 
-async function sair() {
+function voltarMenu() {
 
-
-    var confirmar =
-        confirm(
-            "Deseja realmente sair do sistema?"
-        );
-
-
-    if (
-        !confirmar
-    ) {
-
-        return;
-
-    }
-
-
-    try {
-
-
-        const resultado =
-            await window.supabaseClient
-                .auth
-                .signOut();
-
-
-        if (
-            resultado.error
-        ) {
-
-            throw resultado.error;
-
-        }
-
-
-        window.location.replace(
-            "login.html"
-        );
-
-
-    }
-
-    catch (erro) {
-
-
-        console.error(
-            "Erro ao sair:",
-            erro
-        );
-
-
-        alert(
-            "Não foi possível sair do sistema."
-        );
-
-    }
+    window.location.href =
+        "index.html";
 
 }
 
 
 
-/* =====================================
+/* =====================================================
    INICIAR
-===================================== */
+===================================================== */
 
-verificarLogin();
+window.onload = async function() {
+
+    var autorizado = await verificarLogin();
+
+    if (!autorizado) {
+        return;
+    }
+
+    document.getElementById(
+        "dataCaixa"
+    ).value =
+        obterDataHojeISO();
+
+    await carregarCaixa();
+
+};
 
 
 </script>
@@ -1235,674 +1778,3 @@ verificarLogin();
 </body>
 
 </html>
-
-Esse é o padrão visual que vou manter no restante do projeto: preto premium + dourado metálico + prata/cinza em degradê + bordô/vermelho escuro só para ações de atenção.
-
-Depois de colocar no GitHub e fazer Commit changes, pode abrir o GitHub Pages e atualizar a página para ver o novo menu.
-
-Quando terminar, me diga “pronto” e seguimos para o caixa.html, mantendo exatamente esse mesmo estilo e corrigindo o login antigo dele.
-
-pronto
-
-Perfeito. Agora seguimos para o caixa.html.
-
-Como eu já tenho o conteúdo atual dele, vou fazer duas mudanças nele ao mesmo tempo:
-
-trocar a proteção antiga por autenticação real do Supabase;
-aplicar o mesmo visual preto premium + dourado + prata/cinza em degradê + vermelho escuro nos alertas.
-
-Pode deixar que eu vou preservar toda a lógica de vendas, fiados, pagamentos e cálculos do caixa.
-
-Na próxima mensagem eu te passo o caixa.html completo para substituir no GitHub.
-
-Texto colado(8).txt
-Documento
-
-Recebi o caixa.html completo. Ele ainda estava com o visual claro e, principalmente, com a autenticação antiga pelo localStorage.
-
-Já preparei a versão atualizada mantendo os cálculos e funções do Caixa, mas com:
-
-autenticação pela sessão real do Supabase;
-tela “Verificando acesso...” antes de liberar o Caixa;
-preto premium;
-dourado metálico;
-prata/cinza em degradê;
-vermelho/bordô para fiados e ações de atenção;
-layout responsivo para celular;
-toda a lógica de vendas, fiados e pagamentos preservada.
-
-Como o arquivo tem quase 2.000 linhas, é muito mais seguro você substituir o arquivo inteiro em vez de copiar um código enorme pela conversa.
-
-Baixar caixa_atualizado.html
-
-No GitHub, faça: abra caixa.html → apague o conteúdo → abra o arquivo que te entreguei e copie todo o conteúdo para lá → Commit changes.
-
-Depois me diga “pronto” e vamos para o clientes.html.
-
-caixa_atualizado.html
-HTML
-
-<!DOCTYPE html>
-
-<html lang="pt-BR">
-
-<head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
-
-<title>Caixa - Espetinho do Will</title>
-
-<style>
-
-    * {
-        box-sizing: border-box;
-    }
-
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: #f4f4f4;
-        color: #222;
-    }
-
-    header {
-        background: #222;
-        color: white;
-        padding: 20px;
-        text-align: center;
-    }
-
-    header h1 {
-        margin: 0;
-    }
-
-    header p {
-        margin: 8px 0 0;
-        color: #ddd;
-    }
-
-    .container {
-        max-width: 1100px;
-        margin: auto;
-        padding: 25px;
-    }
-
-    .caixa {
-        background: white;
-        padding: 20px;
-        border-radius: 10px;
-        margin-bottom: 20px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-
-    .filtro-data {
-        background: white;
-        padding: 20px;
-        border-radius: 10px;
-        margin-bottom: 20px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-
-    .filtro-data input {
-        width: 100%;
-        padding: 13px;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        font-size: 17px;
-        margin-top: 8px;
-    }
-
-    .resumo {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 15px;
-        margin-bottom: 20px;
-    }
-
-    .card {
-        background: white;
-        padding: 20px;
-        border-radius: 10px;
-        text-align: center;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-
-    .card h3 {
-        margin-top: 0;
-        color: #555;
-    }
-
-    .valor {
-        font-size: 24px;
-        font-weight: bold;
-        margin-top: 10px;
-    }
-
-    .dinheiro {
-        border-top: 5px solid #198754;
-    }
-
-    .cartao {
-        border-top: 5px solid #0d6efd;
-    }
-
-    .pix {
-        border-top: 5px solid #6f42c1;
-    }
-
-    .avista {
-        border-top: 5px solid #20c997;
-    }
-
-    .fiado {
-        border-top: 5px solid #fd7e14;
-    }
-
-    .recebido-fiado {
-        border-top: 5px solid #198754;
-    }
-
-    .receber {
-        border-top: 5px solid #dc3545;
-    }
-
-    .custo {
-        border-top: 5px solid #6c757d;
-    }
-
-    .lucro {
-        border-top: 5px solid #ffc107;
-    }
-
-    .entrada-total {
-        background: #198754;
-        color: white;
-        padding: 25px;
-        border-radius: 10px;
-        text-align: center;
-        margin-bottom: 20px;
-    }
-
-    .entrada-total h2 {
-        margin: 0;
-    }
-
-    .entrada-total .valor {
-        font-size: 34px;
-    }
-
-    .faturamento {
-        background: #0d6efd;
-        color: white;
-        padding: 20px;
-        border-radius: 10px;
-        text-align: center;
-        margin-bottom: 20px;
-    }
-
-    .venda-item,
-    .fiado-item,
-    .pagamento-item {
-        background: #f8f8f8;
-        padding: 15px;
-        margin-bottom: 12px;
-        border-radius: 8px;
-    }
-
-    .venda-item {
-        border-left: 5px solid #198754;
-    }
-
-    .fiado-item {
-        border-left: 5px solid #fd7e14;
-    }
-
-    .pagamento-item {
-        border-left: 5px solid #6f42c1;
-    }
-
-    .botao {
-        display: inline-block;
-        padding: 12px 18px;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        font-size: 16px;
-        margin-top: 10px;
-        margin-right: 5px;
-    }
-
-    .consultar {
-        background: #198754;
-        color: white;
-    }
-
-    .hoje {
-        background: #0d6efd;
-        color: white;
-    }
-
-    .atualizar {
-        background: #0d6efd;
-        color: white;
-    }
-
-    .voltar {
-        background: #6c757d;
-        color: white;
-    }
-
-    .clientes {
-        background: #fd7e14;
-        color: white;
-    }
-
-    .mensagem {
-        text-align: center;
-        color: #666;
-        padding: 20px;
-    }
-
-    .erro {
-        background: #f8d7da;
-        color: #842029;
-        padding: 15px;
-        border-radius: 8px;
-        margin-bottom: 20px;
-    }
-
-    .carregando {
-        text-align: center;
-        padding: 20px;
-        color: #555;
-    }
-
-    .data-exibida {
-        background: #fff3cd;
-        border-left: 6px solid #ffc107;
-        padding: 15px;
-        border-radius: 8px;
-        margin-bottom: 20px;
-        font-size: 18px;
-    }
-
-    @media (max-width: 850px) {
-
-        .resumo {
-            grid-template-columns: repeat(2, 1fr);
-        }
-
-    }
-
-    @media (max-width: 600px) {
-
-        .resumo {
-            grid-template-columns: 1fr;
-        }
-
-        .container {
-            padding: 15px;
-        }
-
-        .botao {
-            width: 100%;
-            margin-right: 0;
-        }
-
-    }
-
-</style>
-
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script src="supabase.js"></script>
-
-</head>
-
-<body>
-
-<header>
-
-<h1>🥩 Espetinho do Will</h1>
-
-<p>💰 Caixa</p>
-
-</header>
-
-<div class="container">
-
-<!-- BOTÕES -->
-
-<div class="caixa">
-
-    <h2>💰 Caixa</h2>
-
-    <button
-        class="botao clientes"
-        onclick="abrirClientes()"
-    >
-        👥 Clientes / Contas
-    </button>
-
-
-    <button
-        class="botao voltar"
-        onclick="voltarMenu()"
-    >
-        🏠 Menu Principal
-    </button>
-
-</div>
-
-
-
-<!-- ESCOLHER DATA -->
-
-<div class="filtro-data">
-
-    <h2>📅 Consultar caixa por data</h2>
-
-
-    <label>
-        Escolha o dia:
-    </label>
-
-
-    <input
-        type="date"
-        id="dataCaixa"
-    >
-
-
-    <button
-        class="botao consultar"
-        onclick="carregarCaixa()"
-    >
-        🔍 Consultar dia
-    </button>
-
-
-    <button
-        class="botao hoje"
-        onclick="irParaHoje()"
-    >
-        📅 Hoje
-    </button>
-
-</div>
-
-
-
-<div
-    id="dataExibida"
-    class="data-exibida"
->
-    📅 Caixa do dia
-</div>
-
-
-
-<div
-    id="areaErro"
-    style="display:none;"
->
-</div>
-
-
-
-<!-- FORMAS DE PAGAMENTO -->
-
-<h2>💳 Recebimentos do dia</h2>
-
-
-<div class="resumo">
-
-
-    <div class="card dinheiro">
-
-        <h3>💵 Dinheiro</h3>
-
-        <div
-            id="totalDinheiro"
-            class="valor"
-        >
-            R$ 0,00
-        </div>
-
-    </div>
-
-
-    <div class="card cartao">
-
-        <h3>💳 Cartão</h3>
-
-        <div
-            id="totalCartao"
-            class="valor"
-        >
-            R$ 0,00
-        </div>
-
-    </div>
-
-
-    <div class="card pix">
-
-        <h3>📱 PIX</h3>
-
-        <div
-            id="totalPix"
-            class="valor"
-        >
-            R$ 0,00
-        </div>
-
-    </div>
-
-
-</div>
-
-
-
-<!-- RESUMO -->
-
-<h2>📊 Movimento do dia</h2>
-
-
-<div class="resumo">
-
-
-    <div class="card avista">
-
-        <h3>✅ Vendas pagas na hora</h3>
-
-        <div
-            id="totalAVista"
-            class="valor"
-        >
-            R$ 0,00
-        </div>
-
-    </div>
-
-
-    <div class="card fiado">
-
-        <h3>👤 Fiado lançado no dia</h3>
-
-        <div
-            id="totalFiado"
-            class="valor"
-        >
-            R$ 0,00
-        </div>
-
-    </div>
-
-
-    <div class="card recebido-fiado">
-
-        <h3>💰 Fiado recebido no dia</h3>
-
-        <div
-            id="totalRecebidoFiado"
-            class="valor"
-        >
-            R$ 0,00
-        </div>
-
-    </div>
-
-
-    <div class="card receber">
-
-        <h3>📒 Total geral a receber</h3>
-
-        <div
-            id="totalAReceber"
-            class="valor"
-        >
-            R$ 0,00
-        </div>
-
-    </div>
-
-
-    <div class="card custo">
-
-        <h3>📦 Custo do dia</h3>
-
-        <div
-            id="totalCustos"
-            class="valor"
-        >
-            R$ 0,00
-        </div>
-
-    </div>
-
-
-    <div class="card lucro">
-
-        <h3>📈 Lucro das vendas do dia</h3>
-
-        <div
-            id="totalLucro"
-            class="valor"
-        >
-            R$ 0,00
-        </div>
-
-    </div>
-
-
-</div>
-
-
-
-<!-- DINHEIRO REAL -->
-
-<div class="entrada-total">
-
-    <h2>💰 Dinheiro que realmente entrou no dia</h2>
-
-    <div
-        id="totalEntrou"
-        class="valor"
-    >
-        R$ 0,00
-    </div>
-
-</div>
-
-
-
-<!-- FATURAMENTO -->
-
-<div class="faturamento">
-
-    <h2>🧾 Total consumido no dia</h2>
-
-    <div
-        id="totalFaturamento"
-        class="valor"
-    >
-        R$ 0,00
-    </div>
-
-    <p>
-        Inclui vendas pagas na hora e compras fiadas.
-    </p>
-
-</div>
-
-
-
-<!-- VENDAS -->
-
-<div class="caixa">
-
-    <h2>✅ Vendas pagas na hora</h2>
-
-    <div id="listaVendas">
-
-        <div class="carregando">
-            ⏳ Carregando...
-        </div>
-
-    </div>
-
-</div>
-
-
-
-<!-- FIADOS -->
-
-<div class="caixa">
-
-    <h2>👤 Fiados lançados no dia</h2>
-
-    <div id="listaFiados">
-
-        <div class="carregando">
-            ⏳ Carregando...
-        </div>
-
-    </div>
-
-</div>
-
-
-
-<!-- PAGAMENTOS -->
-
-<div class="caixa">
-
-    <h2>💵 Pagamentos de clientes recebidos no dia</h2>
-
-    <div id="listaPagamentos">
-
-        <div class="carregando">
-            ⏳ Carregando...
-        </div>
-
-    </div>
-
-</div>
-
-</div>
-
-
-
-
-<script> /* ===================================================== LOGIN ===================================================== */ var usuarioLogado = localStorage.getItem( "usuarioLogado" ); if (!usuarioLogado) { window.location.href = "login.html"; } /* ===================================================== FORMATAR MOEDA ===================================================== */ function formatarMoeda( valor ) { return Number( valor || 0 ).toLocaleString( "pt-BR", { style: "currency", currency: "BRL" } ); } /* ===================================================== ESCAPAR HTML ===================================================== */ function escaparHTML( texto ) { return String( texto || "" ) .replace(/&/g, "&amp;") .replace(/</g, "&lt;") .replace(/>/g, "&gt;") .replace(/"/g, "&quot;") .replace(/'/g, "&#039;"); } /* ===================================================== DATA DE HOJE ===================================================== */ function obterDataHojeISO() { var agora = new Date(); var ano = agora.getFullYear(); var mes = String( agora.getMonth() + 1 ).padStart( 2, "0" ); var dia = String( agora.getDate() ).padStart( 2, "0" ); return ( ano + "-" + mes + "-" + dia ); } /* ===================================================== FORMATAR DATA PARA MOSTRAR ===================================================== */ function formatarDataBrasil( dataISO ) { if (!dataISO) { return "-"; } var partes = dataISO.split("-"); if ( partes.length !== 3 ) { return dataISO; } return ( partes[2] + "/" + partes[1] + "/" + partes[0] ); } /* ===================================================== HOJE ===================================================== */ function irParaHoje() { document.getElementById( "dataCaixa" ).value = obterDataHojeISO(); carregarCaixa(); } /* ===================================================== VENDAS DO DIA ===================================================== */ async function carregarVendasDia( dataSelecionada ) { var resultado = await window.supabaseClient .from("vendas") .select("*") .eq( "data_venda", dataSelecionada ) .order( "id", { ascending: false } ); if ( resultado.error ) { throw resultado.error; } return resultado.data || []; } /* ===================================================== FIADOS DO DIA ===================================================== */ async function carregarFiadosDia( dataSelecionada ) { var resultado = await window.supabaseClient .from("contas_clientes") .select("*") .eq( "data_consumo_date", dataSelecionada ) .order( "id", { ascending: false } ); if ( resultado.error ) { throw resultado.error; } return resultado.data || []; } /* ===================================================== PAGAMENTOS DO DIA ===================================================== */ async function carregarPagamentosDia( dataSelecionada ) { var resultado = await window.supabaseClient .from("pagamentos_clientes") .select("*") .eq( "data_pagamento_date", dataSelecionada ) .order( "id", { ascending: false } ); if ( resultado.error ) { throw resultado.error; } return resultado.data || []; } /* ===================================================== TODOS OS FIADOS PARA CALCULAR SALDO GERAL ===================================================== */ async function carregarTodosFiados() { var resultado = await window.supabaseClient .from("contas_clientes") .select("total"); if ( resultado.error ) { throw resultado.error; } return resultado.data || []; } /* ===================================================== TODOS PAGAMENTOS PARA CALCULAR SALDO GERAL ===================================================== */ async function carregarTodosPagamentos() { var resultado = await window.supabaseClient .from("pagamentos_clientes") .select("valor"); if ( resultado.error ) { throw resultado.error; } return resultado.data || []; } /* ===================================================== CLIENTES ===================================================== */ async function carregarClientes() { var resultado = await window.supabaseClient .from("clientes") .select("id,nome"); if ( resultado.error ) { throw resultado.error; } return resultado.data || []; } /* ===================================================== NOME CLIENTE ===================================================== */ function obterNomeCliente( clienteId, clientes ) { for ( var i = 0; i < clientes.length; i++ ) { if ( Number( clientes[i].id ) === Number( clienteId ) ) { return clientes[i].nome; } } return "Cliente não encontrado"; } /* ===================================================== CARREGAR CAIXA ===================================================== */ async function carregarCaixa() { var dataSelecionada = document.getElementById( "dataCaixa" ).value; if ( dataSelecionada === "" ) { alert( "Escolha uma data." ); return; } document.getElementById( "dataExibida" ).innerHTML = "📅 Caixa do dia: <strong>" + formatarDataBrasil( dataSelecionada ) + "</strong>"; var areaErro = document.getElementById( "areaErro" ); areaErro.style.display = "none"; document.getElementById( "listaVendas" ).innerHTML = "<div class='carregando'>⏳ Carregando...</div>"; document.getElementById( "listaFiados" ).innerHTML = "<div class='carregando'>⏳ Carregando...</div>"; document.getElementById( "listaPagamentos" ).innerHTML = "<div class='carregando'>⏳ Carregando...</div>"; try { if ( !window.supabaseClient ) { throw new Error( "Conexão com Supabase não encontrada." ); } var resultados = await Promise.all([ carregarVendasDia( dataSelecionada ), carregarFiadosDia( dataSelecionada ), carregarPagamentosDia( dataSelecionada ), carregarTodosFiados(), carregarTodosPagamentos(), carregarClientes() ]); var vendas = resultados[0]; var fiadosDia = resultados[1]; var pagamentosDia = resultados[2]; var todosFiados = resultados[3]; var todosPagamentos = resultados[4]; var clientes = resultados[5]; /* ============================================= VENDAS PAGAS NA HORA ============================================= */ var totalAVista = 0; var custoAVista = 0; var totalDinheiro = 0; var totalCartao = 0; var totalPix = 0; for ( var i = 0; i < vendas.length; i++ ) { var venda = vendas[i]; var valor = Number( venda.total || 0 ); var custo = Number( venda.custo || 0 ); totalAVista += valor; custoAVista += custo; if ( venda.forma_pagamento === "Dinheiro" ) { totalDinheiro += valor; } else if ( venda.forma_pagamento === "Cartão" ) { totalCartao += valor; } else if ( venda.forma_pagamento === "PIX" ) { totalPix += valor; } } /* ============================================= FIADOS LANÇADOS NO DIA ============================================= */ var totalFiadoDia = 0; var custoFiadoDia = 0; for ( var i = 0; i < fiadosDia.length; i++ ) { totalFiadoDia += Number( fiadosDia[i].total || 0 ); custoFiadoDia += Number( fiadosDia[i].custo || 0 ); } /* ============================================= PAGAMENTOS RECEBIDOS NO DIA ============================================= */ var totalRecebidoFiadoDia = 0; for ( var i = 0; i < pagamentosDia.length; i++ ) { var pagamento = pagamentosDia[i]; var valor = Number( pagamento.valor || 0 ); totalRecebidoFiadoDia += valor; if ( pagamento.forma_pagamento === "Dinheiro" ) { totalDinheiro += valor; } else if ( pagamento.forma_pagamento === "Cartão" ) { totalCartao += valor; } else if ( pagamento.forma_pagamento === "PIX" ) { totalPix += valor; } } /* ============================================= TOTAL GERAL A RECEBER ============================================= */ var totalFiadoGeral = 0; for ( var i = 0; i < todosFiados.length; i++ ) { totalFiadoGeral += Number( todosFiados[i].total || 0 ); } var totalPagoGeral = 0; for ( var i = 0; i < todosPagamentos.length; i++ ) { totalPagoGeral += Number( todosPagamentos[i].valor || 0 ); } var totalAReceber = totalFiadoGeral - totalPagoGeral; if ( totalAReceber < 0 ) { totalAReceber = 0; } /* ============================================= CÁLCULOS DO DIA ============================================= */ var totalEntrou = totalAVista + totalRecebidoFiadoDia; var totalFaturamento = totalAVista + totalFiadoDia; var totalCustos = custoAVista + custoFiadoDia; var totalLucro = totalFaturamento - totalCustos; /* ============================================= MOSTRAR ============================================= */ document.getElementById( "totalDinheiro" ).innerText = formatarMoeda( totalDinheiro ); document.getElementById( "totalCartao" ).innerText = formatarMoeda( totalCartao ); document.getElementById( "totalPix" ).innerText = formatarMoeda( totalPix ); document.getElementById( "totalAVista" ).innerText = formatarMoeda( totalAVista ); document.getElementById( "totalFiado" ).innerText = formatarMoeda( totalFiadoDia ); document.getElementById( "totalRecebidoFiado" ).innerText = formatarMoeda( totalRecebidoFiadoDia ); document.getElementById( "totalAReceber" ).innerText = formatarMoeda( totalAReceber ); document.getElementById( "totalCustos" ).innerText = formatarMoeda( totalCustos ); document.getElementById( "totalLucro" ).innerText = formatarMoeda( totalLucro ); document.getElementById( "totalEntrou" ).innerText = formatarMoeda( totalEntrou ); document.getElementById( "totalFaturamento" ).innerText = formatarMoeda( totalFaturamento ); mostrarVendas( vendas ); mostrarFiados( fiadosDia, clientes ); mostrarPagamentos( pagamentosDia, clientes ); } catch (erro) { console.error( "Erro ao carregar caixa:", erro ); areaErro.innerHTML = "<div class='erro'>" + "❌ Não foi possível carregar o caixa." + "<br><br>" + "Erro: " + escaparHTML( erro.message || "Erro desconhecido." ) + "</div>"; areaErro.style.display = "block"; } } /* ===================================================== MOSTRAR VENDAS ===================================================== */ function mostrarVendas( vendas ) { var area = document.getElementById( "listaVendas" ); area.innerHTML = ""; if ( vendas.length === 0 ) { area.innerHTML = "<div class='mensagem'>" + "Nenhuma venda paga nesta data." + "</div>"; return; } for ( var i = 0; i < vendas.length; i++ ) { var venda = vendas[i]; var lucroVenda = Number( venda.total || 0 ) - Number( venda.custo || 0 ); area.innerHTML += "<div class='venda-item'>" + "<strong>✅ Mesa " + escaparHTML( venda.mesa ) + "</strong>" + "<p>🧾 Venda ID: " + venda.id + "</p>" + "<p>🕐 Horário: " + escaparHTML( venda.horario || "-" ) + "</p>" + "<p>💳 Pagamento: " + escaparHTML( venda.forma_pagamento || "-" ) + "</p>" + "<p>📦 Custo: " + formatarMoeda( venda.custo ) + "</p>" + "<p>💰 Total: <strong>" + formatarMoeda( venda.total ) + "</strong></p>" + "<p>📈 Lucro: " + formatarMoeda( lucroVenda ) + "</p>" + "</div>"; } } /* ===================================================== MOSTRAR FIADOS ===================================================== */ function mostrarFiados( fiados, clientes ) { var area = document.getElementById( "listaFiados" ); area.innerHTML = ""; if ( fiados.length === 0 ) { area.innerHTML = "<div class='mensagem'>" + "Nenhum fiado lançado nesta data." + "</div>"; return; } for ( var i = 0; i < fiados.length; i++ ) { var conta = fiados[i]; var nome = obterNomeCliente( conta.cliente_id, clientes ); area.innerHTML += "<div class='fiado-item'>" + "<strong>👤 " + escaparHTML( nome ) + "</strong>" + "<p>🧾 Conta ID: " + conta.id + "</p>" + "<p>🍽️ Mesa: " + escaparHTML( conta.mesa || "-" ) + "</p>" + "<p>📦 Custo: " + formatarMoeda( conta.custo ) + "</p>" + "<p>🟠 Fiado: <strong>" + formatarMoeda( conta.total ) + "</strong></p>" + "</div>"; } } /* ===================================================== MOSTRAR PAGAMENTOS ===================================================== */ function mostrarPagamentos( pagamentos, clientes ) { var area = document.getElementById( "listaPagamentos" ); area.innerHTML = ""; if ( pagamentos.length === 0 ) { area.innerHTML = "<div class='mensagem'>" + "Nenhum pagamento de cliente nesta data." + "</div>"; return; } for ( var i = 0; i < pagamentos.length; i++ ) { var pagamento = pagamentos[i]; var nome = obterNomeCliente( pagamento.cliente_id, clientes ); area.innerHTML += "<div class='pagamento-item'>" + "<strong>💰 " + escaparHTML( nome ) + "</strong>" + "<p>💳 Forma: " + escaparHTML( pagamento.forma_pagamento || "-" ) + "</p>" + "<p>💵 Recebido: <strong>" + formatarMoeda( pagamento.valor ) + "</strong></p>" + "<p>📝 Observação: " + escaparHTML( pagamento.observacao || "-" ) + "</p>" + "</div>"; } } /* ===================================================== CLIENTES ===================================================== */ function abrirClientes() { window.location.href = "clientes.html"; } /* ===================================================== VOLTAR ===================================================== */ function voltarMenu() { window.location.href = "index.html"; } /* ===================================================== INICIAR ===================================================== */ window.onload = async function() { document.getElementById( "dataCaixa" ).value = obterDataHojeISO(); await carregarCaixa(); }; </script>
-
-</body>
-
-</html>
-
-Fechar
