@@ -652,6 +652,19 @@
 
 
 
+        .relatorios {
+
+            border-left:
+                2px solid
+                rgba(
+                    212,
+                    175,
+                    55,
+                    0.58
+                );
+
+        }
+
         /* =====================================
            RODAPÉ
         ====================================== */
@@ -694,63 +707,109 @@
         @media (max-width: 700px) {
 
             header {
-
-                min-height: 245px;
-
+                min-height: 175px;
             }
 
+            .cabecalho-conteudo {
+                padding: 20px 14px;
+            }
 
             .logo {
-
-                font-size: 57px;
-
+                font-size: 34px;
+                margin-bottom: 2px;
             }
-
 
             header h1 {
-
-                font-size: 31px;
-
+                font-size: 24px;
+                margin-top: 4px;
             }
-
 
             header p {
-
-                font-size: 16px;
-
+                font-size: 13px;
+                margin-top: 6px;
             }
 
+            .frase {
+                font-size: 11px;
+                margin-top: 8px;
+            }
 
             .container {
-
                 padding:
-                    30px 15px 40px;
-
+                    20px 10px 30px;
             }
 
+            .titulo {
+                margin-bottom: 18px;
+            }
+
+            .titulo h2 {
+                font-size: 22px;
+            }
+
+            .titulo p {
+                font-size: 13px;
+            }
+
+            .usuario-info {
+                font-size: 11px;
+                margin-top: 10px;
+            }
+
+            .botao-sair {
+                margin-top: 10px;
+                padding: 8px 16px;
+                font-size: 13px;
+            }
 
             .menu {
-
                 grid-template-columns:
-                    1fr;
+                    repeat(2, minmax(0, 1fr));
 
-                gap: 16px;
-
+                gap: 10px;
             }
-
 
             .botao {
-
                 padding:
-                    27px 20px;
+                    16px 9px;
 
+                min-height: 135px;
+
+                border-radius: 12px;
             }
 
-
             .icone {
+                font-size: 24px;
+                margin-bottom: 6px;
+            }
 
-                font-size: 48px;
+            .botao h2 {
+                font-size: 15px;
+                margin:
+                    4px 0 5px;
+            }
 
+            .botao p {
+                font-size: 11px;
+                line-height: 1.35;
+            }
+
+        }
+
+        @media (max-width: 360px) {
+
+            .botao {
+                padding:
+                    14px 7px;
+                min-height: 128px;
+            }
+
+            .botao h2 {
+                font-size: 14px;
+            }
+
+            .botao p {
+                font-size: 10px;
             }
 
         }
@@ -979,6 +1038,28 @@
         </div>
 
 
+
+        <!-- RELATÓRIOS -->
+
+        <div
+            class="botao relatorios"
+            onclick="abrirRelatorios()"
+        >
+
+            <div class="icone">
+                📈
+            </div>
+
+            <h2>
+                Relatórios
+            </h2>
+
+            <p>
+                Consultar resultados por período
+            </p>
+
+        </div>
+
     </div>
 
 </div>
@@ -1141,6 +1222,14 @@ function abrirClientes() {
 
     window.location.href =
         "clientes.html";
+
+}
+
+
+function abrirRelatorios() {
+
+    window.location.href =
+        "relatorios.html";
 
 }
 
