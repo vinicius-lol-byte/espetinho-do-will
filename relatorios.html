@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -12,49 +11,199 @@
     <title>Relatórios - Espetinho do Will</title>
 
 
-    <style>
+        <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --preto: #070707;
+            --preto-2: #101010;
+            --preto-3: #1a1a1a;
+
+            --dourado: #d4af37;
+            --dourado-claro: #f0d77a;
+            --dourado-escuro: #8e6f1e;
+
+            --prata: #d7d7d7;
+            --prata-2: #8f8f8f;
+
+            --bordo: #7d1e24;
+            --bordo-claro: #a62a32;
+
+            --verde: #789480;
+            --texto: #f4f4f4;
+            --texto-2: #b7b7b7;
+        }
 
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f4f4;
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--texto);
+
+            background:
+                radial-gradient(
+                    circle at top,
+                    #1a1a1a 0%,
+                    #0d0d0d 38%,
+                    #050505 100%
+                );
         }
 
+        .tela-carregando {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background:
+                radial-gradient(
+                    circle,
+                    #171717,
+                    #050505
+                );
+
+            color: var(--dourado-claro);
+            font-size: 18px;
+            font-weight: bold;
+        }
 
         header {
-            background: #222;
-            color: white;
-            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            padding: 28px 20px;
             text-align: center;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #111111,
+                    #050505
+                );
+
+            border-bottom:
+                1px solid rgba(212,175,55,0.65);
+
+            box-shadow:
+                0 8px 28px rgba(0,0,0,0.45);
         }
 
+        header::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 3px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    var(--dourado),
+                    var(--prata),
+                    var(--dourado),
+                    transparent
+                );
+        }
 
         header h1 {
             margin: 0;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--dourado-escuro),
+                    var(--dourado-claro),
+                    #fff1a8,
+                    var(--dourado)
+                );
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
+        header p {
+            margin: 8px 0 0;
+            color: #d0d0d0;
+        }
 
         .container {
             max-width: 1000px;
             margin: auto;
-            padding: 25px;
+            padding: 28px 20px 45px;
         }
 
+        h2 {
+            color: var(--dourado-claro);
+        }
 
         .voltar {
-            background: #333;
-            color: white;
+            background:
+                linear-gradient(
+                    180deg,
+                    #3b3b3b,
+                    #1e1e1e
+                );
+
+            color: var(--prata);
+            border-color: #585858;
             margin-bottom: 20px;
         }
 
+        .caixa,
+        .card,
+        .pagamento,
+        .lista,
+        .aviso {
+            position: relative;
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #202020,
+                    #111111 58%,
+                    #171717
+                );
+
+            border: 1px solid #393939;
+            border-radius: 13px;
+
+            box-shadow:
+                0 9px 26px rgba(0,0,0,0.34),
+                inset 0 1px 0 rgba(255,255,255,0.04);
+        }
 
         .caixa {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
+            padding: 22px;
             margin-bottom: 20px;
         }
 
+        .caixa::before,
+        .lista::before,
+        .aviso::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            height: 3px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--dourado-escuro),
+                    var(--dourado-claro),
+                    var(--prata),
+                    var(--dourado)
+                );
+        }
 
         .filtros {
             display: flex;
@@ -62,28 +211,67 @@
             flex-wrap: wrap;
         }
 
-
         .filtros input {
             flex: 1;
             min-width: 180px;
-            padding: 12px;
-            box-sizing: border-box;
+            padding: 13px;
+
+            color: #f4f4f4;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #171717,
+                    #101010
+                );
+
+            border: 1px solid #454545;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
         }
 
+        .filtros input:focus {
+            border-color: var(--dourado);
+
+            box-shadow:
+                0 0 0 3px rgba(212,175,55,0.10);
+        }
 
         button {
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
             padding: 12px 18px;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: bold;
+            color: white;
+
+            border: 1px solid #555;
+
+            box-shadow:
+                0 5px 15px rgba(0,0,0,0.28);
+
+            transition:
+                transform 0.2s,
+                filter 0.2s;
         }
 
+        button:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.12);
+        }
 
         .consultar {
-            background: #0d6efd;
-            color: white;
-        }
+            background:
+                linear-gradient(
+                    180deg,
+                    #b89228,
+                    #725714
+                );
 
+            border-color:
+                rgba(240,215,122,0.55);
+        }
 
         .resumo {
             display: grid;
@@ -91,31 +279,42 @@
             gap: 15px;
         }
 
-
         .card {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 22px;
         }
 
+        .card:nth-child(1) {
+            border-top: 4px solid var(--dourado);
+        }
+
+        .card:nth-child(2) {
+            border-top: 4px solid var(--prata-2);
+        }
+
+        .card:nth-child(3) {
+            border-top: 4px solid var(--dourado-claro);
+        }
+
+        .card:nth-child(4) {
+            border-top: 4px solid var(--verde);
+        }
 
         .card h3 {
             margin-top: 0;
+            color: #c9c9c9;
         }
-
 
         .valor {
             font-size: 24px;
             font-weight: bold;
+            color: #ffffff;
         }
-
 
         .lucro {
             font-size: 28px;
             font-weight: bold;
+            color: var(--dourado-claro);
         }
-
 
         .pagamentos {
             display: grid;
@@ -124,155 +323,102 @@
             margin-top: 20px;
         }
 
-
         .pagamento {
-            background: white;
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
-
 
         .pagamento h3 {
             margin-top: 0;
+            color: #d2d2d2;
         }
-
 
         .dinheiro {
-            border-left: 6px solid #198754;
+            border-left: 5px solid var(--verde);
         }
-
 
         .cartao {
-            border-left: 6px solid #0d6efd;
+            border-left: 5px solid var(--prata-2);
         }
-
 
         .pix {
-            border-left: 6px solid #6f42c1;
+            border-left: 5px solid var(--dourado);
         }
-
 
         .lista {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
+            padding: 22px;
             margin-top: 20px;
         }
-
 
         .produto {
             padding: 12px 0;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #3c3c3c;
+            color: #d0d0d0;
         }
 
-
         .mesa {
-            background: #f8f8f8;
+            background:
+                linear-gradient(
+                    145deg,
+                    #1d1d1d,
+                    #101010
+                );
+
             padding: 15px;
             margin-bottom: 10px;
             border-radius: 8px;
+            border: 1px solid #373737;
+            border-left: 5px solid var(--dourado);
         }
 
+        .mesa h3 {
+            color: var(--dourado-claro);
+        }
+
+        .mesa p {
+            color: #c6c6c6;
+        }
 
         .aviso {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
+            padding: 22px;
             margin-top: 20px;
+            color: #c6c6c6;
         }
-
-
-        /* =========================================
-           TELA DE SENHA
-        ========================================= */
-
-        #telaSenha {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #222;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-        }
-
-
-        .caixaSenha {
-            background: white;
-            width: 90%;
-            max-width: 400px;
-            padding: 30px;
-            border-radius: 15px;
-            text-align: center;
-            box-sizing: border-box;
-        }
-
-
-        .caixaSenha h2 {
-            margin-top: 0;
-        }
-
-
-        .caixaSenha input {
-            width: 100%;
-            padding: 14px;
-            margin-top: 15px;
-            margin-bottom: 15px;
-            box-sizing: border-box;
-            font-size: 18px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-        }
-
-
-        .botaoSenha {
-            width: 100%;
-            background: #198754;
-            color: white;
-            font-size: 18px;
-        }
-
-
-        .erroSenha {
-            color: #dc3545;
-            font-weight: bold;
-            margin-top: 15px;
-            display: none;
-        }
-
-
-        .sairSenha {
-            width: 100%;
-            background: #6c757d;
-            color: white;
-            font-size: 16px;
-            margin-top: 10px;
-        }
-
 
         @media (max-width: 700px) {
 
-            .resumo {
-                grid-template-columns: 1fr;
-            }
-
-
+            .resumo,
             .pagamentos {
                 grid-template-columns: 1fr;
             }
 
-
             .container {
-                padding: 15px;
+                padding: 18px 14px 35px;
+            }
+
+            .filtros {
+                display: block;
+            }
+
+            .filtros input,
+            .filtros button {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .voltar {
+                width: 100%;
+            }
+
+            header {
+                padding: 24px 15px;
             }
 
         }
 
     </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase.js"></script>
 
 </head>
 
@@ -280,60 +426,11 @@
 <body>
 
 
-<!-- =========================================
-     TELA DE SENHA
-========================================= -->
-
-<div id="telaSenha">
-
-    <div class="caixaSenha">
-
-        <h2>🔐 Área restrita</h2>
-
-        <p>
-            Digite a senha para acessar os relatórios.
-        </p>
-
-
-        <input
-            type="password"
-            id="senhaRelatorio"
-            placeholder="Digite a senha"
-            onkeydown="pressionarEnter(event)"
-        >
-
-
-        <button
-            class="botaoSenha"
-            onclick="verificarSenha()"
-        >
-
-            🔓 Entrar
-
-        </button>
-
-
-        <div
-            id="erroSenha"
-            class="erroSenha"
-        >
-
-            ❌ Senha incorreta.
-
-        </div>
-
-
-        <button
-            class="sairSenha"
-            onclick="voltarLogin()"
-        >
-
-            ⬅️ Voltar
-
-        </button>
-
-    </div>
-
+<div
+    id="telaCarregando"
+    class="tela-carregando"
+>
+    🔐 Verificando acesso...
 </div>
 
 
@@ -607,119 +704,65 @@
 
 
 /* =====================================================
-   SENHA DO RELATÓRIO
+   LOGIN COM SUPABASE
 ===================================================== */
 
+async function verificarLogin() {
 
-/*
-   TROQUE A SENHA ABAIXO
-   PELA SENHA QUE VOCÊ QUISER.
-*/
+    try {
 
+        if (!window.supabaseClient) {
 
-var SENHA_RELATORIO = "1234";
+            throw new Error(
+                "Supabase não carregou."
+            );
 
+        }
 
-var relatorioLiberado = false;
+        var resultado =
+            await window.supabaseClient
+                .auth
+                .getSession();
 
+        if (resultado.error) {
 
+            throw resultado.error;
 
-/* =====================================================
-   VERIFICAR SENHA
-===================================================== */
+        }
 
+        var sessao =
+            resultado.data.session;
 
-function verificarSenha() {
+        if (!sessao) {
 
+            window.location.replace(
+                "login.html"
+            );
 
-    var senha =
-        document.getElementById(
-            "senhaRelatorio"
-        ).value;
+            return false;
 
+        }
 
-    if (
-        senha === SENHA_RELATORIO
-    ) {
-
-
-        relatorioLiberado = true;
-
-
-        document.getElementById(
-            "telaSenha"
-        ).style.display =
-            "none";
-
-
-        document.getElementById(
-            "senhaRelatorio"
-        ).value = "";
-
-
-        document.getElementById(
-            "erroSenha"
-        ).style.display =
-            "none";
-
+        return true;
 
     }
 
-    else {
+    catch (erro) {
 
+        console.error(
+            "Erro ao verificar login:",
+            erro
+        );
 
-        document.getElementById(
-            "erroSenha"
-        ).style.display =
-            "block";
+        window.location.replace(
+            "login.html"
+        );
 
-
-        document.getElementById(
-            "senhaRelatorio"
-        ).value = "";
-
-
-        document.getElementById(
-            "senhaRelatorio"
-        ).focus();
+        return false;
 
     }
 
 }
-
-
-
-/* =====================================================
-   ENTER NA SENHA
-===================================================== */
-
-
-function pressionarEnter(event) {
-
-    if (
-        event.key === "Enter"
-    ) {
-
-        verificarSenha();
-
-    }
-
-}
-
-
-
-/* =====================================================
-   VOLTAR
-===================================================== */
-
-
-function voltarLogin() {
-
-    window.location.href =
-        "index.html";
-
-}
-
 
 
 /* =====================================================
@@ -728,20 +771,7 @@ function voltarLogin() {
 
 
 function consultarRelatorio() {
-
-
-    if (!relatorioLiberado) {
-
-        alert(
-            "Digite a senha para acessar os relatórios."
-        );
-
-        return;
-
-    }
-
-
-    var dataInicial =
+var dataInicial =
         document.getElementById(
             "dataInicial"
         ).value;
@@ -1284,72 +1314,62 @@ function mostrarRelatorio(
 ===================================================== */
 
 
-window.onload = function() {
+window.onload =
+    async function() {
 
+        var autorizado =
+            await verificarLogin();
 
-    /*
-       O RELATÓRIO COMEÇA BLOQUEADO.
-    */
+        if (!autorizado) {
 
+            return;
 
-    document.getElementById(
-        "telaSenha"
-    ).style.display =
-        "flex";
+        }
 
+        document.getElementById(
+            "resultado"
+        ).style.display =
+            "none";
 
-    document.getElementById(
-        "resultado"
-    ).style.display =
-        "none";
+        var hoje =
+            new Date();
 
+        var ano =
+            hoje.getFullYear();
 
+        var mes =
+            String(
+                hoje.getMonth() + 1
+            ).padStart(2, "0");
 
-    var hoje =
-        new Date();
+        var dia =
+            String(
+                hoje.getDate()
+            ).padStart(2, "0");
 
+        var hojeFormatado =
+            ano +
+            "-" +
+            mes +
+            "-" +
+            dia;
 
-    var ano =
-        hoje.getFullYear();
+        document.getElementById(
+            "dataInicial"
+        ).value =
+            hojeFormatado;
 
+        document.getElementById(
+            "dataFinal"
+        ).value =
+            hojeFormatado;
 
-    var mes =
-        String(
-            hoje.getMonth() + 1
-        ).padStart(2, "0");
+        document.getElementById(
+            "telaCarregando"
+        ).style.display =
+            "none";
 
-
-    var dia =
-        String(
-            hoje.getDate()
-        ).padStart(2, "0");
-
-
-    var hojeFormatado =
-        ano +
-        "-" +
-        mes +
-        "-" +
-        dia;
-
-
-    document.getElementById(
-        "dataInicial"
-    ).value =
-        hojeFormatado;
-
-
-    document.getElementById(
-        "dataFinal"
-    ).value =
-        hojeFormatado;
-
-
-    document.getElementById(
-        "senhaRelatorio"
-    ).focus();
-
-};
+    };
 
 </script>
 
@@ -1357,4 +1377,3 @@ window.onload = function() {
 </body>
 
 </html>
-```
