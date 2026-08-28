@@ -5,8 +5,10 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Espetinho do Will - Menu Principal</title>
 
@@ -18,28 +20,98 @@
         }
 
 
-        body {
+        :root {
 
-            margin: 0;
+            --preto: #070707;
+            --preto-2: #111111;
+            --preto-3: #1b1b1b;
 
-            font-family: Arial, sans-serif;
+            --dourado: #d4af37;
+            --dourado-claro: #f0d77a;
+            --dourado-escuro: #9d7c1f;
 
-            background-color: #f4f4f4;
+            --prata: #d7d7d7;
+            --prata-2: #8f8f8f;
 
-            color: #222;
+            --vermelho: #8f1d1d;
+            --vermelho-claro: #b82929;
+
+            --texto: #f4f4f4;
+            --texto-secundario: #adadad;
 
         }
 
 
-        /* ================================
+        body {
+
+            margin: 0;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            min-height: 100vh;
+
+            color: var(--texto);
+
+            background:
+
+                radial-gradient(
+                    circle at top,
+                    #1b1b1b 0%,
+                    #0d0d0d 35%,
+                    #050505 100%
+                );
+
+        }
+
+
+
+        /* =====================================
+           TELA DE CARREGAMENTO
+        ====================================== */
+
+        .tela-carregando {
+
+            position: fixed;
+
+            inset: 0;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            z-index: 9999;
+
+            background:
+                radial-gradient(
+                    circle,
+                    #171717,
+                    #050505
+                );
+
+            color: var(--dourado-claro);
+
+            font-size: 18px;
+
+            font-weight: bold;
+
+        }
+
+
+
+        /* =====================================
            CABEÇALHO
-        ================================= */
+        ====================================== */
 
         header {
 
             position: relative;
 
-            min-height: 260px;
+            min-height: 290px;
 
             display: flex;
 
@@ -49,15 +121,22 @@
 
             text-align: center;
 
-            color: white;
-
             overflow: hidden;
+
+            border-bottom:
+                1px solid rgba(
+                    212,
+                    175,
+                    55,
+                    0.65
+                );
 
             background:
 
                 linear-gradient(
-                    rgba(0,0,0,0.65),
-                    rgba(0,0,0,0.65)
+                    180deg,
+                    rgba(0,0,0,0.62),
+                    rgba(0,0,0,0.92)
                 ),
 
                 url("tema-espetinho.jpg");
@@ -65,6 +144,35 @@
             background-size: cover;
 
             background-position: center;
+
+            box-shadow:
+                0 10px 35px
+                rgba(0,0,0,0.55);
+
+        }
+
+
+        header::after {
+
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+            height: 3px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    var(--dourado),
+                    var(--prata),
+                    var(--dourado),
+                    transparent
+                );
 
         }
 
@@ -75,28 +183,52 @@
 
             z-index: 2;
 
-            padding: 20px;
+            padding: 30px 20px;
 
         }
 
 
         .logo {
 
-            font-size: 65px;
+            font-size: 68px;
 
-            margin-bottom: 5px;
+            filter:
+                drop-shadow(
+                    0 4px 8px
+                    rgba(0,0,0,0.65)
+                );
 
         }
 
 
         header h1 {
 
-            margin: 0;
+            margin:
+                8px 0 0;
 
-            font-size: 38px;
+            font-size: 40px;
+
+            letter-spacing: 0.5px;
+
+            background:
+
+                linear-gradient(
+                    90deg,
+                    var(--dourado-escuro),
+                    var(--dourado-claro),
+                    #fff1a8,
+                    var(--dourado)
+                );
+
+            -webkit-background-clip: text;
+
+            -webkit-text-fill-color: transparent;
+
+            background-clip: text;
 
             text-shadow:
-                2px 2px 5px black;
+                0 3px 10px
+                rgba(0,0,0,0.55);
 
         }
 
@@ -105,9 +237,11 @@
 
             margin-top: 10px;
 
+            margin-bottom: 0;
+
             font-size: 18px;
 
-            color: #eee;
+            color: #dddddd;
 
         }
 
@@ -116,27 +250,30 @@
 
             margin-top: 15px;
 
-            font-size: 15px;
+            font-size: 14px;
 
-            color: #ffc107;
+            color: var(--dourado-claro);
 
             font-weight: bold;
+
+            letter-spacing: 0.4px;
 
         }
 
 
 
-        /* ================================
+        /* =====================================
            CONTAINER
-        ================================= */
+        ====================================== */
 
         .container {
 
-            max-width: 1050px;
+            max-width: 1100px;
 
             margin: auto;
 
-            padding: 30px 20px 40px;
+            padding:
+                38px 20px 50px;
 
         }
 
@@ -145,64 +282,119 @@
 
             text-align: center;
 
-            margin-bottom: 25px;
+            margin-bottom: 32px;
 
         }
 
 
         .titulo h2 {
 
-            margin-bottom: 5px;
+            margin:
+                0 0 6px;
+
+            font-size: 29px;
+
+            background:
+
+                linear-gradient(
+                    90deg,
+                    var(--prata-2),
+                    #f5f5f5,
+                    var(--dourado-claro)
+                );
+
+            -webkit-background-clip: text;
+
+            -webkit-text-fill-color: transparent;
+
+            background-clip: text;
 
         }
 
 
         .titulo p {
 
-            color: #666;
+            margin: 0;
+
+            color: var(--texto-secundario);
+
+        }
+
+
+        .usuario-info {
+
+            margin-top: 14px;
+
+            font-size: 14px;
+
+            color: #c4c4c4;
 
         }
 
 
 
-        /* ================================
+        /* =====================================
            BOTÃO SAIR
-        ================================= */
+        ====================================== */
 
         .botao-sair {
 
-            margin-top: 10px;
+            margin-top: 16px;
 
-            padding: 11px 24px;
+            padding:
+                11px 24px;
 
-            border: none;
+            border:
+                1px solid
+                #6f2020;
 
             border-radius: 8px;
 
-            background: #dc3545;
+            background:
 
-            color: white;
+                linear-gradient(
+                    180deg,
+                    #4d1212,
+                    #2d0d0d
+                );
 
-            font-size: 16px;
+            color: #ffd7d7;
+
+            font-size: 15px;
+
+            font-weight: bold;
 
             cursor: pointer;
 
-            font-weight: bold;
+            transition: 0.2s;
+
+            box-shadow:
+                0 5px 15px
+                rgba(0,0,0,0.3);
 
         }
 
 
         .botao-sair:hover {
 
-            background: #bb2d3b;
+            background:
+
+                linear-gradient(
+                    180deg,
+                    var(--vermelho-claro),
+                    var(--vermelho)
+                );
+
+            transform:
+                translateY(-2px);
 
         }
 
 
 
-        /* ================================
+        /* =====================================
            MENU
-        ================================= */
+        ====================================== */
 
         .menu {
 
@@ -211,32 +403,100 @@
             grid-template-columns:
                 repeat(2, 1fr);
 
-            gap: 20px;
+            gap: 22px;
 
         }
 
 
         .botao {
 
-            background: white;
+            position: relative;
 
-            padding: 30px;
+            overflow: hidden;
 
-            border-radius: 15px;
+            padding: 32px 28px;
+
+            border-radius: 16px;
 
             text-align: center;
 
             cursor: pointer;
 
+            border:
+                1px solid
+                #3c3c3c;
+
+            background:
+
+                linear-gradient(
+                    145deg,
+                    #212121,
+                    #111111 55%,
+                    #181818
+                );
+
             box-shadow:
-                0 3px 12px
-                rgba(0,0,0,0.12);
+
+                0 10px 30px
+                rgba(0,0,0,0.38),
+
+                inset 0 1px 0
+                rgba(255,255,255,0.05);
 
             transition:
                 transform 0.2s,
+                border-color 0.2s,
                 box-shadow 0.2s;
 
-            border-top: 6px solid #222;
+        }
+
+
+        .botao::before {
+
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: 0;
+            right: 0;
+
+            height: 4px;
+
+            background:
+
+                linear-gradient(
+                    90deg,
+                    var(--dourado-escuro),
+                    var(--dourado-claro),
+                    var(--prata),
+                    var(--dourado)
+                );
+
+        }
+
+
+        .botao::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 120px;
+            height: 120px;
+
+            top: -70px;
+            right: -50px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(
+                    212,
+                    175,
+                    55,
+                    0.05
+                );
 
         }
 
@@ -246,142 +506,250 @@
             transform:
                 translateY(-5px);
 
+            border-color:
+                rgba(
+                    212,
+                    175,
+                    55,
+                    0.7
+                );
+
             box-shadow:
-                0 7px 20px
-                rgba(0,0,0,0.20);
+
+                0 14px 36px
+                rgba(0,0,0,0.55),
+
+                0 0 18px
+                rgba(
+                    212,
+                    175,
+                    55,
+                    0.08
+                );
 
         }
 
 
         .icone {
 
-            font-size: 55px;
+            position: relative;
 
-            margin-bottom: 10px;
+            z-index: 2;
+
+            font-size: 54px;
+
+            margin-bottom: 12px;
 
         }
 
 
         .botao h2 {
 
-            margin: 8px 0;
+            position: relative;
+
+            z-index: 2;
+
+            margin:
+                7px 0 8px;
+
+            font-size: 22px;
+
+            color:
+                var(--dourado-claro);
 
         }
 
 
         .botao p {
 
-            color: #666;
+            position: relative;
+
+            z-index: 2;
 
             margin: 0;
+
+            color:
+                var(--texto-secundario);
+
+            line-height: 1.5;
 
         }
 
 
 
-        /* ================================
-           CORES DOS BOTÕES
-        ================================= */
-
+        /* =====================================
+           DETALHE DIFERENTE EM CADA CARD
+        ====================================== */
 
         .pedidos {
 
-            border-top-color: #198754;
+            border-left:
+                2px solid
+                rgba(
+                    212,
+                    175,
+                    55,
+                    0.45
+                );
 
         }
 
 
         .estoque {
 
-            border-top-color: #0d6efd;
+            border-left:
+                2px solid
+                rgba(
+                    190,
+                    190,
+                    190,
+                    0.55
+                );
 
         }
 
 
         .caixa {
 
-            border-top-color: #ffc107;
+            border-left:
+                2px solid
+                rgba(
+                    212,
+                    175,
+                    55,
+                    0.75
+                );
 
         }
 
 
         .fechamento {
 
-            border-top-color: #6f42c1;
+            border-left:
+                2px solid
+                rgba(
+                    160,
+                    160,
+                    160,
+                    0.55
+                );
 
         }
 
 
         .clientes {
 
-            border-top-color: #fd7e14;
+            border-left:
+                2px solid
+                rgba(
+                    129,
+                    29,
+                    29,
+                    0.55
+                );
 
         }
 
 
 
-        /* ================================
+        /* =====================================
            RODAPÉ
-        ================================= */
+        ====================================== */
 
         footer {
 
             text-align: center;
 
-            padding: 20px;
+            padding:
+                24px 20px;
 
-            color: #777;
+            color:
+                #747474;
 
-            font-size: 14px;
+            font-size: 13px;
+
+            border-top:
+                1px solid
+                #1f1f1f;
+
+            background:
+                #050505;
 
         }
 
 
         footer strong {
 
-            color: #222;
+            color:
+                var(--dourado);
 
         }
 
 
 
-        /* ================================
+        /* =====================================
            CELULAR
-        ================================= */
+        ====================================== */
 
         @media (max-width: 700px) {
 
             header {
 
-                min-height: 230px;
-
-            }
-
-
-            header h1 {
-
-                font-size: 30px;
+                min-height: 245px;
 
             }
 
 
             .logo {
 
-                font-size: 55px;
+                font-size: 57px;
+
+            }
+
+
+            header h1 {
+
+                font-size: 31px;
+
+            }
+
+
+            header p {
+
+                font-size: 16px;
+
+            }
+
+
+            .container {
+
+                padding:
+                    30px 15px 40px;
 
             }
 
 
             .menu {
 
-                grid-template-columns: 1fr;
+                grid-template-columns:
+                    1fr;
+
+                gap: 16px;
 
             }
 
 
             .botao {
 
-                padding: 25px;
+                padding:
+                    27px 20px;
+
+            }
+
+
+            .icone {
+
+                font-size: 48px;
 
             }
 
@@ -389,10 +757,35 @@
 
     </style>
 
+
+    <!-- SUPABASE -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+    </script>
+
+    <script src="supabase.js"></script>
+
+
 </head>
 
 
 <body>
+
+
+<!-- =====================================
+     CARREGANDO
+====================================== -->
+
+<div
+    id="telaCarregando"
+    class="tela-carregando"
+>
+
+    🔐 Verificando acesso...
+
+</div>
+
 
 
 <!-- =====================================
@@ -407,13 +800,16 @@
             🥩🔥
         </div>
 
+
         <h1>
             Espetinho do Will
         </h1>
 
+
         <p>
             Sistema de controle
         </p>
+
 
         <div class="frase">
             🔥 Sabor na brasa, qualidade na mesa 🔥
@@ -434,13 +830,22 @@
 
     <div class="titulo">
 
+
         <h2>
             Menu Principal
         </h2>
 
+
         <p>
             Escolha uma opção
         </p>
+
+
+        <div
+            id="usuarioInfo"
+            class="usuario-info"
+        >
+        </div>
 
 
         <button
@@ -452,13 +857,10 @@
 
         </button>
 
+
     </div>
 
 
-
-    <!-- =================================
-         MENU
-    ================================== -->
 
     <div class="menu">
 
@@ -555,7 +957,7 @@
 
 
 
-        <!-- CLIENTES / CONTAS -->
+        <!-- CLIENTES -->
 
         <div
             class="botao clientes"
@@ -605,26 +1007,102 @@
 
 
 /* =====================================
-   PROTEÇÃO DO MENU
+   VERIFICAR LOGIN
 ===================================== */
 
-var usuarioLogado =
-    localStorage.getItem(
-        "usuarioLogado"
-    );
+async function verificarLogin() {
 
 
-if (!usuarioLogado) {
+    try {
 
-    window.location.href =
-        "login.html";
+
+        if (
+            !window.supabaseClient
+        ) {
+
+            throw new Error(
+                "Supabase não carregou."
+            );
+
+        }
+
+
+        const resultado =
+            await window.supabaseClient
+                .auth
+                .getSession();
+
+
+        if (
+            resultado.error
+        ) {
+
+            throw resultado.error;
+
+        }
+
+
+        const sessao =
+            resultado.data.session;
+
+
+        if (
+            !sessao
+        ) {
+
+            window.location.replace(
+                "login.html"
+            );
+
+            return;
+
+        }
+
+
+        if (
+            sessao.user &&
+            sessao.user.email
+        ) {
+
+            document.getElementById(
+                "usuarioInfo"
+            ).innerText =
+
+                "Conectado como: " +
+                sessao.user.email;
+
+        }
+
+
+        document.getElementById(
+            "telaCarregando"
+        ).style.display =
+            "none";
+
+
+    }
+
+    catch (erro) {
+
+
+        console.error(
+            "Erro ao verificar login:",
+            erro
+        );
+
+
+        window.location.replace(
+            "login.html"
+        );
+
+    }
 
 }
 
 
 
 /* =====================================
-   PEDIDOS
+   NAVEGAÇÃO
 ===================================== */
 
 function abrirPedidos() {
@@ -635,11 +1113,6 @@ function abrirPedidos() {
 }
 
 
-
-/* =====================================
-   ESTOQUE
-===================================== */
-
 function abrirEstoque() {
 
     window.location.href =
@@ -647,11 +1120,6 @@ function abrirEstoque() {
 
 }
 
-
-
-/* =====================================
-   CAIXA
-===================================== */
 
 function abrirCaixa() {
 
@@ -661,11 +1129,6 @@ function abrirCaixa() {
 }
 
 
-
-/* =====================================
-   FECHAMENTO
-===================================== */
-
 function abrirFechamento() {
 
     window.location.href =
@@ -673,11 +1136,6 @@ function abrirFechamento() {
 
 }
 
-
-
-/* =====================================
-   CLIENTES / CONTAS
-===================================== */
 
 function abrirClientes() {
 
@@ -692,7 +1150,7 @@ function abrirClientes() {
    SAIR
 ===================================== */
 
-function sair() {
+async function sair() {
 
 
     var confirmar =
@@ -701,22 +1159,64 @@ function sair() {
         );
 
 
-    if (!confirmar) {
+    if (
+        !confirmar
+    ) {
 
         return;
 
     }
 
 
-    localStorage.removeItem(
-        "usuarioLogado"
-    );
+    try {
 
 
-    window.location.href =
-        "login.html";
+        const resultado =
+            await window.supabaseClient
+                .auth
+                .signOut();
+
+
+        if (
+            resultado.error
+        ) {
+
+            throw resultado.error;
+
+        }
+
+
+        window.location.replace(
+            "login.html"
+        );
+
+
+    }
+
+    catch (erro) {
+
+
+        console.error(
+            "Erro ao sair:",
+            erro
+        );
+
+
+        alert(
+            "Não foi possível sair do sistema."
+        );
+
+    }
 
 }
+
+
+
+/* =====================================
+   INICIAR
+===================================== */
+
+verificarLogin();
 
 
 </script>
