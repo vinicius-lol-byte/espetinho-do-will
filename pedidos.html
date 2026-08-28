@@ -12,53 +12,228 @@
 
     <title>Pedidos - Espetinho do Will</title>
 
-    <style>
+        <style>
 
         * {
             box-sizing: border-box;
         }
 
+        :root {
+            --preto: #070707;
+            --preto-2: #101010;
+            --preto-3: #1a1a1a;
+
+            --dourado: #d4af37;
+            --dourado-claro: #f0d77a;
+            --dourado-escuro: #8e6f1e;
+
+            --prata: #d7d7d7;
+            --prata-2: #8f8f8f;
+
+            --bordo: #7d1e24;
+            --bordo-claro: #a62a32;
+
+            --verde: #789480;
+            --texto: #f4f4f4;
+            --texto-2: #b7b7b7;
+        }
+
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f4f4;
-            color: #222;
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--texto);
+
+            background:
+                radial-gradient(
+                    circle at top,
+                    #1a1a1a 0%,
+                    #0d0d0d 38%,
+                    #050505 100%
+                );
+        }
+
+        .tela-carregando {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background:
+                radial-gradient(
+                    circle,
+                    #171717,
+                    #050505
+                );
+
+            color: var(--dourado-claro);
+            font-size: 18px;
+            font-weight: bold;
         }
 
         header {
-            background: #222;
-            color: white;
-            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            padding: 28px 20px;
             text-align: center;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #111111,
+                    #050505
+                );
+
+            border-bottom:
+                1px solid rgba(212,175,55,0.65);
+
+            box-shadow:
+                0 8px 28px rgba(0,0,0,0.45);
+        }
+
+        header::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 3px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    var(--dourado),
+                    var(--prata),
+                    var(--dourado),
+                    transparent
+                );
         }
 
         header h1 {
             margin: 0;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--dourado-escuro),
+                    var(--dourado-claro),
+                    #fff1a8,
+                    var(--dourado)
+                );
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        header p {
+            margin: 8px 0 0;
+            color: #d0d0d0;
         }
 
         .container {
             max-width: 900px;
             margin: auto;
-            padding: 25px;
+            padding: 28px 20px 45px;
+        }
+
+        h2 {
+            color: var(--dourado-claro);
+        }
+
+        .caixa,
+        .item,
+        .total,
+        .pagamento,
+        .comprovante-area,
+        .fechamento-dia {
+            position: relative;
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #202020,
+                    #111111 58%,
+                    #171717
+                );
+
+            border: 1px solid #393939;
+            border-radius: 13px;
+
+            box-shadow:
+                0 9px 26px rgba(0,0,0,0.34),
+                inset 0 1px 0 rgba(255,255,255,0.04);
         }
 
         .caixa {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
+            padding: 22px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .caixa::before,
+        .total::before,
+        .pagamento::before,
+        .comprovante-area::before,
+        .fechamento-dia::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            height: 3px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--dourado-escuro),
+                    var(--dourado-claro),
+                    var(--prata),
+                    var(--dourado)
+                );
+        }
+
+        label {
+            color: #dddddd;
+            font-weight: bold;
         }
 
         select,
         input {
             width: 100%;
-            padding: 12px;
-            margin-top: 5px;
+            padding: 13px;
+            margin-top: 6px;
             margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
+
+            color: #f4f4f4;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #171717,
+                    #101010
+                );
+
+            border: 1px solid #454545;
+            border-radius: 8px;
             font-size: 16px;
+            outline: none;
+        }
+
+        select:focus,
+        input:focus {
+            border-color: var(--dourado);
+
+            box-shadow:
+                0 0 0 3px rgba(212,175,55,0.10);
+        }
+
+        select option {
+            background: #151515;
+            color: #ffffff;
         }
 
         button {
@@ -66,9 +241,24 @@
             margin-top: 5px;
             margin-right: 5px;
             cursor: pointer;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: bold;
+            color: white;
+
+            border: 1px solid #555;
+
+            box-shadow:
+                0 5px 15px rgba(0,0,0,0.28);
+
+            transition:
+                transform 0.2s,
+                filter 0.2s;
+        }
+
+        button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            filter: brightness(1.12);
         }
 
         button:disabled {
@@ -77,53 +267,88 @@
         }
 
         .adicionar {
-            background: #333;
-            color: white;
+            background:
+                linear-gradient(
+                    180deg,
+                    #5c5c5c,
+                    #2e2e2e
+                );
+
+            border-color: #727272;
         }
 
-        .enviar {
-            background: #198754;
-            color: white;
-            font-size: 18px;
+        .enviar,
+        .baixar-pdf,
+        .confirmar-conta {
+            background:
+                linear-gradient(
+                    180deg,
+                    #b89228,
+                    #725714
+                );
+
+            border-color:
+                rgba(240,215,122,0.55);
         }
 
         .fechar {
-            background: #dc3545;
-            color: white;
+            background:
+                linear-gradient(
+                    180deg,
+                    var(--bordo-claro),
+                    #4d1015
+                );
+
+            border-color: #8b333a;
         }
 
         .voltar {
-            background: #222;
-            color: white;
+            background:
+                linear-gradient(
+                    180deg,
+                    #3b3b3b,
+                    #1e1e1e
+                );
+
+            color: var(--prata);
+            border-color: #585858;
             margin-bottom: 20px;
         }
 
         .item {
-            background: white;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 11px;
+        }
+
+        .item p {
+            color: #c8c8c8;
         }
 
         .mesa-aberta {
-            border-left: 6px solid #198754;
+            border-left: 5px solid var(--verde);
+        }
+
+        .mesa-aberta h3 {
+            color: var(--dourado-claro);
         }
 
         .total {
-            background: white;
             padding: 20px;
-            border-radius: 10px;
             font-size: 22px;
             font-weight: bold;
             margin-top: 20px;
+            color: #ffffff;
         }
 
         .pagamento {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
+            padding: 22px;
             margin-top: 20px;
-            border-left: 6px solid #ffc107;
+            border-left: 5px solid var(--dourado);
+        }
+
+        .pagamento h2,
+        .pagamento h3 {
+            color: var(--dourado-claro);
         }
 
         .pagamento button {
@@ -132,94 +357,145 @@
         }
 
         .dinheiro {
-            background: #198754;
-            color: white;
+            background:
+                linear-gradient(
+                    180deg,
+                    #557963,
+                    #2f4d3b
+                );
+
+            border-color: #688a73;
         }
 
         .cartao {
-            background: #0d6efd;
-            color: white;
+            background:
+                linear-gradient(
+                    180deg,
+                    #656565,
+                    #353535
+                );
+
+            border-color: #7a7a7a;
         }
 
         .pix {
-            background: #6f42c1;
-            color: white;
+            background:
+                linear-gradient(
+                    180deg,
+                    #8b742d,
+                    #4f4018
+                );
+
+            border-color: #a38a37;
         }
 
         .conta-cliente {
-            background: #fd7e14;
-            color: white;
+            background:
+                linear-gradient(
+                    180deg,
+                    #8b5f28,
+                    #4d3215
+                );
+
+            border-color: #9e6d33;
         }
 
         .cancelar {
-            background: #6c757d;
-            color: white;
+            background:
+                linear-gradient(
+                    180deg,
+                    var(--bordo-claro),
+                    #4d1015
+                );
+
+            border-color: #8b333a;
         }
 
         .selecionar-cliente {
-            background: #fff3cd;
-            border: 1px solid #ffe69c;
+            background:
+                linear-gradient(
+                    145deg,
+                    #2c2617,
+                    #17130b
+                );
+
+            color: #e8e1c3;
+            border: 1px solid #665526;
             padding: 20px;
             border-radius: 10px;
             margin-top: 15px;
         }
 
-        .confirmar-conta {
-            background: #fd7e14;
-            color: white;
-            width: 100%;
+        .selecionar-cliente h3 {
+            color: var(--dourado-claro);
         }
 
-        /* =========================================
-           COMPROVANTE PDF
-        ========================================= */
-
         .comprovante-area {
-            background: #d1e7dd;
-            border-left: 6px solid #198754;
-            padding: 20px;
-            border-radius: 10px;
+            padding: 22px;
             margin: 25px 0;
+            border-left: 5px solid var(--verde);
         }
 
         .comprovante-area h2 {
             margin-top: 0;
+            color: var(--dourado-claro);
         }
 
         .baixar-pdf {
-            background: #198754;
-            color: white;
             width: 100%;
             font-size: 18px;
         }
 
         .fechamento {
-            background: #0d6efd;
+            background:
+                linear-gradient(
+                    180deg,
+                    #6c6c6c,
+                    #343434
+                );
+
+            border-color: #818181;
             color: white;
             font-size: 18px;
         }
 
         .fechamento-dia {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
+            padding: 22px;
             margin-top: 20px;
+        }
+
+        .fechamento-dia p {
+            color: #c8c8c8;
         }
 
         .lucro {
             font-size: 24px;
             font-weight: bold;
+            color: var(--dourado-claro);
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #454545;
         }
 
         @media (max-width: 700px) {
 
             .container {
-                padding: 15px;
+                padding: 18px 14px 35px;
             }
 
             button {
                 width: 100%;
                 margin-right: 0;
+            }
+
+            header {
+                padding: 24px 15px;
+            }
+
+            .total {
+                font-size: 20px;
             }
 
         }
@@ -247,6 +523,13 @@
 
 
 <body>
+
+<div
+    id="telaCarregando"
+    class="tela-carregando"
+>
+    🔐 Verificando acesso...
+</div>
 
 
 <header>
@@ -431,19 +714,63 @@
 
 
 /* =====================================================
-   LOGIN
+   LOGIN COM SUPABASE
 ===================================================== */
 
-var usuarioLogado =
-    localStorage.getItem(
-        "usuarioLogado"
-    );
+async function verificarLogin() {
 
+    try {
 
-if (!usuarioLogado) {
+        if (!window.supabaseClient) {
 
-    window.location.href =
-        "login.html";
+            throw new Error(
+                "Supabase não carregou."
+            );
+
+        }
+
+        var resultado =
+            await window.supabaseClient
+                .auth
+                .getSession();
+
+        if (resultado.error) {
+
+            throw resultado.error;
+
+        }
+
+        var sessao =
+            resultado.data.session;
+
+        if (!sessao) {
+
+            window.location.replace(
+                "login.html"
+            );
+
+            return false;
+
+        }
+
+        return true;
+
+    }
+
+    catch (erro) {
+
+        console.error(
+            "Erro ao verificar login:",
+            erro
+        );
+
+        window.location.replace(
+            "login.html"
+        );
+
+        return false;
+
+    }
 
 }
 
@@ -3744,17 +4071,27 @@ function escaparHTML(
 window.onload =
     async function() {
 
-        carregarNumeroMesas();
+        var autorizado =
+            await verificarLogin();
 
+        if (!autorizado) {
+
+            return;
+
+        }
+
+        carregarNumeroMesas();
 
         carregarMesasAbertas();
 
-
         carregarVendasDoDia();
-
 
         mostrarMesasAbertas();
 
+        document.getElementById(
+            "telaCarregando"
+        ).style.display =
+            "none";
 
         await carregarProdutos();
 
