@@ -1772,6 +1772,117 @@ window.onload = async function() {
 };
 
 
+
+
+/* =====================================================
+   SINCRONIZAÇÃO EM TEMPO REAL - CAIXA
+===================================================== */
+
+var canalCaixaTempoReal = null;
+var atualizacaoCaixaAgendada = null;
+
+function atualizarCaixaTempoReal() {
+
+    clearTimeout(
+        atualizacaoCaixaAgendada
+    );
+
+    atualizacaoCaixaAgendada =
+        setTimeout(
+            function() {
+                carregarCaixa();
+            },
+            250
+        );
+}
+
+function iniciarCaixaTempoReal() {
+
+    if (!window.supabaseClient) {
+        return;
+    }
+
+    if (canalCaixaTempoReal) {
+        window.supabaseClient.removeChannel(
+            canalCaixaTempoReal
+        );
+    }
+
+    canalCaixaTempoReal =
+        window.supabaseClient
+            .channel("caixa-tempo-real")
+            .on(
+                "postgres_changes",
+                {
+                    event: "*",
+                    schema: "public",
+                    table: "vendas"
+                },
+                atualizarCaixaTempoReal
+            )
+            .on(
+                "postgres_changes",
+                {
+                    event: "*",
+                    schema: "public",
+                    table: "itens_venda"
+                },
+                atualizarCaixaTempoReal
+            )
+            .on(
+                "postgres_changes",
+                {
+                    event: "*",
+                    schema: "public",
+                    table: "contas_clientes"
+                },
+                atualizarCaixaTempoReal
+            )
+            .on(
+                "postgres_changes",
+                {
+                    event: "*",
+                    schema: "public",
+                    table: "itens_conta_cliente"
+                },
+                atualizarCaixaTempoReal
+            )
+            .on(
+                "postgres_changes",
+                {
+                    event: "*",
+                    schema: "public",
+                    table: "pagamentos_clientes"
+                },
+                atualizarCaixaTempoReal
+            )
+            .on(
+                "postgres_changes",
+                {
+                    event: "*",
+                    schema: "public",
+                    table: "clientes"
+                },
+                atualizarCaixaTempoReal
+            )
+            .subscribe(function(status) {
+                console.log(
+                    "Realtime Caixa:",
+                    status
+                );
+            });
+}
+
+window.addEventListener(
+    "load",
+    function() {
+        setTimeout(
+            iniciarCaixaTempoReal,
+            1200
+        );
+    }
+);
+
 </script>
 
 
