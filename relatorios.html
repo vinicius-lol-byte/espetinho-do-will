@@ -415,6 +415,97 @@
 
         }
 
+    
+        /* =========================================
+           RELATÓRIOS COMPACTOS
+        ========================================= */
+        .filtros,
+        .lista {
+            padding: 11px 13px !important;
+            margin-top: 10px !important;
+        }
+
+        .resumo,
+        .pagamentos {
+            gap: 7px !important;
+            margin-top: 10px !important;
+        }
+
+        .card,
+        .pagamento {
+            padding: 9px !important;
+        }
+
+        .card h3,
+        .pagamento h3 {
+            font-size: 11px !important;
+            margin: 0 0 5px !important;
+        }
+
+        .valor {
+            font-size: 17px !important;
+        }
+
+        .lucro {
+            font-size: 19px !important;
+        }
+
+        .produto,
+        .mesa {
+            padding: 8px 10px !important;
+            margin-bottom: 6px !important;
+            font-size: 11px !important;
+        }
+
+        .mesa h3 {
+            font-size: 13px !important;
+            margin: 0 0 4px !important;
+        }
+
+        .mesa p {
+            display: inline-block;
+            margin: 2px 10px 2px 0 !important;
+            font-size: 10px !important;
+        }
+
+        @media (max-width: 700px) {
+            .container {
+                padding: 10px !important;
+            }
+
+            .resumo {
+                grid-template-columns: repeat(2, minmax(0,1fr)) !important;
+            }
+
+            .pagamentos {
+                grid-template-columns: repeat(3, minmax(0,1fr)) !important;
+            }
+
+            .card,
+            .pagamento {
+                padding: 7px !important;
+            }
+
+            .card h3,
+            .pagamento h3 {
+                font-size: 9px !important;
+            }
+
+            .valor {
+                font-size: 14px !important;
+            }
+
+            .lucro {
+                font-size: 15px !important;
+            }
+
+            .filtros input,
+            .filtros button {
+                padding: 8px !important;
+                font-size: 11px !important;
+            }
+        }
+
     </style>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -770,161 +861,176 @@ async function verificarLogin() {
 ===================================================== */
 
 
-function consultarRelatorio() {
-var dataInicial =
+async function consultarRelatorio() {
+
+    var dataInicial =
         document.getElementById(
             "dataInicial"
         ).value;
-
 
     var dataFinal =
         document.getElementById(
             "dataFinal"
         ).value;
 
-
     if (
         dataInicial === "" ||
         dataFinal === ""
     ) {
-
         alert(
             "Escolha a data inicial e a data final."
         );
-
         return;
-
     }
-
 
     if (
         dataInicial >
         dataFinal
     ) {
-
         alert(
             "A data inicial não pode ser maior que a data final."
         );
-
         return;
-
     }
 
+    try {
 
-
-    var vendas = [];
-
-
-    var dataAtual =
-        new Date(
-            dataInicial +
-            "T00:00:00"
-        );
-
-
-    var dataFim =
-        new Date(
-            dataFinal +
-            "T00:00:00"
-        );
-
-
-    while (
-        dataAtual <=
-        dataFim
-    ) {
-
-
-        var dia =
-            String(
-                dataAtual.getDate()
-            ).padStart(2, "0");
-
-
-        var mes =
-            String(
-                dataAtual.getMonth() + 1
-            ).padStart(2, "0");
-
-
-        var ano =
-            dataAtual.getFullYear();
-
-
-        var chave =
-            "vendas_" +
-            dia +
-            "-" +
-            mes +
-            "-" +
-            ano;
-
-
-        var dados =
-            localStorage.getItem(
-                chave
-            );
-
-
-        if (dados) {
-
-
-            try {
-
-                var vendasDia =
-                    JSON.parse(
-                        dados
-                    );
-
-
-                if (
-                    Array.isArray(
-                        vendasDia
-                    )
-                ) {
-
-                    for (
-                        var i = 0;
-                        i < vendasDia.length;
-                        i++
-                    ) {
-
-                        vendas.push(
-                            vendasDia[i]
-                        );
-
-                    }
-
-                }
-
-            }
-
-            catch (erro) {
-
-                console.log(
-                    "Erro ao ler:",
-                    chave
+        var resultadoVendas =
+            await window.supabaseClient
+                .from("vendas")
+                .select("*")
+                .gte(
+                    "data_venda",
+                    dataInicial
+                )
+                .lte(
+                    "data_venda",
+                    dataFinal
+                )
+                .order(
+                    "data_venda",
+                    { ascending: true }
+                )
+                .order(
+                    "id",
+                    { ascending: true }
                 );
 
-            }
-
+        if (resultadoVendas.error) {
+            throw resultadoVendas.error;
         }
 
+        var vendas =
+            resultadoVendas.data || [];
 
-        dataAtual.setDate(
-            dataAtual.getDate() + 1
+        var idsVendas = [];
+
+        for (
+            var i = 0;
+            i < vendas.length;
+            i++
+        ) {
+            idsVendas.push(
+                vendas[i].id
+            );
+
+            /*
+               Mantém os nomes esperados
+               pela tela antiga do relatório.
+            */
+            vendas[i].formaPagamento =
+                vendas[i].forma_pagamento;
+
+            vendas[i].itens = [];
+        }
+
+        if (idsVendas.length > 0) {
+
+            var resultadoItens =
+                await window.supabaseClient
+                    .from("itens_venda")
+                    .select("*")
+                    .in(
+                        "venda_id",
+                        idsVendas
+                    );
+
+            if (resultadoItens.error) {
+                throw resultadoItens.error;
+            }
+
+            var itens =
+                resultadoItens.data || [];
+
+            var vendasPorId = {};
+
+            for (
+                var i = 0;
+                i < vendas.length;
+                i++
+            ) {
+                vendasPorId[
+                    String(vendas[i].id)
+                ] =
+                    vendas[i];
+            }
+
+            for (
+                var i = 0;
+                i < itens.length;
+                i++
+            ) {
+
+                var item =
+                    itens[i];
+
+                var venda =
+                    vendasPorId[
+                        String(item.venda_id)
+                    ];
+
+                if (venda) {
+                    venda.itens.push({
+                        nome:
+                            item.nome_produto,
+                        quantidade:
+                            Number(
+                                item.quantidade || 0
+                            ),
+                        custo:
+                            Number(
+                                item.custo_unitario || 0
+                            ),
+                        venda:
+                            Number(
+                                item.venda_unitaria || 0
+                            )
+                    });
+                }
+            }
+        }
+
+        mostrarRelatorio(
+            vendas
         );
-
     }
 
+    catch (erro) {
 
+        console.error(
+            "Erro no relatório:",
+            erro
+        );
 
-    mostrarRelatorio(
-        vendas
-    );
-
+        alert(
+            "❌ Não foi possível carregar o relatório.\n\n" +
+            (
+                erro.message ||
+                "Erro desconhecido."
+            )
+        );
+    }
 }
-
 
 
 /* =====================================================
@@ -1364,12 +1470,89 @@ window.onload =
         ).value =
             hojeFormatado;
 
+        iniciarRelatoriosTempoReal();
+
         document.getElementById(
             "telaCarregando"
         ).style.display =
             "none";
 
     };
+
+
+
+/* =====================================================
+   SINCRONIZAÇÃO EM TEMPO REAL - RELATÓRIOS
+===================================================== */
+
+var canalRelatoriosTempoReal = null;
+var atualizacaoRelatorioAgendada = null;
+
+function atualizarRelatorioTempoReal() {
+
+    var resultado =
+        document.getElementById(
+            "resultado"
+        );
+
+    if (
+        !resultado ||
+        resultado.style.display === "none"
+    ) {
+        return;
+    }
+
+    clearTimeout(
+        atualizacaoRelatorioAgendada
+    );
+
+    atualizacaoRelatorioAgendada =
+        setTimeout(
+            consultarRelatorio,
+            300
+        );
+}
+
+function iniciarRelatoriosTempoReal() {
+
+    if (!window.supabaseClient) {
+        return;
+    }
+
+    if (canalRelatoriosTempoReal) {
+        window.supabaseClient.removeChannel(
+            canalRelatoriosTempoReal
+        );
+    }
+
+    canalRelatoriosTempoReal =
+        window.supabaseClient
+            .channel("relatorios-tempo-real")
+            .on(
+                "postgres_changes",
+                {
+                    event: "*",
+                    schema: "public",
+                    table: "vendas"
+                },
+                atualizarRelatorioTempoReal
+            )
+            .on(
+                "postgres_changes",
+                {
+                    event: "*",
+                    schema: "public",
+                    table: "itens_venda"
+                },
+                atualizarRelatorioTempoReal
+            )
+            .subscribe(function(status) {
+                console.log(
+                    "Realtime Relatórios:",
+                    status
+                );
+            });
+}
 
 </script>
 
