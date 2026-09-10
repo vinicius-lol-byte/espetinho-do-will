@@ -750,6 +750,10 @@
 
         <h2>Novo pedido</h2>
 
+        <p style="margin-top:-8px;color:#9abb9f;font-size:12px;">
+            🟢 Sincronizado em tempo real entre os aparelhos
+        </p>
+
 
         <label>Mesa:</label>
 
@@ -998,6 +1002,12 @@ var vendasDoDia = [];
 var produtosDisponiveis = [];
 
 var pagamentoEmAndamento =
+    false;
+
+var canalTempoReal =
+    null;
+
+var recarregandoRascunho =
     false;
 
 
@@ -1546,10 +1556,212 @@ function obterProdutoPorId(
 
 
 /* =====================================================
+   CARREGAR PEDIDO EM ANDAMENTO DO SUPABASE
+===================================================== */
+
+async function carregarPedidoRascunho() {
+
+    if (recarregandoRascunho) {
+        return;
+    }
+
+    recarregandoRascunho =
+        true;
+
+    try {
+
+        var resultado =
+            await window.supabaseClient
+                .from(
+                    "pedidos_rascunho"
+                )
+                .select(
+                    "*"
+                )
+                .order(
+                    "id",
+                    {
+                        ascending: true
+                    }
+                );
+
+        if (
+            resultado.error
+        ) {
+            throw resultado.error;
+        }
+
+        pedido =
+            (
+                resultado.data || []
+            ).map(
+                function(item) {
+
+                    return {
+
+                        rascunhoId:
+                            item.id,
+
+                        mesa:
+                            String(
+                                item.mesa
+                            ),
+
+                        produtoId:
+                            item.produto_id,
+
+                        nome:
+                            item.nome,
+
+                        quantidade:
+                            Number(
+                                item.quantidade || 0
+                            ),
+
+                        custo:
+                            Number(
+                                item.custo || 0
+                            ),
+
+                        venda:
+                            Number(
+                                item.venda || 0
+                            )
+                    };
+                }
+            );
+
+        mostrarPedido();
+    }
+
+    catch (erro) {
+
+        console.error(
+            "Erro ao carregar pedido em andamento:",
+            erro
+        );
+    }
+
+    finally {
+
+        recarregandoRascunho =
+            false;
+    }
+}
+
+
+/* =====================================================
+   SALVAR ITEM DO PEDIDO EM ANDAMENTO
+===================================================== */
+
+async function salvarItemRascunho(
+    item
+) {
+
+    var resultado =
+        await window.supabaseClient
+            .from(
+                "pedidos_rascunho"
+            )
+            .insert({
+
+                mesa:
+                    String(
+                        item.mesa
+                    ),
+
+                produto_id:
+                    String(
+                        item.produtoId
+                    ),
+
+                nome:
+                    item.nome,
+
+                quantidade:
+                    Number(
+                        item.quantidade || 0
+                    ),
+
+                custo:
+                    Number(
+                        item.custo || 0
+                    ),
+
+                venda:
+                    Number(
+                        item.venda || 0
+                    )
+            });
+
+    if (
+        resultado.error
+    ) {
+
+        throw resultado.error;
+    }
+}
+
+
+/* =====================================================
+   LIMPAR ITENS ENVIADOS DO RASCUNHO
+===================================================== */
+
+async function excluirItensRascunho(
+    itens
+) {
+
+    var ids =
+        [];
+
+    for (
+        var i = 0;
+        i < itens.length;
+        i++
+    ) {
+
+        if (
+            itens[i].rascunhoId !== undefined &&
+            itens[i].rascunhoId !== null
+        ) {
+
+            ids.push(
+                itens[i].rascunhoId
+            );
+        }
+    }
+
+    if (
+        ids.length === 0
+    ) {
+        return;
+    }
+
+    var resultado =
+        await window.supabaseClient
+            .from(
+                "pedidos_rascunho"
+            )
+            .delete()
+            .in(
+                "id",
+                ids
+            );
+
+    if (
+        resultado.error
+    ) {
+
+        throw resultado.error;
+    }
+}
+
+
+/* =====================================================
    ADICIONAR ITEM
 ===================================================== */
 
-function adicionarItem() {
+async function adicionarItem() {
 
     var mesa =
         document.getElementById(
@@ -1692,7 +1904,7 @@ function adicionarItem() {
     }
 
 
-    pedido.push({
+    var novoItem = {
 
         mesa:
             mesa,
@@ -1715,17 +1927,39 @@ function adicionarItem() {
             Number(
                 produto.venda || 0
             )
-
-    });
-
-
-    mostrarPedido();
+    };
 
 
-    document.getElementById(
-        "quantidade"
-    ).value =
-        "";
+    try {
+
+        await salvarItemRascunho(
+            novoItem
+        );
+
+        await carregarPedidoRascunho();
+
+
+        document.getElementById(
+            "quantidade"
+        ).value =
+            "";
+    }
+
+    catch (erro) {
+
+        console.error(
+            "Erro ao adicionar item:",
+            erro
+        );
+
+        alert(
+            "Não foi possível adicionar o item.\n\n" +
+            (
+                erro.message ||
+                "Erro desconhecido."
+            )
+        );
+    }
 
 }
 
@@ -2043,18 +2277,20 @@ async function enviarPedido() {
            COLOCAR NA MESA NO SUPABASE
         */
 
+        var itensEnviados =
+            pedido.slice();
+
         await salvarItensMesaNoSupabase(
-            pedido
+            itensEnviados
+        );
+
+        await excluirItensRascunho(
+            itensEnviados
         );
 
         await carregarMesasAbertas();
 
-
-        pedido =
-            [];
-
-
-        mostrarPedido();
+        await carregarPedidoRascunho();
 
 
         mostrarMesasAbertas();
@@ -4381,6 +4617,96 @@ function escaparHTML(
 
 
 /* =====================================================
+   SINCRONIZAÇÃO EM TEMPO REAL
+===================================================== */
+
+function iniciarTempoReal() {
+
+    if (
+        !window.supabaseClient
+    ) {
+        return;
+    }
+
+    if (
+        canalTempoReal
+    ) {
+
+        window.supabaseClient
+            .removeChannel(
+                canalTempoReal
+            );
+    }
+
+    canalTempoReal =
+        window.supabaseClient
+            .channel(
+                "espetinho-pedidos-tempo-real"
+            )
+
+            .on(
+                "postgres_changes",
+                {
+                    event:
+                        "*",
+                    schema:
+                        "public",
+                    table:
+                        "mesas_abertas"
+                },
+                async function() {
+
+                    await carregarMesasAbertas();
+
+                    mostrarMesasAbertas();
+                }
+            )
+
+            .on(
+                "postgres_changes",
+                {
+                    event:
+                        "*",
+                    schema:
+                        "public",
+                    table:
+                        "pedidos_rascunho"
+                },
+                async function() {
+
+                    await carregarPedidoRascunho();
+                }
+            )
+
+            .on(
+                "postgres_changes",
+                {
+                    event:
+                        "*",
+                    schema:
+                        "public",
+                    table:
+                        "produtos"
+                },
+                async function() {
+
+                    await carregarProdutos();
+                }
+            )
+
+            .subscribe(
+                function(status) {
+
+                    console.log(
+                        "Realtime Pedidos:",
+                        status
+                    );
+                }
+            );
+}
+
+
+/* =====================================================
    INICIAR
 ===================================================== */
 
@@ -4442,6 +4768,10 @@ async function iniciarSistema() {
         mostrarMesasAbertas();
 
         await carregarProdutos();
+
+        await carregarPedidoRascunho();
+
+        iniciarTempoReal();
     }
 
     catch (erro) {
