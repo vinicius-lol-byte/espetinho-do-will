@@ -324,6 +324,97 @@
             color: #c8c8c8;
         }
 
+
+        /* =========================================
+           MESAS ABERTAS - VISUAL COMPACTO
+        ========================================== */
+
+        #mesasAbertas {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 10px;
+            align-items: start;
+        }
+
+        #mesasAbertas > p {
+            grid-column: 1 / -1;
+        }
+
+        .mesa-card {
+            min-width: 0;
+            background: linear-gradient(145deg, #1c1c1c, #0d0d0d);
+            border: 1px solid #383838;
+            border-left: 4px solid var(--verde);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 16px rgba(0,0,0,.25);
+        }
+
+        .mesa-resumo {
+            width: 100%;
+            min-height: 82px;
+            margin: 0;
+            padding: 10px 8px;
+            border: none;
+            border-radius: 0;
+            background: transparent;
+            box-shadow: none;
+            color: var(--texto);
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .mesa-resumo:hover {
+            transform: none;
+            filter: brightness(1.12);
+        }
+
+        .mesa-numero {
+            display: block;
+            color: var(--dourado-claro);
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .mesa-total-resumo {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            color: #f1f1f1;
+        }
+
+        .mesa-itens-resumo {
+            display: block;
+            margin-top: 4px;
+            color: #989898;
+            font-size: 10px;
+        }
+
+        .mesa-detalhes {
+            padding: 9px;
+            border-top: 1px solid #343434;
+            background: rgba(255,255,255,.02);
+        }
+
+        .mesa-detalhes p {
+            margin: 5px 0;
+            font-size: 12px;
+            color: #c9c9c9;
+            line-height: 1.35;
+        }
+
+        .mesa-detalhes .fechar {
+            width: 100%;
+            margin: 8px 0 0;
+            padding: 8px 7px;
+            font-size: 11px;
+        }
+
+        .pagamento {
+            grid-column: 1 / -1;
+        }
+
         .mesa-aberta {
             border-left: 5px solid var(--verde);
         }
@@ -482,7 +573,7 @@
         @media (max-width: 700px) {
 
             .container {
-                padding: 18px 14px 35px;
+                padding: 14px 10px 30px;
             }
 
             button {
@@ -491,11 +582,73 @@
             }
 
             header {
-                padding: 24px 15px;
+                padding: 18px 12px;
+            }
+
+            header h1 {
+                font-size: 23px;
             }
 
             .total {
-                font-size: 20px;
+                font-size: 18px;
+            }
+
+            #mesasAbertas {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 7px;
+            }
+
+            .mesa-resumo {
+                min-height: 68px;
+                padding: 8px 4px;
+            }
+
+            .mesa-numero {
+                font-size: 13px;
+                margin-bottom: 3px;
+            }
+
+            .mesa-total-resumo {
+                font-size: 10px;
+            }
+
+            .mesa-itens-resumo {
+                font-size: 8px;
+            }
+
+            .mesa-detalhes {
+                padding: 7px;
+            }
+
+            .mesa-detalhes p {
+                font-size: 10px;
+            }
+
+            .mesa-detalhes .fechar {
+                font-size: 10px;
+                padding: 7px 5px;
+            }
+
+            .pagamento {
+                padding: 15px;
+            }
+
+            .pagamento button {
+                padding: 9px 8px;
+                font-size: 12px;
+            }
+
+        }
+
+        @media (max-width: 380px) {
+
+            #mesasAbertas {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 6px;
+            }
+
+            .mesa-resumo {
+                min-height: 64px;
             }
 
         }
@@ -1855,31 +2008,19 @@ function mostrarMesasAbertas() {
             "mesasAbertas"
         );
 
-
-    area.innerHTML =
-        "";
-
+    area.innerHTML = "";
 
     if (
         mesasAbertas.length === 0
     ) {
 
         area.innerHTML =
-
-            "<p>" +
-
-            "Nenhuma mesa aberta." +
-
-            "</p>";
+            "<p>Nenhuma mesa aberta.</p>";
 
         return;
-
     }
 
-
-    var numeros =
-        [];
-
+    var numeros = [];
 
     for (
         var i = 0;
@@ -1892,33 +2033,23 @@ function mostrarMesasAbertas() {
                 mesasAbertas[i].mesa
             );
 
-
         if (
             numeros.indexOf(
                 numero
-            )
-            === -1
+            ) === -1
         ) {
 
             numeros.push(
                 numero
             );
-
         }
-
     }
 
-
     numeros.sort(
-
         function(a, b) {
-
             return Number(a) - Number(b);
-
         }
-
     );
-
 
     for (
         var i = 0;
@@ -1929,14 +2060,9 @@ function mostrarMesasAbertas() {
         var mesaAtual =
             numeros[i];
 
-
-        var total =
-            0;
-
-
-        var itens =
-            [];
-
+        var total = 0;
+        var itens = [];
+        var quantidadeTotal = 0;
 
         for (
             var j = 0;
@@ -1947,8 +2073,7 @@ function mostrarMesasAbertas() {
             if (
                 String(
                     mesasAbertas[j].mesa
-                )
-                ===
+                ) ===
                 String(
                     mesaAtual
                 )
@@ -1958,34 +2083,56 @@ function mostrarMesasAbertas() {
                     mesasAbertas[j]
                 );
 
+                quantidadeTotal +=
+                    Number(
+                        mesasAbertas[j].quantidade || 0
+                    );
 
                 total +=
-
                     Number(
                         mesasAbertas[j].quantidade
                     )
-
                     *
-
                     Number(
                         mesasAbertas[j].venda || 0
                     );
-
             }
-
         }
 
-
         var html =
+            "<div class='mesa-card'>" +
 
-            "<div class='item mesa-aberta'>" +
-
-            "<h3>🍽️ Mesa " +
-
+            "<button class='mesa-resumo' " +
+            "onclick='toggleMesaDetalhes(\"" +
             mesaAtual +
+            "\")'>" +
 
-            "</h3>";
+            "<span class='mesa-numero'>🍽️ Mesa " +
+            mesaAtual +
+            "</span>" +
 
+            "<span class='mesa-total-resumo'>" +
+            formatarMoeda(
+                total
+            ) +
+            "</span>" +
+
+            "<span class='mesa-itens-resumo'>" +
+            quantidadeTotal +
+            (
+                quantidadeTotal === 1
+                ? " item"
+                : " itens"
+            ) +
+            " • toque para abrir" +
+            "</span>" +
+
+            "</button>" +
+
+            "<div class='mesa-detalhes' " +
+            "id='mesaDetalhes_" +
+            mesaAtual +
+            "' style='display:none;'>";
 
         for (
             var k = 0;
@@ -1994,75 +2141,92 @@ function mostrarMesasAbertas() {
         ) {
 
             var subtotal =
-
                 Number(
                     itens[k].quantidade
                 )
-
                 *
-
                 Number(
                     itens[k].venda || 0
                 );
 
-
             html +=
-
                 "<p>" +
-
                 escaparHTML(
                     itens[k].nome
                 ) +
-
                 " × " +
-
                 itens[k].quantidade +
-
                 " — " +
-
                 formatarMoeda(
                     subtotal
                 ) +
-
                 "</p>";
-
         }
 
-
         html +=
-
             "<p><strong>Total: " +
-
             formatarMoeda(
                 total
             ) +
-
             "</strong></p>" +
 
-
             "<button " +
-
             "class='fechar' " +
-
             "onclick='fecharMesa(\"" +
-
             mesaAtual +
-
             "\")'>" +
-
             "💰 Fechar mesa" +
-
             "</button>" +
 
-
+            "</div>" +
             "</div>";
-
 
         area.innerHTML +=
             html;
+    }
+}
 
+
+/* =====================================================
+   ABRIR / FECHAR DETALHES DA MESA
+===================================================== */
+
+function toggleMesaDetalhes(
+    mesa
+) {
+
+    var detalhes =
+        document.getElementById(
+            "mesaDetalhes_" + mesa
+        );
+
+    if (!detalhes) {
+        return;
     }
 
+    var vaiAbrir =
+        detalhes.style.display === "none" ||
+        detalhes.style.display === "";
+
+    var todos =
+        document.querySelectorAll(
+            ".mesa-detalhes"
+        );
+
+    for (
+        var i = 0;
+        i < todos.length;
+        i++
+    ) {
+
+        todos[i].style.display =
+            "none";
+    }
+
+    detalhes.style.display =
+        vaiAbrir
+            ? "block"
+            : "none";
 }
 
 
