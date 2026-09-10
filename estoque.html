@@ -239,6 +239,122 @@
 
             .salvar, .voltar { width: 100%; }
         }
+    
+        /* =========================================
+           ESTOQUE COMPACTO + BUSCA
+        ========================================= */
+
+        .busca-produto {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 14px 0 18px;
+            background: #111;
+            border: 1px solid #5f5024;
+            border-radius: 10px;
+            padding: 8px 10px;
+            box-shadow: 0 0 12px rgba(212,175,55,.08);
+        }
+
+        .busca-produto .icone-busca {
+            font-size: 18px;
+            flex: 0 0 auto;
+        }
+
+        .busca-produto input {
+            margin: 0;
+            border: 0;
+            outline: 0;
+            background: transparent;
+            color: #f3f3f3;
+            width: 100%;
+            padding: 9px 6px;
+            font-size: 14px;
+        }
+
+        .busca-produto input::placeholder {
+            color: #8f8f8f;
+        }
+
+        #listaProdutos {
+            display: grid;
+            gap: 8px;
+        }
+
+        .produto {
+            padding: 10px 12px !important;
+            border-radius: 8px !important;
+            margin-bottom: 0 !important;
+        }
+
+        .produto h3 {
+            margin: 0 0 6px !important;
+            font-size: 15px !important;
+            line-height: 1.2;
+        }
+
+        .produto p {
+            display: inline-block;
+            margin: 2px 14px 2px 0 !important;
+            font-size: 12px !important;
+            line-height: 1.35;
+        }
+
+        .produto .acoes {
+            margin-top: 7px !important;
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .produto .acoes button {
+            width: auto !important;
+            min-width: 0 !important;
+            padding: 6px 10px !important;
+            margin: 0 !important;
+            font-size: 11px !important;
+            border-radius: 6px !important;
+        }
+
+        @media (max-width: 700px) {
+            .busca-produto {
+                margin: 10px 0 14px;
+                padding: 6px 8px;
+            }
+
+            .busca-produto input {
+                font-size: 13px;
+                padding: 8px 4px;
+            }
+
+            #listaProdutos {
+                gap: 6px;
+            }
+
+            .produto {
+                padding: 8px 9px !important;
+            }
+
+            .produto h3 {
+                font-size: 14px !important;
+            }
+
+            .produto p {
+                font-size: 11px !important;
+                margin-right: 9px !important;
+            }
+
+            .produto .acoes {
+                margin-top: 5px !important;
+            }
+
+            .produto .acoes button {
+                padding: 5px 8px !important;
+                font-size: 10px !important;
+                width: auto !important;
+            }
+        }
+
     </style>
 
     <!-- BIBLIOTECA SUPABASE -->
@@ -377,6 +493,18 @@
     ====================================== -->
 
     <h2>📦 Produtos cadastrados</h2>
+
+    <div class="busca-produto">
+        <span class="icone-busca">🔎</span>
+
+        <input
+            type="text"
+            id="pesquisaProduto"
+            placeholder="Pesquisar produto..."
+            oninput="filtrarProdutos()"
+            autocomplete="off"
+        >
+    </div>
 
 
     <div id="listaProdutos">
@@ -665,6 +793,13 @@ function mostrarProdutos(
 
             "<div class='produto " +
             classeEstoque +
+            "' data-produto-nome='" +
+            escaparHTML(
+                String(produto.nome || "")
+                    .toLowerCase()
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "")
+            ) +
             "'>" +
 
 
@@ -778,6 +913,8 @@ function mostrarProdutos(
 
     }
 
+    filtrarProdutos();
+
 }
 
 
@@ -796,6 +933,59 @@ function escaparHTML(
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
 
+}
+
+
+/* =====================================================
+   PESQUISAR PRODUTO
+===================================================== */
+
+function filtrarProdutos() {
+
+    var campo =
+        document.getElementById(
+            "pesquisaProduto"
+        );
+
+    if (!campo) {
+        return;
+    }
+
+    var termo =
+        String(
+            campo.value || ""
+        )
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(
+            /[\u0300-\u036f]/g,
+            ""
+        )
+        .trim();
+
+    var cards =
+        document.querySelectorAll(
+            "#listaProdutos .produto"
+        );
+
+    for (
+        var i = 0;
+        i < cards.length;
+        i++
+    ) {
+
+        var nome =
+            String(
+                cards[i].getAttribute(
+                    "data-produto-nome"
+                ) || ""
+            );
+
+        cards[i].style.display =
+            nome.indexOf(termo) !== -1
+                ? ""
+                : "none";
+    }
 }
 
 
