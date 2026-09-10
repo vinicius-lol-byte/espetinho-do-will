@@ -746,6 +746,63 @@
             }
         }
 
+    
+        /* =========================================
+           SALDO DEVEDOR NA LISTA DE CLIENTES
+        ========================================= */
+        .cliente {
+            position: relative;
+            padding-right: 185px !important;
+            min-height: 58px;
+        }
+
+        .saldo-cliente {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            min-width: 145px;
+            padding-left: 12px;
+            border-left: 1px solid #555;
+        }
+
+        .saldo-cliente span {
+            display: block;
+            font-size: 10px;
+            color: #bbb;
+            margin-bottom: 3px;
+        }
+
+        .saldo-cliente strong {
+            display: block;
+            font-size: 15px;
+            color: #ff4b4b;
+        }
+
+        .saldo-cliente.quitado strong {
+            color: #63d37b;
+        }
+
+        @media (max-width: 700px) {
+            .cliente {
+                padding-right: 120px !important;
+            }
+
+            .saldo-cliente {
+                right: 8px;
+                min-width: 98px;
+                padding-left: 7px;
+            }
+
+            .saldo-cliente span {
+                font-size: 8px;
+            }
+
+            .saldo-cliente strong {
+                font-size: 12px;
+            }
+        }
+
     </style>
 
 
@@ -1391,18 +1448,95 @@ async function carregarClientes() {
                     }
                 );
 
-
-        if (
-            resultado.error
-        ) {
-
+        if (resultado.error) {
             throw resultado.error;
-
         }
-
 
         clientesCarregados =
             resultado.data || [];
+
+
+        /* BUSCAR TODAS AS CONTAS */
+        var resultadoContas =
+            await window.supabaseClient
+                .from("contas_clientes")
+                .select("cliente_id,total");
+
+        if (resultadoContas.error) {
+            throw resultadoContas.error;
+        }
+
+
+        /* BUSCAR TODOS OS PAGAMENTOS */
+        var resultadoPagamentos =
+            await window.supabaseClient
+                .from("pagamentos_clientes")
+                .select("cliente_id,valor");
+
+        if (resultadoPagamentos.error) {
+            throw resultadoPagamentos.error;
+        }
+
+
+        var totaisContas = {};
+        var totaisPagos = {};
+
+        var contas =
+            resultadoContas.data || [];
+
+        var pagamentos =
+            resultadoPagamentos.data || [];
+
+
+        for (var i = 0; i < contas.length; i++) {
+
+            var clienteIdConta =
+                String(contas[i].cliente_id);
+
+            if (!totaisContas[clienteIdConta]) {
+                totaisContas[clienteIdConta] = 0;
+            }
+
+            totaisContas[clienteIdConta] +=
+                Number(contas[i].total || 0);
+        }
+
+
+        for (var i = 0; i < pagamentos.length; i++) {
+
+            var clienteIdPagamento =
+                String(pagamentos[i].cliente_id);
+
+            if (!totaisPagos[clienteIdPagamento]) {
+                totaisPagos[clienteIdPagamento] = 0;
+            }
+
+            totaisPagos[clienteIdPagamento] +=
+                Number(pagamentos[i].valor || 0);
+        }
+
+
+        for (var i = 0; i < clientesCarregados.length; i++) {
+
+            var idCliente =
+                String(clientesCarregados[i].id);
+
+            var consumido =
+                Number(totaisContas[idCliente] || 0);
+
+            var pago =
+                Number(totaisPagos[idCliente] || 0);
+
+            var saldo =
+                consumido - pago;
+
+            if (saldo < 0) {
+                saldo = 0;
+            }
+
+            clientesCarregados[i].saldo_devedor =
+                saldo;
+        }
 
 
         mostrarClientes(
@@ -1416,7 +1550,6 @@ async function carregarClientes() {
         console.error(
             erro
         );
-
 
         document.getElementById(
             "listaClientes"
@@ -1432,11 +1565,8 @@ async function carregarClientes() {
             ) +
 
             "</div>";
-
     }
-
 }
-
 
 
 /* =====================================================
@@ -1552,6 +1682,27 @@ function mostrarClientes(
             "🗑️ Excluir" +
 
             "</button>" +
+
+
+            "<div class='saldo-cliente " +
+            (
+                Number(cliente.saldo_devedor || 0) <= 0
+                    ? "quitado"
+                    : ""
+            ) +
+            "'>" +
+
+            "<span>💰 Saldo devedor</span>" +
+
+            "<strong>" +
+            formatarMoeda(
+                Number(
+                    cliente.saldo_devedor || 0
+                )
+            ) +
+            "</strong>" +
+
+            "</div>" +
 
 
             "</div>";
