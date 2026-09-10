@@ -325,26 +325,6 @@
         }
 
 
-        .titulo-mesas {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            margin-top: 22px;
-        }
-
-        .titulo-mesas h2 {
-            margin: 0;
-        }
-
-        .atualizar-mesas {
-            width: auto;
-            padding: 8px 12px;
-            font-size: 12px;
-            background: linear-gradient(180deg, #555, #292929);
-            border-color: #686868;
-        }
-
         /* =========================================
            MESAS ABERTAS - VISUAL COMPACTO
         ========================================== */
@@ -816,16 +796,7 @@
          MESAS ABERTAS
     ========================================== -->
 
-    <div class="titulo-mesas">
-        <h2>Mesas abertas</h2>
-
-        <button
-            class="atualizar-mesas"
-            onclick="atualizarMesas()"
-        >
-            🔄 Atualizar
-        </button>
-    </div>
+    <h2>Mesas abertas</h2>
 
 
     <div id="mesasAbertas">
@@ -1192,164 +1163,74 @@ function formatarMoeda(
 
 
 /* =====================================================
-   MESAS ABERTAS NO SUPABASE
+   SALVAR MESAS
 ===================================================== */
 
-async function carregarMesasAbertas() {
+function salvarMesasAbertas() {
+
+    localStorage.setItem(
+
+        "mesasAbertas",
+
+        JSON.stringify(
+            mesasAbertas
+        )
+
+    );
+
+}
+
+
+
+/* =====================================================
+   CARREGAR MESAS
+===================================================== */
+
+function carregarMesasAbertas() {
+
+    var dados =
+        localStorage.getItem(
+            "mesasAbertas"
+        );
+
+
+    if (!dados) {
+
+        mesasAbertas = [];
+
+        return;
+
+    }
+
 
     try {
 
-        var resultado =
-            await window.supabaseClient
-                .from(
-                    "mesas_abertas"
-                )
-                .select(
-                    "*"
-                )
-                .order(
-                    "id",
-                    {
-                        ascending: true
-                    }
-                );
-
-        if (
-            resultado.error
-        ) {
-
-            throw resultado.error;
-        }
-
         mesasAbertas =
-            (
-                resultado.data || []
-            ).map(
-                function(item) {
-
-                    return {
-
-                        id:
-                            item.id,
-
-                        mesa:
-                            String(
-                                item.mesa
-                            ),
-
-                        produtoId:
-                            item.produto_id,
-
-                        nome:
-                            item.nome,
-
-                        quantidade:
-                            Number(
-                                item.quantidade || 0
-                            ),
-
-                        custo:
-                            Number(
-                                item.custo || 0
-                            ),
-
-                        venda:
-                            Number(
-                                item.venda || 0
-                            )
-                    };
-                }
+            JSON.parse(
+                dados
             );
 
-        return true;
+
+        if (
+            !Array.isArray(
+                mesasAbertas
+            )
+        ) {
+
+            mesasAbertas = [];
+
+        }
+
     }
 
     catch (erro) {
 
-        console.error(
-            "Erro ao carregar mesas abertas:",
-            erro
-        );
-
         mesasAbertas = [];
 
-        alert(
-            "Não foi possível carregar as mesas abertas.
-
-" +
-            "Verifique a conexão com o Supabase."
-        );
-
-        return false;
     }
+
 }
 
-
-/* =====================================================
-   ADICIONAR ITENS À MESA NO SUPABASE
-===================================================== */
-
-async function salvarItensMesaNoSupabase(
-    itens
-) {
-
-    var registros =
-        [];
-
-    for (
-        var i = 0;
-        i < itens.length;
-        i++
-    ) {
-
-        registros.push({
-
-            mesa:
-                String(
-                    itens[i].mesa
-                ),
-
-            produto_id:
-                String(
-                    itens[i].produtoId
-                ),
-
-            nome:
-                itens[i].nome,
-
-            quantidade:
-                Number(
-                    itens[i].quantidade || 0
-                ),
-
-            custo:
-                Number(
-                    itens[i].custo || 0
-                ),
-
-            venda:
-                Number(
-                    itens[i].venda || 0
-                )
-        });
-    }
-
-    var resultado =
-        await window.supabaseClient
-            .from(
-                "mesas_abertas"
-            )
-            .insert(
-                registros
-            );
-
-    if (
-        resultado.error
-    ) {
-
-        throw resultado.error;
-    }
-}
 
 
 /* =====================================================
@@ -1357,6 +1238,9 @@ async function salvarItensMesaNoSupabase(
 ===================================================== */
 
 function voltarMenu() {
+
+    salvarMesasAbertas();
+
 
     window.location.href =
         "index.html";
@@ -2015,14 +1899,41 @@ async function enviarPedido() {
 
 
         /*
-           COLOCAR NA MESA NO SUPABASE
+           COLOCAR NA MESA
         */
 
-        await salvarItensMesaNoSupabase(
-            pedido
-        );
+        for (
+            var i = 0;
+            i < pedido.length;
+            i++
+        ) {
 
-        await carregarMesasAbertas();
+            mesasAbertas.push({
+
+                mesa:
+                    pedido[i].mesa,
+
+                produtoId:
+                    pedido[i].produtoId,
+
+                nome:
+                    pedido[i].nome,
+
+                quantidade:
+                    pedido[i].quantidade,
+
+                custo:
+                    pedido[i].custo,
+
+                venda:
+                    pedido[i].venda
+
+            });
+
+        }
+
+
+        salvarMesasAbertas();
 
 
         pedido =
@@ -2088,22 +1999,6 @@ async function enviarPedido() {
 
 /* =====================================================
    MOSTRAR MESAS
-===================================================== */
-
-async function atualizarMesas() {
-
-    var ok =
-        await carregarMesasAbertas();
-
-    if (ok) {
-
-        mostrarMesasAbertas();
-    }
-}
-
-
-/* =====================================================
-   MOSTRAR MESAS ABERTAS
 ===================================================== */
 
 function mostrarMesasAbertas() {
@@ -2964,14 +2859,9 @@ async function adicionarMesaContaCliente(
         }
 
 
-        var mesaRemovida =
-            await removerMesaAberta(
-                mesa
-            );
-
-        if (!mesaRemovida) {
-            return;
-        }
+        removerMesaAberta(
+            mesa
+        );
 
 
         alert(
@@ -3341,14 +3231,9 @@ async function confirmarPagamento(
            LIBERAR MESA
         */
 
-        var mesaRemovida =
-            await removerMesaAberta(
-                mesa
-            );
-
-        if (!mesaRemovida) {
-            return;
-        }
+        removerMesaAberta(
+            mesa
+        );
 
 
 
@@ -3925,58 +3810,46 @@ function formatarMoedaPDF(
    REMOVER MESA
 ===================================================== */
 
-async function removerMesaAberta(
+function removerMesaAberta(
     mesa
 ) {
 
-    try {
+    var novas =
+        [];
 
-        var resultado =
-            await window.supabaseClient
-                .from(
-                    "mesas_abertas"
-                )
-                .delete()
-                .eq(
-                    "mesa",
-                    String(
-                        mesa
-                    )
-                );
+
+    for (
+        var i = 0;
+        i < mesasAbertas.length;
+        i++
+    ) {
 
         if (
-            resultado.error
+            String(
+                mesasAbertas[i].mesa
+            )
+            !==
+            String(mesa)
         ) {
 
-            throw resultado.error;
+            novas.push(
+                mesasAbertas[i]
+            );
+
         }
 
-        await carregarMesasAbertas();
-
-        mostrarMesasAbertas();
-
-        return true;
     }
 
-    catch (erro) {
 
-        console.error(
-            "Erro ao remover mesa:",
-            erro
-        );
+    mesasAbertas =
+        novas;
 
-        alert(
-            "Não foi possível liberar a Mesa " +
-            mesa +
-            ".\n\n" +
-            (
-                erro.message ||
-                "Erro desconhecido."
-            )
-        );
 
-        return false;
-    }
+    salvarMesasAbertas();
+
+
+    mostrarMesasAbertas();
+
 }
 
 
@@ -4373,7 +4246,7 @@ window.onload =
 
         carregarNumeroMesas();
 
-        await carregarMesasAbertas();
+        carregarMesasAbertas();
 
         carregarVendasDoDia();
 
